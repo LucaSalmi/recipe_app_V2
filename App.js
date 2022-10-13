@@ -76,7 +76,6 @@ const MainContent = () => {
 
   const changePage = (pageName) => {
     setScreen(pageName);
-    console.log(Platform.OS);
   }
 
   return (

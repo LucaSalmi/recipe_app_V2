@@ -14,11 +14,14 @@ const Shoplist = (props) => {
 
     const [items, setItems] = useState([]);
 
+    const [username, setUsername] = useState("Guest");
+
     useEffect(() => {
 
         //Download users shoppinglist from firestore
         setTimeout(() => {
             setItems(SingletonInstance.items);
+            setUsername(AppManager.username);
         }, 100);
         
     });
@@ -33,7 +36,7 @@ const Shoplist = (props) => {
         <View style={shoplistPage.shoplistContainer}>
             <SearchBar />
             <View style={shoplistPage.headerContainer}>
-                <Text style={shoplistPage.headerText}>SHOPLIST PAGE!</Text>
+                <Text style={shoplistPage.headerText}>{username}s shopping list</Text>
                 <Button style={shoplistPage.filterButton} title="FILTER" onPress={() => { toggleSheet() }}></Button>
             </View>
 
