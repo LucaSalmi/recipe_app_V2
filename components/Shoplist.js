@@ -21,7 +21,9 @@ const Shoplist = (props) => {
         //Download users shoppinglist from firestore
         setTimeout(() => {
             setItems(SingletonInstance.items);
-            setUsername(AppManager.username);
+            if (AppManager.isLoggedIn) {
+                setUsername(AppManager.username);
+            }
         }, 100);
         
     });

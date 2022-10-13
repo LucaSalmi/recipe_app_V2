@@ -80,8 +80,6 @@ const Profile = (props) => {
         setIsLoggedIn(false);
         setUsername("");
         AppManager.isLoggedIn = false;
-        AppManager.username = "";
-        AppManager.password = "";
     };
 
     useEffect(() => {
@@ -100,19 +98,22 @@ const Profile = (props) => {
 
 	return (
         <View style={profilePage.profileContainer}>
-            <Text>LOGIN PAGE</Text>
-            <View style={{display: isLoggedIn ? "none" : "flex"}}>
+
+            <Text style={{padding: 50, fontSize: 20, fontWeight: "bold"}}>PROFILE PAGE</Text>
+
+            <View style={isLoggedIn ? profilePage.hidden : profilePage.inputContainer}>
                 <Text>Username</Text>
                 <TextInput style={profilePage.inputField} value={username} onChangeText={(text)=>{ setUsername(text); }}></TextInput>
                 <Text>Password</Text>
-                <TextInput style={profilePage.inputField} value={password} onChangeText={(text)=>{ setPassword(text); }}></TextInput>
-                <Button title="LOGIN" onPress={()=>{login()}}></Button>
-                <Text>Don't have an account?</Text>
+                <TextInput style={[profilePage.inputField, profilePage.defaultMarginBottom]} value={password} onChangeText={(text)=>{ setPassword(text); }}></TextInput>
+                <Button  title="LOGIN" onPress={()=>{login()}}></Button>
+                <Text style={profilePage.defaultMarginTop}>Don't have an account?</Text>
                 <Button title="SIGN UP" onPress={()=>{createAccount()}}></Button>
             </View>
             
-            <View style={{display: isLoggedIn ? "flex" : "none"}}>
+            <View style={isLoggedIn ? profilePage.inputContainer : profilePage.hidden}>
                 <Text>Welcome, {username}!</Text>
+                <Text>{/* "SPACER" */}</Text>
                 <Text>First name</Text>
                 <TextInput style={profilePage.inputField} value={firstName} onChangeText={(text)=>{ setFirstName(text); }}></TextInput>
                 <Text>Second name</Text>
@@ -121,7 +122,9 @@ const Profile = (props) => {
                 <TextInput style={profilePage.inputField} value={email} onChangeText={(text)=>{ setEmail(text); }}></TextInput>
                 <Text>Phone</Text>
                 <TextInput style={profilePage.inputField} value={phone} onChangeText={(text)=>{ setPhone(text); }}></TextInput>
+                <Text>{/* "SPACER" */}</Text>
                 <Button title="SAVE" onPress={()=>{save()}}></Button>
+                <Text>{/* "SPACER" */}</Text>
                 <Button title="LOGOUT" onPress={()=>{logout()}}></Button>
             </View>
         </View>

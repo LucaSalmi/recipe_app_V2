@@ -108,6 +108,20 @@ export const profilePage = StyleSheet.create({
     inputField: {
         backgroundColor: "white",
         height: 30,
-        width: 100,
+        width: 130,
     },
+    inputContainer: {
+        display: "flex",
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    hidden: {
+        display: "none",
+    },
+    defaultMarginTop: {
+        marginTop: 15,
+    },
+    defaultMarginBottom: {
+        marginBottom: 15,
+    }
 });
