@@ -109,6 +109,8 @@ export const profilePage = StyleSheet.create({
         backgroundColor: "white",
         height: 30,
         width: 130,
+        borderRadius: 5,
+        padding: 5,
     },
     inputContainer: {
         display: "flex",
