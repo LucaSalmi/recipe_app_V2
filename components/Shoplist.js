@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, Button, ScrollView, TouchableOpacity, Animated } from 'react-native';
 import { useState, useEffect, useRef } from 'react';
-import { danneShoplist } from '../styles/styles.js';
+import { shoplistPage } from '../styles/styles.js';
+import AppManager from '../utils/AppManager.js';
 import SearchBar from './SearchBar.js';
 
 var SingletonInstance = {
@@ -29,18 +30,18 @@ const Shoplist = (props) => {
     };
 
 	return (
-        <View style={danneShoplist.shoplistContainer}>
+        <View style={shoplistPage.shoplistContainer}>
             <SearchBar />
-            <View style={danneShoplist.headerContainer}>
-                <Text style={danneShoplist.headerText}>SHOPLIST PAGE!</Text>
-                <Button style={danneShoplist.filterButton} title="FILTER" onPress={() => { toggleSheet() }}></Button>
+            <View style={shoplistPage.headerContainer}>
+                <Text style={shoplistPage.headerText}>SHOPLIST PAGE!</Text>
+                <Button style={shoplistPage.filterButton} title="FILTER" onPress={() => { toggleSheet() }}></Button>
             </View>
 
-            <ScrollView style={showSheet ? {display: "none"} : danneShoplist.shoppingItemsContainer}>
+            <ScrollView style={showSheet ? {display: "none"} : shoplistPage.shoppingItemsContainer}>
                 {items.map((item, i)=><ItemRow key={i} itemName={item.desc} checked={item.checked} index={i}/>)}
             </ScrollView>
             
-            <View style={showSheet ? danneShoplist.sheetContainer : {display: "none"}}>
+            <View style={showSheet ? shoplistPage.sheetContainer : {display: "none"}}>
                 <Text>SHEET</Text>
             </View>
         </View>
