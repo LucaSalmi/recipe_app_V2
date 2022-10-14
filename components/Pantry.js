@@ -1,21 +1,25 @@
 import { StyleSheet, Text, View, TextInput, Button, ScrollView, TouchableOpacity, FlatList, Dimensions } from 'react-native';
 import { useState } from 'react';
 import { Card, PantryCard, SmallCard } from './Card';
-import { pantryItemStyle, smallCardStyles, Fab, shoplistPage } from '../styles/styles';
+import { pantryItemStyle, smallCardStyles, Fab, shoplistPage, SearchBarStyle } from '../styles/styles';
 import Icon from "react-native-ico-material-design";
-import { categories, meatCategories, fruits, vegetables, chicken, pig, cow, spices } from '../PantryData';
+import { ingredients } from '../PantryData';
 
 
 
 const Pantry = (props) => {
 
     const [showSheet, setShowSheet] = useState(false);
+    const [searchText, setSearchText] = useState()
+
 
     const toggleSheet = () => {
         let newBool = !showSheet;
         setShowSheet(newBool);
         props.navBarChanger(newBool);
     };
+
+    const [foundItem, setFoundItem] = useState([]);
 
     const [pantryItems, setPantryItems] = useState([
         {
@@ -73,8 +77,9 @@ const Pantry = (props) => {
         <PantryCard item={item} />
     );
     const renderItem2 = ({ item }) => (
-        <Text title={item.title}>something</Text>
+        <SmallCard title={item}/>
     );
+
 
     return (
 
@@ -85,7 +90,7 @@ const Pantry = (props) => {
                 toggleSheet();
             }} style={Fab.TouchableOpacityStyle}>
 
-                <Icon name= {showSheet ? "clear-button" : "add-plus-button"} group="material-design"></Icon>
+                <Icon name={showSheet ? "clear-button" : "add-plus-button"} group="material-design"></Icon>
 
             </TouchableOpacity>
 
@@ -103,8 +108,19 @@ const Pantry = (props) => {
 
             <View style={showSheet ? shoplistPage.sheetContainer : { display: "none" }}>
 
+                <View style={SearchBarStyle.container}>
+                    <TextInput value={searchText} onChangeText={(input) => {
+                        setSearchText(input);
+                        setFoundItem(showResults(searchText));
+                        console.log(foundItem)
+                    }} style={SearchBarStyle.searchInput} placeholder="Search here..." />
+                    <TouchableOpacity onPress={() => { setSearchText("") }}>
+                        {<Icon style={searchText == "" ? { display: "none" } : SearchBarStyle.icon} name="close-button" height="20" width="20" />}
+                    </TouchableOpacity>
+                </View>
                 <FlatList
-                data={categories}
+
+                data={foundItem}
                 renderItem={renderItem2}
                 keyExtractor={(item) => {
                     item.id
@@ -112,13 +128,42 @@ const Pantry = (props) => {
                 snapToAlignment="start"
                 decelerationRate={"fast"}
                 snapToInterval={Dimensions.get("window").width}
-                />
+            />
             </View>
-
         </View>
 
-
     )
+}
+
+const tempStyle = StyleSheet.create({
+    myText:{
+       color : 'red',
+       fontSize: 15,
+    },
+});
+
+function showResults(input) {
+    let search = '';
+    var foundItem = [];
+    try {
+
+        for (let i = 0; i < input.length; i++) {
+            search = search + input[i];
+
+            for (let i = 0; i < ingredients.length; i++) {
+
+                if (ingredients[i].includes(search)) {
+                    if (!foundItem.includes(ingredients[i])) {
+                        foundItem.push(ingredients[i])
+                    }
+                }
+            }
+        }
+
+    } catch (error) {
+        console.log(error)
+    }
+    return foundItem;
 }
 
 export default Pantry;
