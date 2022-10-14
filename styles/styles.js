@@ -119,6 +119,7 @@ export const pantryItemStyle = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
+});
 
 export const profilePage = StyleSheet.create({
     profileContainer: {
@@ -150,5 +151,32 @@ export const profilePage = StyleSheet.create({
     defaultMarginBottom: {
         marginBottom: 15,
     }
+
+});
+
+export const Fab = StyleSheet.create({
+
+    TouchableOpacityStyle: {
+        //Here is the trick
+        position: 'absolute',
+        width: 50,
+        height: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        right: 10,
+        bottom: 10,
+        borderWidth:2,
+        borderRadius: 50,
+        zIndex:100,
+        backgroundColor:'white',
+     },
+     floatingButtonStyle: {
+        resizeMode: 'contain',
+        width: 50,
+        height: 50,
+        zIndex:100,
+
+        //backgroundColor:'black'
+      },
 
 });

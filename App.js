@@ -66,7 +66,7 @@ const MainContent = () => {
       break;
 
     case PANTRY:
-      view = <Pantry props1={{ name: "test", styles: pageStyles }} />
+      view = <Pantry navBarChanger={setHideNav} />
       break;
 
     case PROFILE:
