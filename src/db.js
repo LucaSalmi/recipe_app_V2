@@ -19,17 +19,9 @@ const config = {
 
 // Initialize Firebase
 let app = firebase.initializeApp(config);
-
 export const db = app.firestore();
 
 /* CRUD */
-
-export const dbAddItem =  (item) => {
-
-    const res = db.collection('cities').doc('Uppsala').set({name: "Luca", location: "Unknown"});
-
-}
-
 export const Crud = {
 
     addUser: async  (username, password) => {
@@ -93,6 +85,12 @@ export const Crud = {
 
         //Return empty string if the user wasn't found
         return "";
+    },
+
+    updateUser: (uid, userData) => {
+
+       db.collection('users').doc(uid).set(userData);
+
     },
     
 };

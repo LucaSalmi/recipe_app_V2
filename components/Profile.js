@@ -4,13 +4,6 @@ import AppManager from '../utils/AppManager.js';
 import { profilePage } from '../styles/styles.js';
 import { dbAddItem, Crud } from '../src/db.js';
 
-var SingletonInstance = {
-    firstName: "",
-    secondName: "",
-    email: "",
-    phone: "",
-};
-
 const Profile = (props) => {
 
     const [pageLoaded, setPageLoaded] = useState(false);
@@ -63,45 +56,61 @@ const Profile = (props) => {
     };
 
     const save = () => {
-        SingletonInstance.firstName = firstName;
-        SingletonInstance.secondName = secondName;
-        SingletonInstance.email = email;
-        SingletonInstance.phone = phone;
+
+        let uid = AppManager.uid;
+
+        let userData = {
+            username: AppManager.username,
+            password: AppManager.password,
+            firstName: firstName,
+            secondName: secondName,
+            email: email,
+        };
+
+        Crud.updateUser(uid, userData);
+
+        AppManager.firstName = firstName;
+        AppManager.secondName = secondName;
+        AppManager.email = email;
+        AppManager.phone = phone;
+
     };
 
     const logout = () => {
+        
         setIsLoggedIn(false);
         setUsername("");
         setPassword("");
+
         AppManager.isLoggedIn = false;
         AppManager.uid = "";
         AppManager.username = "";
         AppManager.password = "";
+        AppManager.firstName = "";
+        AppManager.secondName = "";
+        AppManager.email = "";
+        AppManager.phone = "";
 
     };
 
     useEffect(() => {
-        setTimeout(() => {
-            if (AppManager.isLoggedIn && !pageLoaded) {
-                setIsLoggedIn(true);
-                setUsername(AppManager.username);
-                setFirstName(SingletonInstance.firstName);
-                setSecondName(SingletonInstance.secondName);
-                setEmail(SingletonInstance.email);
-                setPhone(SingletonInstance.phone);
-                setPageLoaded(true);
-            }
-        } , 100);
+
+        if (AppManager.isLoggedIn && !pageLoaded) {
+            setUsername(AppManager.username);
+            setFirstName(AppManager.firstName);
+            setSecondName(AppManager.secondName);
+            setEmail(AppManager.email);
+            setPhone(AppManager.phone);
+            setIsLoggedIn(true);
+            setPageLoaded(true);
+        }
+
     });
 
 	return (
         <View style={profilePage.profileContainer}>
 
             <Text style={{padding: 50, fontSize: 20, fontWeight: "bold"}}>PROFILE PAGE</Text>
-            <Button title={"Add Item to DB"} onPress={()=>{
-                dbAddItem("Danne");
-            }}></Button>
-            <View style={{height: 50}}></View>
 
             <View style={isLoggedIn ? profilePage.hidden : profilePage.inputContainer}>
                 <Text>Username</Text>

@@ -3,6 +3,10 @@ const AppManager = {
     uid: "",
     username: "",
     password: "",
+    firstName: "",
+    secondName: "",
+    email: "",
+    phone: "",
 }
 
 export default AppManager;
