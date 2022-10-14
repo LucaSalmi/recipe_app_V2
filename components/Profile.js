@@ -37,7 +37,7 @@ const Profile = (props) => {
 
         AppManager.isLoggedIn = true;
         AppManager.uid = uid;
-        AppManager.username = username;a
+        AppManager.username = username;
         AppManager.password = password;
         
         AppManager.firstName = userData.firstName;
