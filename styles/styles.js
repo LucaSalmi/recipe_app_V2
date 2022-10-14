@@ -95,3 +95,28 @@ export const danneFavorite = StyleSheet.create({
         backgroundColor: "#0005",
     },
 });
+
+export const pantryItemStyle = StyleSheet.create({
+
+    itemCard: {
+		flexDirection: 'column',
+		backgroundColor: '#fff',
+		alignItems: 'center',
+		justifyContent: 'center',
+		height: '15%',
+		width: '85%',
+		borderRadius: 25,
+		borderWidth: 1
+	},
+	elevation: {
+		elevation: 10,
+		shadowColor: '#52006A',
+	},
+	superView: {
+		flex: 1,
+		height: Dimensions.get('window').height,
+		width: Dimensions.get('window').width,
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+});
