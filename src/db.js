@@ -2,7 +2,7 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
-import { GoogleAuthProvider } from "firebase/auth";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -22,10 +22,6 @@ let app = firebase.initializeApp(config);
 
 export const db = app.firestore();
 
-/* Google Sign-in */
-
-const provider = new GoogleAuthProvider();
-
 /* CRUD */
 
 export const dbAddItem =  (item) => {
@@ -33,3 +29,30 @@ export const dbAddItem =  (item) => {
     const res = db.collection('cities').doc('Uppsala').set({name: "Luca", location: "Unknown"});
 
 }
+
+export const Crud = {
+
+    addUser:  (username, password) => {
+
+        const res = db.collection('users').doc(getUid()).set({username: username, password: password});
+    
+    },
+    
+    getUser: (username, password) => {
+        
+        //TODO!!!
+
+    },
+    
+};
+
+const getUid = () => {
+    let uid = "";
+
+    for (let i = 0; i < 32; i++) {
+        let char = Math.floor(Math.random() * 10);
+        uid += char;
+    }
+
+    return uid;
+  }

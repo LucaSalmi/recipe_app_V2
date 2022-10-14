@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, TextInput, Button, ScrollView, SafeAreaView } f
 import { useEffect, useState } from 'react';
 import AppManager from '../utils/AppManager.js';
 import { profilePage } from '../styles/styles.js';
-import { dbAddItem } from '../src/db.js';
+import { dbAddItem, Crud } from '../src/db.js';
 
 var SingletonInstance = {
     firstName: "",
@@ -25,25 +25,8 @@ const Profile = (props) => {
 
     const login = () => {
 
-        console.log("AppManager user = " + AppManager.username);
+        Crud.getUser(username, password);
 
-        console.log("username length = " + username.length);
-        console.log("password length = " + password.length);
-
-        if (username.length == 0 || password.length == 0) {
-            console.log("Missing input for either username/password");
-            return;
-        }
-
-        if (username != AppManager.username || password != AppManager.password) {
-            console.log("Wrong username/password");
-            return;
-        };
-
-        setIsLoggedIn(true);
-        AppManager.isLoggedIn = true;
-
-        setPassword("");
     };
 
     const createAccount = () => {
@@ -53,21 +36,12 @@ const Profile = (props) => {
             return;
         };
 
-        AppManager.username = username;
-        AppManager.password = password;
-
-        SingletonInstance.firstName = "";
-        SingletonInstance.secondName = "",
-        SingletonInstance.email = "";
-        SingletonInstance.phone = "";
-
-        setFirstName("");
-        setSecondName("");
-        setEmail("");
-        setPhone("");
+        Crud.addUser(username, password);
+        setUsername("");
+        setPassword("");
 
         console.log("Account created!");
-        login();
+
     };
 
     const save = () => {
