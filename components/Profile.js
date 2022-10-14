@@ -23,24 +23,42 @@ const Profile = (props) => {
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
 
-    const login = () => {
+    const login = async (uid = "") => {
 
-        Crud.getUser(username, password);
+        if (uid.length == 0) {
+            uid = await Crud.getUser(username, password);
+        
+            if (uid.length == 0) {
+                console.log("Wrong username/password!");
+                return;
+            }
+        }
+
+        setIsLoggedIn(true);
+
+        AppManager.isLoggedIn = true;
+        AppManager.uid = uid;
+        AppManager.username = username;
+        AppManager.password = password;
 
     };
 
-    const createAccount = () => {
+    const createAccount = async () => {
 
         if (username.length == 0 || password.length == 0) {
             console.log("Enter valid username/password");
             return;
         };
 
-        Crud.addUser(username, password);
-        setUsername("");
-        setPassword("");
+        let uid = await Crud.addUser(username, password);
+
+        if (!uid) {
+            console.log("Username not available");
+            return;
+        }
 
         console.log("Account created!");
+        login(uid);
 
     };
 
@@ -54,7 +72,12 @@ const Profile = (props) => {
     const logout = () => {
         setIsLoggedIn(false);
         setUsername("");
+        setPassword("");
         AppManager.isLoggedIn = false;
+        AppManager.uid = "";
+        AppManager.username = "";
+        AppManager.password = "";
+
     };
 
     useEffect(() => {
@@ -82,7 +105,7 @@ const Profile = (props) => {
 
             <View style={isLoggedIn ? profilePage.hidden : profilePage.inputContainer}>
                 <Text>Username</Text>
-                <TextInput style={profilePage.inputField} value={username} onChangeText={(text)=>{ setUsername(text); }}></TextInput>
+                <TextInput style={profilePage.inputField} value={username} onChangeText={(text)=>{ setUsername(text.trim()); }}></TextInput>
                 <Text>Password</Text>
                 <TextInput style={[profilePage.inputField, profilePage.defaultMarginBottom]} value={password} onChangeText={(text)=>{ setPassword(text); }}></TextInput>
                 <Button  title="LOGIN" onPress={()=>{login()}}></Button>

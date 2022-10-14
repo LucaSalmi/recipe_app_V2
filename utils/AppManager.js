@@ -1,5 +1,6 @@
 const AppManager = {
     isLoggedIn: false,
+    uid: "",
     username: "",
     password: "",
 }

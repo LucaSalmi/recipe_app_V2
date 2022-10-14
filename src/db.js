@@ -32,21 +32,72 @@ export const dbAddItem =  (item) => {
 
 export const Crud = {
 
-    addUser:  (username, password) => {
+    addUser: async  (username, password) => {
 
-        const res = db.collection('users').doc(getUid()).set({username: username, password: password});
-    
+        let documents;
+        
+        const events = firebase.firestore().collection('users')
+        await events.get().then((querySnapshot) => {
+            const tempDoc = querySnapshot.docs.map((doc) => {
+                return { id: doc.id, ...doc.data() }
+             })
+             documents = tempDoc;
+
+        })
+
+        console.log(documents);
+
+        for (let document of documents) {
+            if (document.username == username) {
+                //Username must be unique. Return false.
+                return false;
+            }
+        }
+
+        let userData = {
+            username: username,
+            password: password,
+            firstName: "",
+            secondName: "",
+            email: "",
+            phone: "",
+        };
+
+        let uid = generateUid();
+
+        db.collection('users').doc(uid).set(userData);
+        //Createing user successful. Returning the uid.
+        return uid;
     },
     
-    getUser: (username, password) => {
-        
-        //TODO!!!
+    getUser: async (username, password, stateFuncs) => {
 
+        let documents;
+        
+        const events = firebase.firestore().collection('users')
+        await events.get().then((querySnapshot) => {
+            const tempDoc = querySnapshot.docs.map((doc) => {
+                return { id: doc.id, ...doc.data() }
+             })
+             documents = tempDoc;
+
+        })
+
+        console.log(documents);
+
+        for (let document of documents) {
+            if (document.username == username && document.password == password) {
+                return document.id;
+            }
+        }
+
+        //Return empty string if the user wasn't found
+        return "";
     },
     
 };
 
-const getUid = () => {
+const generateUid = () => {
     let uid = "";
 
     for (let i = 0; i < 32; i++) {
