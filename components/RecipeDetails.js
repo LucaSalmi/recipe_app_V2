@@ -14,83 +14,117 @@ import {
 import { useState } from "react";
 import Icon from "react-native-ico-material-design";
 import { LinearGradient } from "expo-linear-gradient";
+import { IngredientsView } from "./Ingredients";
+import InstructionsView from "./Instructions";
 
 const RecipeDetails = (props) => {
   const imageSource = "../assets/jerkchicken.jpg";
-
   const recipeName = "Jerk chicken with cocoa rice";
+
+  const INGREDIENTS = 0;
+  const INSTRUCTIONS = 1;
+
+  const [tabId, setTabId] = useState(INGREDIENTS);
+
+  let tab;
+
+  switch (tabId) {
+    case INGREDIENTS:
+      tab = <IngredientsView setTabId={setTabId} />;
+      break;
+
+    case INSTRUCTIONS:
+      tab = <InstructionsView setTabId={setTabId} />;
+      break;
+  }
+
+  const changeTab = (tabName) => {
+    setTabId(tabName);
+  };
 
   return (
     <View>
-      <View>
-        <ImageBackground style={styles.image} source={require(imageSource)}>
-          <LinearGradient
-            style={[styles.image, styles.niceContainer]}
-            colors={["transparent", "#000"]}
-          >
-            <View style={styles.topCard}>
-              <TouchableOpacity
-                onPress={() => {
-                  props.setScreen(props.previousPage);
-                }}
-              >
-                <Icon
-                  name="go-back-left-arrow"
-                  group="material-design"
-                  width="25"
-                  height="25"
-                ></Icon>
-              </TouchableOpacity>
+      <ScrollView>
+        <View>
+          <ImageBackground style={styles.image} source={require(imageSource)}>
+            <LinearGradient
+              style={[styles.image, styles.niceContainer]}
+              colors={["transparent", "#000"]}
+            >
+              <View style={styles.topCard}>
+                <TouchableOpacity
+                  onPress={() => {
+                    props.setScreen(props.previousPage);
+                  }}
+                >
+                  <Icon
+                    name="go-back-left-arrow"
+                    group="material-design"
+                    width="25"
+                    height="25"
+                  ></Icon>
+                </TouchableOpacity>
 
-              <TouchableOpacity>
-                <Icon
-                  name="favorite-heart-outline-button"
-                  group="material-design"
-                  width="25"
-                  height="25"
-                ></Icon>
-              </TouchableOpacity>
+                <TouchableOpacity>
+                  <Icon
+                    name="favorite-heart-outline-button"
+                    group="material-design"
+                    width="25"
+                    height="25"
+                  ></Icon>
+                </TouchableOpacity>
+              </View>
+
+              <View style={styles.bottomCard}>
+                <Text style={styles.detailText}>{recipeName}</Text>
+              </View>
+            </LinearGradient>
+          </ImageBackground>
+        </View>
+
+        <View>
+          <View style={styles.topInfo}>
+            <TouchableOpacity>
+              <Icon name="round-add-button" width="25" height="25"></Icon>
+            </TouchableOpacity>
+
+            <View
+              style={{
+                flexDirection: "column",
+                alignItems: "center",
+                marginHorizontal: 5,
+              }}
+            >
+              <Text style={styles.detailTextTwo}>4</Text>
+              <Text style={{ marginTop: -10 }}>port</Text>
             </View>
 
-            <View style={styles.bottomCard}>
-              <Text style={styles.detailText}>{recipeName}</Text>
-            </View>
-          </LinearGradient>
-        </ImageBackground>
-      </View>
+            <TouchableOpacity>
+              <Icon name="round-remove-button" width="25" height="25"></Icon>
+            </TouchableOpacity>
+          </View>
+        </View>
 
-      <View>
-        <View style={styles.topInfo}>
-          <TouchableOpacity>
-            <Icon name="round-add-button" width="25" height="25"></Icon>
-          </TouchableOpacity>
-
-          <View
-            style={{
-              flexDirection: "column",
-              alignItems: "center",
-              marginHorizontal: 5,
+        <View style={styles.tabs}>
+          <TouchableOpacity
+            onPress={() => {
+              changeTab(INGREDIENTS);
             }}
           >
-            <Text style={styles.detailTextTwo}>4</Text>
-            <Text style={{ marginTop: -10 }}>port</Text>
-          </View>
+            <Text>Ingredients</Text>
+          </TouchableOpacity>
 
-          <TouchableOpacity>
-            <Icon name="round-remove-button" width="25" height="25"></Icon>
+          <TouchableOpacity
+            onPress={() => {
+              changeTab(INSTRUCTIONS);
+            }}
+          >
+            <Text>Instructions</Text>
           </TouchableOpacity>
         </View>
-      </View>
 
-      <View style={styles.tabs}>
-        <TouchableOpacity onPress={() => {}}>
-          <Text>Ingredients</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => {}}>
-          <Text>Instructions</Text>
-        </TouchableOpacity>
-      </View>
+        <View>{tab}</View>
+      </ScrollView>
     </View>
   );
 };
