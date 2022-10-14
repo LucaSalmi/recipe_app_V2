@@ -1,13 +1,21 @@
 import { StyleSheet, Text, View, TextInput, Button, ScrollView, TouchableOpacity, FlatList, Dimensions } from 'react-native';
 import { useState } from 'react';
-import { Card, SmallCard } from './Card';
-import { pantryItemStyle, smallCardStyles, Fab } from '../styles/styles';
+import { Card, PantryCard, SmallCard } from './Card';
+import { pantryItemStyle, smallCardStyles, Fab, shoplistPage } from '../styles/styles';
 import Icon from "react-native-ico-material-design";
+import { categories, meatCategories, fruits, vegetables, chicken, pig, cow, spices } from '../PantryData';
 
 
 
 const Pantry = (props) => {
-    //props.navBarChanger(true);
+
+    const [showSheet, setShowSheet] = useState(false);
+
+    const toggleSheet = () => {
+        let newBool = !showSheet;
+        setShowSheet(newBool);
+        props.navBarChanger(newBool);
+    };
 
     const [pantryItems, setPantryItems] = useState([
         {
@@ -62,16 +70,22 @@ const Pantry = (props) => {
 
 
     const renderItem = ({ item }) => (
-        <SmallCard title={item.title} />
+        <PantryCard item={item} />
+    );
+    const renderItem2 = ({ item }) => (
+        <Text title={item.title}>something</Text>
     );
 
     return (
 
         <View style={pantryItemStyle.superView}>
 
-            <TouchableOpacity activeOpacity={0.7} onPress={()=>{console.log('press')}} style={Fab.TouchableOpacityStyle}>
+            <TouchableOpacity activeOpacity={0.7} onPress={() => {
+                console.log('press');
+                toggleSheet();
+            }} style={Fab.TouchableOpacityStyle}>
 
-                <Icon name="add-plus-button" group="material-design"></Icon>
+                <Icon name= {showSheet ? "clear-button" : "add-plus-button"} group="material-design"></Icon>
 
             </TouchableOpacity>
 
@@ -86,7 +100,24 @@ const Pantry = (props) => {
                 decelerationRate={"fast"}
                 snapToInterval={Dimensions.get("window").width}
             />
+
+            <View style={showSheet ? shoplistPage.sheetContainer : { display: "none" }}>
+
+                <FlatList
+                data={categories}
+                renderItem={renderItem2}
+                keyExtractor={(item) => {
+                    item.id
+                }}
+                snapToAlignment="start"
+                decelerationRate={"fast"}
+                snapToInterval={Dimensions.get("window").width}
+                />
+            </View>
+
         </View>
+
+
     )
 }
 

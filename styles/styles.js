@@ -51,6 +51,26 @@ export const smallCardStyles = StyleSheet.create({
 	},
 });
 
+export const pantryCardStyles = StyleSheet.create({
+    container: {
+        flexDirection: 'row',
+		backgroundColor: '#fff',
+		alignItems: 'center',
+		justifyContent: 'center',
+		height: '90%',
+		width: '85%',
+		borderRadius: 25,
+		borderWidth: 1
+    },
+    superView: {
+		flex: 1,
+		height: Dimensions.get('window').height*0.1,
+		width: Dimensions.get('window').width,
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+});
+
 export const shoplistPage = StyleSheet.create({
     shoplistContainer: {
         flex: 1,
@@ -81,7 +101,7 @@ export const shoplistPage = StyleSheet.create({
         borderTopLeftRadius: 15,
         borderTopRightRadius: 15,
         padding: 20,
-        backgroundColor: "red",
+        backgroundColor: "grey",
     },
 });
 
