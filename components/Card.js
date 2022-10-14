@@ -1,5 +1,6 @@
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import { bigCardStyles, smallCardStyles } from "../styles/styles";
+
+import { bigCardStyles, smallCardStyles, pantryCardStyles } from '../styles/styles';
+import {StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Icon from "react-native-ico-material-design";
 
 export function BigCard(myProps) {
@@ -38,21 +39,36 @@ export function BigCard(myProps) {
 
     return (
         <View style={bigCardStyles.superView}>
-          <View style={[bigCardStyles.container, bigCardStyles.elevation]}>
-            <Text>{myProps.title}</Text>
-        </View>  
+            <View style={[bigCardStyles.container, bigCardStyles.elevation]}>
+                <Text>{myProps.title}</Text>
+            </View>
         </View>
-        
+
     );
 }
 */
 
 export function SmallCard(myProps) {
-  return (
-    <View style={smallCardStyles.superView}>
-      <View style={[smallCardStyles.container, bigCardStyles.elevation]}>
-        <Text>{myProps.title}</Text>
-      </View>
-    </View>
-  );
+    return (
+        <View style={smallCardStyles.superView}>
+            <View style={[smallCardStyles.container, bigCardStyles.elevation]}>
+                <Text>{myProps.title}</Text>
+            </View>
+        </View>
+
+    );
+}
+
+export function PantryCard(myProps) {
+    return (
+        <View style={pantryCardStyles.superView}>
+            <View style={[pantryCardStyles.container, bigCardStyles.elevation]}>
+                <Text>{myProps.item.quantity}</Text>
+                <Text>{myProps.item.measure}</Text>
+                <Text> </Text>
+                <Text>{myProps.item.title}</Text>
+            </View>
+        </View>
+
+    );
 }

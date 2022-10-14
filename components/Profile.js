@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, TextInput, Button, ScrollView, SafeAreaView } f
 import { useEffect, useState } from 'react';
 import AppManager from '../utils/AppManager.js';
 import { profilePage } from '../styles/styles.js';
+import { dbAddItem } from '../src/db.js';
 
 var SingletonInstance = {
     firstName: "",
@@ -100,6 +101,10 @@ const Profile = (props) => {
         <View style={profilePage.profileContainer}>
 
             <Text style={{padding: 50, fontSize: 20, fontWeight: "bold"}}>PROFILE PAGE</Text>
+            <Button title={"Add Item to DB"} onPress={()=>{
+                dbAddItem("Danne");
+            }}></Button>
+            <View style={{height: 50}}></View>
 
             <View style={isLoggedIn ? profilePage.hidden : profilePage.inputContainer}>
                 <Text>Username</Text>
