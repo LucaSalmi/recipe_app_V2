@@ -67,6 +67,26 @@ export const smallCardStyles = StyleSheet.create({
 	},
 });
 
+export const pantryCardStyles = StyleSheet.create({
+    container: {
+        flexDirection: 'row',
+		backgroundColor: '#fff',
+		alignItems: 'center',
+		justifyContent: 'center',
+		height: '90%',
+		width: '85%',
+		borderRadius: 25,
+		borderWidth: 1
+    },
+    superView: {
+		flex: 1,
+		height: Dimensions.get('window').height*0.1,
+		width: Dimensions.get('window').width,
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+});
+
 export const shoplistPage = StyleSheet.create({
     shoplistContainer: {
         flex: 1,
@@ -97,7 +117,7 @@ export const shoplistPage = StyleSheet.create({
         borderTopLeftRadius: 15,
         borderTopRightRadius: 15,
         padding: 20,
-        backgroundColor: "red",
+        backgroundColor: "#353839",
     },
 });
 
@@ -179,3 +199,59 @@ export const profilePage = StyleSheet.create({
     }
 
 });
+
+export const Fab = StyleSheet.create({
+
+    TouchableOpacityStyle: {
+        //Here is the trick
+        position: 'absolute',
+        width: 50,
+        height: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        right: 10,
+        bottom: 10,
+        borderWidth:2,
+        borderRadius: 50,
+        zIndex:100,
+        backgroundColor:'white',
+     },
+     floatingButtonStyle: {
+        resizeMode: 'contain',
+        width: 50,
+        height: 50,
+        zIndex:100,
+
+        //backgroundColor:'black'
+      },
+
+});
+
+export const SearchBarStyle = StyleSheet.create({
+    container: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        width: '90%',
+        height: 50,
+        backgroundColor: 'gray',
+        borderRadius: 8,
+        marginTop: 10,
+        
+        
+    },
+    searchInput: {
+        width: '90%',
+        height: '100%',
+        paddingLeft: 8,
+        fontSize: 16,
+        display: "flex",
+        justifyContent: "center"
+        
+    },
+    icon: {
+        
+        
+        
+    }
+})
