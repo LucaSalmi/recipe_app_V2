@@ -96,6 +96,30 @@ export const favoritePage = StyleSheet.create({
     },
 });
 
+export const pantryItemStyle = StyleSheet.create({
+
+    itemCard: {
+		flexDirection: 'column',
+		backgroundColor: '#fff',
+		alignItems: 'center',
+		justifyContent: 'center',
+		height: '15%',
+		width: '85%',
+		borderRadius: 25,
+		borderWidth: 1
+	},
+	elevation: {
+		elevation: 10,
+		shadowColor: '#52006A',
+	},
+	superView: {
+		flex: 1,
+		height: Dimensions.get('window').height,
+		width: Dimensions.get('window').width,
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+
 export const profilePage = StyleSheet.create({
     profileContainer: {
         flex: 1,
@@ -126,4 +150,5 @@ export const profilePage = StyleSheet.create({
     defaultMarginBottom: {
         marginBottom: 15,
     }
+
 });
