@@ -2,25 +2,29 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
+import { GoogleAuthProvider } from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const config = {
-  apiKey: "AIzaSyDE0c47TKhRCZgsIK-H5UIownUr2Ma7Bok",
-  authDomain: "recipe-app-v2-2d701.firebaseapp.com",
-  projectId: "recipe-app-v2-2d701",
-  storageBucket: "recipe-app-v2-2d701.appspot.com",
-  messagingSenderId: "924786907123",
-  appId: "1:924786907123:web:73d16a71186508cfe82486",
-  measurementId: "G-4DS5YDRCL1"
+    apiKey: "AIzaSyCirTTc8qZNPeHClVNLlThzUuIf7sBMyCE",
+    authDomain: "recipes-app-v2.firebaseapp.com",
+    projectId: "recipes-app-v2",
+    storageBucket: "recipes-app-v2.appspot.com",
+    messagingSenderId: "296424842617",
+    appId: "1:296424842617:web:69face62f1a2f5d6993ba8"  
 };
 
 // Initialize Firebase
 let app = firebase.initializeApp(config);
 
 export const db = app.firestore();
+
+/* Google Sign-in */
+
+const provider = new GoogleAuthProvider();
 
 /* CRUD */
 
