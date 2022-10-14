@@ -51,7 +51,7 @@ export const smallCardStyles = StyleSheet.create({
 	},
 });
 
-export const danneShoplist = StyleSheet.create({
+export const shoplistPage = StyleSheet.create({
     shoplistContainer: {
         flex: 1,
         flexDirection: 'column',
@@ -85,7 +85,7 @@ export const danneShoplist = StyleSheet.create({
     },
 });
 
-export const danneFavorite = StyleSheet.create({
+export const favoritePage = StyleSheet.create({
     favoriteContainer: {
         flex: 1,
         flexDirection: 'column',
@@ -119,4 +119,36 @@ export const pantryItemStyle = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
+
+export const profilePage = StyleSheet.create({
+    profileContainer: {
+        flex: 1,
+        flexDirection: 'column',
+        alignItems: 'center',
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height,
+        backgroundColor: "#0005",
+    },
+    inputField: {
+        backgroundColor: "white",
+        height: 30,
+        width: 130,
+        borderRadius: 5,
+        padding: 5,
+    },
+    inputContainer: {
+        display: "flex",
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    hidden: {
+        display: "none",
+    },
+    defaultMarginTop: {
+        marginTop: 15,
+    },
+    defaultMarginBottom: {
+        marginBottom: 15,
+    }
+
 });
