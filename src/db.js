@@ -1,12 +1,13 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
+const config = {
   apiKey: "AIzaSyDE0c47TKhRCZgsIK-H5UIownUr2Ma7Bok",
   authDomain: "recipe-app-v2-2d701.firebaseapp.com",
   projectId: "recipe-app-v2-2d701",
@@ -17,15 +18,14 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+let app = firebase.initializeApp(config);
 
-export const db = app.database();
+export const db = app.firestore();
 
 /* CRUD */
 
 export const dbAddItem =  (item) => {
-    db.ref('/items').push({
-        name: item
-    });
+
+    const res = db.collection('cities').doc('Uppsala').set({name: "Luca", location: "Unknown"});
+
 }
