@@ -18,22 +18,38 @@ const Profile = (props) => {
 
     const login = async (uid = "") => {
 
+        let userData;
+
         if (uid.length == 0) {
-            uid = await Crud.getUser(username, password);
+            userData = await Crud.getUser(username, password);
+
+            console.log("USERDATA = " + userData.id);
         
-            if (uid.length == 0) {
+            if (userData.id.length == 0) {
                 console.log("Wrong username/password!");
                 return;
             }
+
+            uid = userData.id;
         }
 
         setIsLoggedIn(true);
 
         AppManager.isLoggedIn = true;
         AppManager.uid = uid;
-        AppManager.username = username;
+        AppManager.username = username;a
         AppManager.password = password;
+        
+        AppManager.firstName = userData.firstName;
+        AppManager.secondName = userData.secondName;
+        AppManager.email = userData.email;
+        AppManager.phone = userData.phone;
 
+        setFirstName(userData.firstName);
+        setSecondName(userData.secondName);
+        setEmail(userData.email);
+        setPhone(userData.phone);
+        
     };
 
     const createAccount = async () => {
@@ -65,6 +81,7 @@ const Profile = (props) => {
             firstName: firstName,
             secondName: secondName,
             email: email,
+            phone: phone,
         };
 
         Crud.updateUser(uid, userData);
@@ -77,7 +94,7 @@ const Profile = (props) => {
     };
 
     const logout = () => {
-        
+
         setIsLoggedIn(false);
         setUsername("");
         setPassword("");

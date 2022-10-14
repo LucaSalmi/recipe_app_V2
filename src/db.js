@@ -62,7 +62,7 @@ export const Crud = {
         return uid;
     },
     
-    getUser: async (username, password, stateFuncs) => {
+    getUser: async (username, password) => {
 
         let documents;
         
@@ -75,16 +75,15 @@ export const Crud = {
 
         })
 
-        console.log(documents);
-
         for (let document of documents) {
             if (document.username == username && document.password == password) {
-                return document.id;
+                return document;
             }
         }
 
-        //Return empty string if the user wasn't found
-        return "";
+        //Return false if the user wasn't found
+        let userData = {id: ""};
+        return userData;
     },
 
     updateUser: (uid, userData) => {
