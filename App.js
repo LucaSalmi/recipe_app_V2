@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { Card } from './components/Card';
-import { StyleSheet, Text, View, Button, SafeAreaView, Platform, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Button, SafeAreaView, Platform, TouchableOpacity, SectionList } from 'react-native';
 import Recipes from './components/Recipes.js';
 import Favorite from './components/Favorite.js';
 import Shoplist from './components/Shoplist.js';
@@ -9,6 +9,7 @@ import Profile from './components/Profile.js';
 import { pageStyles, bigCardStyles } from './styles/styles.js';
 import { useState, useEffect } from 'react';
 import Icon from "react-native-ico-material-design";
+import RecipeDetails from './components/RecipeDetails';
 
 //testing more hello
 //a comment from ankan, hello guys
@@ -42,6 +43,9 @@ const MainContent = () => {
   const SHOPLIST = 2;
   const PANTRY = 3;
   const PROFILE = 4;
+  const RECIPEDETAILS = 5; 
+
+  const previousScreen = RECIPES; 
 
   const [screen, setScreen] = useState(RECIPES);
 
@@ -49,12 +53,10 @@ const MainContent = () => {
 
   let view;
 
-
-
   switch (screen) {
 
     case RECIPES:
-      view = <Recipes />
+      view = <Recipes setScreen={setScreen} detailId={RECIPEDETAILS}/>
       break;
 
     case FAVORITE:
@@ -72,6 +74,11 @@ const MainContent = () => {
     case PROFILE:
       view = <Profile props1={{ name: "test", styles: pageStyles }} />
       break;
+
+    case RECIPEDETAILS: 
+      view = <RecipeDetails setScreen={setScreen} previousPage={previousScreen}/>
+      break; 
+
   }
 
   const changePage = (pageName) => {
@@ -85,15 +92,7 @@ const MainContent = () => {
         {view}
       </View>
       <View style={hideNav ? styles.navBarHidden : styles.navBar}>
-        {/*
-        <Button title="Recipes" onPress={() => { changePage(RECIPES) }}></Button>
-        <Button title="Favorite" onPress={() => { changePage(FAVORITE) }}></Button>
-        <Button title="Shoplist" onPress={() => { changePage(SHOPLIST) }}></Button>
-        <Button title="Pantry" onPress={() => { changePage(PANTRY) }}></Button>
-        <Button title="Profile" onPress={() => { changePage(PROFILE) }}></Button>
-        */}
         <TouchableOpacity style={styles.navButton} onPress={() => { changePage(RECIPES) }}>
-
           <Icon name="list-button-with-3-elements" group="material-design"/>
           <Text>Recipes</Text>
         </TouchableOpacity>

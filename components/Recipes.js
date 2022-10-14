@@ -27,7 +27,7 @@ DATA = [
     },
 ]
 
-const Recipes = () => {
+const Recipes = (props) => {
 
     const renderItem = ({ item }) => (
         //<BigCard title={item.title}/>
@@ -37,6 +37,10 @@ const Recipes = () => {
     return (
         <View style={recipePage.recipeContainer}>
             <SearchBar/>
+            <Button title ={"Details"}onPress={() => {
+                
+                props.setScreen(props.detailId)
+            }}></Button>
         <FlatList
             data={DATA}
             renderItem={renderItem}
