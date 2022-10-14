@@ -11,7 +11,7 @@ import { useState, useEffect } from 'react';
 import Icon from "react-native-ico-material-design";
 
 //testing more hello
-// a comment from ankan, hello guys
+//a comment from ankan, hello guys
 //dev WHAT
 
 
@@ -99,7 +99,7 @@ const MainContent = () => {
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.navButton} onPress={() => { changePage(FAVORITE) }}>
-          <Icon name="favorite-heart-outline-button" group="material-desig" />
+          <Icon name="favorite-heart-outline-button" group="material-design" />
           <Text>Favorites</Text>
         </TouchableOpacity>
 
