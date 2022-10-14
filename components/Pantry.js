@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, TextInput, Button, ScrollView, TouchableOpacity, FlatList, Dimensions } from 'react-native';
 import { useState } from 'react';
 import { Card, PantryCard, SmallCard } from './Card';
-import { pantryItemStyle, smallCardStyles, Fab, shoplistPage, SearchBarStyle } from '../styles/styles';
+import { pantryItemStyle, bigCardStyles, Fab, shoplistPage, SearchBarStyle, pantryCardStyles } from '../styles/styles';
 import Icon from "react-native-ico-material-design";
 import { ingredients } from '../PantryData';
 
@@ -77,9 +77,22 @@ const Pantry = (props) => {
         <PantryCard item={item} />
     );
     const renderItem2 = ({ item }) => (
-        <SmallCard title={item}/>
+        <SearchCard title={item} />
     );
 
+    function SearchCard(myProps) {
+        return (
+            <View style={pantryCardStyles.superView}>
+                <View onTouchStart={() => {
+                    let i = pantryItems;
+                    i.push({id: 10, title: myProps.title, quantity: 1, measure: 'st.'})
+                    setPantryItems([...i, pantryItems]);
+                }} style={[pantryCardStyles.container, bigCardStyles.elevation]}>
+                    <Text>{myProps.title}</Text>
+                </View>
+            </View>
+        );
+    }
 
     return (
 
@@ -112,7 +125,6 @@ const Pantry = (props) => {
                     <TextInput value={searchText} onChangeText={(input) => {
                         setSearchText(input);
                         setFoundItem(showResults(searchText));
-                        console.log(foundItem)
                     }} style={SearchBarStyle.searchInput} placeholder="Search here..." />
                     <TouchableOpacity onPress={() => { setSearchText("") }}>
                         {<Icon style={searchText == "" ? { display: "none" } : SearchBarStyle.icon} name="close-button" height="20" width="20" />}
@@ -120,15 +132,15 @@ const Pantry = (props) => {
                 </View>
                 <FlatList
 
-                data={foundItem}
-                renderItem={renderItem2}
-                keyExtractor={(item) => {
-                    item.id
-                }}
-                snapToAlignment="start"
-                decelerationRate={"fast"}
-                snapToInterval={Dimensions.get("window").width}
-            />
+                    data={foundItem}
+                    renderItem={renderItem2}
+                    keyExtractor={(item) => {
+                        item.id
+                    }}
+                    snapToAlignment="start"
+                    decelerationRate={"fast"}
+                    snapToInterval={Dimensions.get("window").width}
+                />
             </View>
         </View>
 
@@ -136,9 +148,9 @@ const Pantry = (props) => {
 }
 
 const tempStyle = StyleSheet.create({
-    myText:{
-       color : 'red',
-       fontSize: 15,
+    myText: {
+        color: 'red',
+        fontSize: 15,
     },
 });
 

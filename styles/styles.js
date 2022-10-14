@@ -116,7 +116,8 @@ export const shoplistPage = StyleSheet.create({
         height: Dimensions.get('window').height,
         borderTopLeftRadius: 15,
         borderTopRightRadius: 15,
-        padding: 20,
+        //padding: 20,
+        alignItems:'center',
         backgroundColor: "#353839",
     },
 });
