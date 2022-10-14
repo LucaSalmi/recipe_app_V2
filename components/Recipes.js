@@ -1,35 +1,46 @@
 import { StyleSheet, Text, View, TextInput, Button, ScrollView, FlatList, Dimensions } from 'react-native';
 import { useState } from 'react';
-import { BigCard } from './Card';
-import { bigCardStyles } from '../styles/styles';
+import { BigCard, SmallCard } from './Card';
+import { bigCardStyles, recipePage } from '../styles/styles';
+import SearchBar from './SearchBar.js';
 
 DATA = [
     {
         id: 0,
-        title: 'first',
+        title: 'Delicious banana bread',
+        cookingTime: '25 min'
     },
     {
         id: 1,
-        title: "second",
+        title: "Bananasplit with icecream",
+        cookingTime: '15 min'
     },
     {
         id: 3,
-        title: "third",
+        title: "Meatball parm",
+        cookingTime: '20 min'
     },
     {
         id: 4,
-        title: "fourth",
+        title: "Goomba bread with a slice of ham",
+        cookingTime: '10 min'
     },
 ]
 
-const Recipes = () => {
+const Recipes = (props) => {
 
     const renderItem = ({ item }) => (
-        <BigCard title={item.title}/>
+        //<BigCard title={item.title}/>
+        <BigCard title={item.title} style={bigCardStyles.container} topCard={bigCardStyles.topCard} cookingTime={item.cookingTime} />
     );
 
     return (
-
+        <View style={recipePage.recipeContainer}>
+            <SearchBar/>
+            <Button title ={"Details"}onPress={() => {
+                
+                props.setScreen(props.detailId)
+            }}></Button>
         <FlatList
             data={DATA}
             renderItem={renderItem}
@@ -41,6 +52,7 @@ const Recipes = () => {
             decelerationRate={"fast"}
             snapToInterval={Dimensions.get("window").width}
         />
+        </View>
     );
 
 }

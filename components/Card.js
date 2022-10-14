@@ -1,7 +1,32 @@
-import { StyleSheet, Text, View } from 'react-native';
+
 import { bigCardStyles, smallCardStyles, pantryCardStyles } from '../styles/styles';
+import {StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import Icon from "react-native-ico-material-design";
 
+export function BigCard(myProps) {
 
+    return (
+        <View style={myProps.isSmallCard ? [smallCardStyles.superView] : [bigCardStyles.superView]}>
+          <View style={[myProps.style, bigCardStyles.elevation]}>
+          <TouchableOpacity style={myProps.topCard} >
+                <Icon name="favorite-heart-outline-button" group="material-design" height="38" width="38"/>
+            </TouchableOpacity>
+
+        <View style={bigCardStyles.bottomCard}>
+            <View style={bigCardStyles.kokTid}>
+            <Icon name="list-button-with-3-elements" group="material-design" />
+            <Text style={{marginLeft: 7}}>{myProps.cookingTime}</Text>
+            </View>
+            <Text style={bigCardStyles.dishName}>{myProps.title}</Text>
+        </View>
+
+        </View>  
+        </View>
+        
+    );
+}
+
+/*
 export function BigCard(myProps) {
 
     return (
@@ -13,6 +38,7 @@ export function BigCard(myProps) {
 
     );
 }
+*/
 
 export function SmallCard(myProps) {
 
@@ -39,3 +65,4 @@ export function PantryCard(myProps) {
 
     );
 }
+

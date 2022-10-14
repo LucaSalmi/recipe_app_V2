@@ -11,12 +11,12 @@ export const bigCardStyles = StyleSheet.create({
 	container: {
 		flexDirection: 'column',
 		backgroundColor: '#fff',
-		alignItems: 'center',
-		justifyContent: 'center',
+		justifyContent: 'space-between',
 		height: '70%',
 		width: '85%',
-		borderRadius: 25,
-		borderWidth: 1
+		borderRadius: 10,
+		borderWidth: 1,
+        marginTop: 20,
 	},
 	elevation: {
 		elevation: 10,
@@ -27,8 +27,24 @@ export const bigCardStyles = StyleSheet.create({
 		height: Dimensions.get('window').height,
 		width: Dimensions.get('window').width,
 		alignItems: 'center',
-		justifyContent: 'center',
 	},
+    topCard: {
+        flexDirection: 'row-reverse',   
+        marginStart: 25,
+        marginTop: 14,
+    },
+    bottomCard: {
+        flexDirection: 'column',
+        marginBottom: 30,
+        marginStart: 15,
+    },
+    kokTid: {
+        flexDirection: 'row',
+        fontSize: 15,
+    },
+    dishName : {
+        fontSize: 20,
+    }
 })
 
 export const smallCardStyles = StyleSheet.create({
@@ -116,6 +132,16 @@ export const favoritePage = StyleSheet.create({
     },
 });
 
+export const recipePage = StyleSheet.create({
+    recipeContainer: {
+        flex: 1,
+        flexDirection: 'column',
+        alignItems: 'center',
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height,
+        backgroundColor: "#F3F3F3",
+    },
+});
 export const pantryItemStyle = StyleSheet.create({
 
     itemCard: {
