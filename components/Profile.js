@@ -2,14 +2,7 @@ import { StyleSheet, Text, View, TextInput, Button, ScrollView, SafeAreaView } f
 import { useEffect, useState } from 'react';
 import AppManager from '../utils/AppManager.js';
 import { profilePage } from '../styles/styles.js';
-import { dbAddItem } from '../src/db.js';
-
-var SingletonInstance = {
-    firstName: "",
-    secondName: "",
-    email: "",
-    phone: "",
-};
+import { dbAddItem, Crud } from '../src/db.js';
 
 const Profile = (props) => {
 
@@ -23,92 +16,122 @@ const Profile = (props) => {
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
 
-    const login = () => {
+    const login = async (uid = "") => {
 
-        console.log("AppManager user = " + AppManager.username);
+        let userData;
 
-        console.log("username length = " + username.length);
-        console.log("password length = " + password.length);
+        if (uid.length == 0) {
+            userData = await Crud.getUser(username, password);
 
-        if (username.length == 0 || password.length == 0) {
-            console.log("Missing input for either username/password");
-            return;
+            console.log("USERDATA = " + userData.id);
+        
+            if (userData.id.length == 0) {
+                console.log("Wrong username/password!");
+                return;
+            }
+
+            uid = userData.id;
         }
 
-        if (username != AppManager.username || password != AppManager.password) {
-            console.log("Wrong username/password");
-            return;
-        };
-
         setIsLoggedIn(true);
-        AppManager.isLoggedIn = true;
 
-        setPassword("");
+        AppManager.isLoggedIn = true;
+        AppManager.uid = uid;
+        AppManager.username = username;
+        AppManager.password = password;
+        
+        AppManager.firstName = userData.firstName;
+        AppManager.secondName = userData.secondName;
+        AppManager.email = userData.email;
+        AppManager.phone = userData.phone;
+
+        setFirstName(userData.firstName);
+        setSecondName(userData.secondName);
+        setEmail(userData.email);
+        setPhone(userData.phone);
+        
     };
 
-    const createAccount = () => {
+    const createAccount = async () => {
 
         if (username.length == 0 || password.length == 0) {
             console.log("Enter valid username/password");
             return;
         };
 
-        AppManager.username = username;
-        AppManager.password = password;
+        let uid = await Crud.addUser(username, password);
 
-        SingletonInstance.firstName = "";
-        SingletonInstance.secondName = "",
-        SingletonInstance.email = "";
-        SingletonInstance.phone = "";
-
-        setFirstName("");
-        setSecondName("");
-        setEmail("");
-        setPhone("");
+        if (!uid) {
+            console.log("Username not available");
+            return;
+        }
 
         console.log("Account created!");
-        login();
+        login(uid);
+
     };
 
     const save = () => {
-        SingletonInstance.firstName = firstName;
-        SingletonInstance.secondName = secondName;
-        SingletonInstance.email = email;
-        SingletonInstance.phone = phone;
+
+        let uid = AppManager.uid;
+
+        let userData = {
+            username: AppManager.username,
+            password: AppManager.password,
+            firstName: firstName,
+            secondName: secondName,
+            email: email,
+            phone: phone,
+        };
+
+        Crud.updateUser(uid, userData);
+
+        AppManager.firstName = firstName;
+        AppManager.secondName = secondName;
+        AppManager.email = email;
+        AppManager.phone = phone;
+
     };
 
     const logout = () => {
+
         setIsLoggedIn(false);
         setUsername("");
+        setPassword("");
+
         AppManager.isLoggedIn = false;
+        AppManager.uid = "";
+        AppManager.username = "";
+        AppManager.password = "";
+        AppManager.firstName = "";
+        AppManager.secondName = "";
+        AppManager.email = "";
+        AppManager.phone = "";
+
     };
 
     useEffect(() => {
-        setTimeout(() => {
-            if (AppManager.isLoggedIn && !pageLoaded) {
-                setIsLoggedIn(true);
-                setUsername(AppManager.username);
-                setFirstName(SingletonInstance.firstName);
-                setSecondName(SingletonInstance.secondName);
-                setEmail(SingletonInstance.email);
-                setPhone(SingletonInstance.phone);
-                setPageLoaded(true);
-            }
-        } , 100);
+
+        if (AppManager.isLoggedIn && !pageLoaded) {
+            setUsername(AppManager.username);
+            setFirstName(AppManager.firstName);
+            setSecondName(AppManager.secondName);
+            setEmail(AppManager.email);
+            setPhone(AppManager.phone);
+            setIsLoggedIn(true);
+            setPageLoaded(true);
+        }
+
     });
 
 	return (
         <View style={profilePage.profileContainer}>
 
             <Text style={{padding: 50, fontSize: 20, fontWeight: "bold"}}>PROFILE PAGE</Text>
-            <Button title={"Add Item to DB"} onPress={()=>{
-                dbAddItem("Danne");
-            }}></Button>
-            <View style={{height: 50}}></View>
 
             <View style={isLoggedIn ? profilePage.hidden : profilePage.inputContainer}>
                 <Text>Username</Text>
-                <TextInput style={profilePage.inputField} value={username} onChangeText={(text)=>{ setUsername(text); }}></TextInput>
+                <TextInput style={profilePage.inputField} value={username} onChangeText={(text)=>{ setUsername(text.trim()); }}></TextInput>
                 <Text>Password</Text>
                 <TextInput style={[profilePage.inputField, profilePage.defaultMarginBottom]} value={password} onChangeText={(text)=>{ setPassword(text); }}></TextInput>
                 <Button  title="LOGIN" onPress={()=>{login()}}></Button>
