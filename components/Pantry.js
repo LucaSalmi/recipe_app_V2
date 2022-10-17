@@ -4,6 +4,7 @@ import { Card, PantryCard, SmallCard } from './Card';
 import { pantryItemStyle, bigCardStyles, Fab, shoplistPage, SearchBarStyle, pantryCardStyles } from '../styles/styles';
 import Icon from "react-native-ico-material-design";
 import { ingredients } from '../PantryData';
+import { PantryItem } from '../PantryItem';
 
 
 
@@ -80,13 +81,32 @@ const Pantry = (props) => {
         <SearchCard title={item} />
     );
 
+    function rngID() {
+        return Math.floor(Math.random() * 9999);
+    }
+
     function SearchCard(myProps) {
+        let doubleItem = false;
+
         return (
             <View style={pantryCardStyles.superView}>
                 <View onTouchStart={() => {
                     let i = pantryItems;
-                    i.push({id: 10, title: myProps.title, quantity: 1, measure: 'st.'})
-                    setPantryItems([...i, pantryItems]);
+                    for (const item of i) {
+
+                        if (item.title == myProps.title) {
+                            doubleItem = true;
+                            break;
+                        }
+                    }
+
+                    if (!doubleItem) {
+                        let pantryItem = new PantryItem(rngID(), myProps.title)
+                        i.push(pantryItem)
+                        setPantryItems([...i, pantryItems]);
+                        toggleSheet();
+                    }
+
                 }} style={[pantryCardStyles.container, bigCardStyles.elevation]}>
                     <Text>{myProps.title}</Text>
                 </View>
@@ -99,7 +119,6 @@ const Pantry = (props) => {
         <View style={pantryItemStyle.superView}>
 
             <TouchableOpacity activeOpacity={0.7} onPress={() => {
-                console.log('press');
                 toggleSheet();
             }} style={Fab.TouchableOpacityStyle}>
 
@@ -146,13 +165,6 @@ const Pantry = (props) => {
 
     )
 }
-
-const tempStyle = StyleSheet.create({
-    myText: {
-        color: 'red',
-        fontSize: 15,
-    },
-});
 
 function showResults(input) {
     let search = '';

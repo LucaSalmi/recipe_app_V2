@@ -65,9 +65,6 @@ export function PantryCard(myProps) {
             <View onTouchStart={() => {
               console.log("pressed")
             }} style={[pantryCardStyles.container, bigCardStyles.elevation]}>
-                <Text>{myProps.item.quantity}</Text>
-                <Text>{myProps.item.measure}</Text>
-                <Text> </Text>
                 <Text>{myProps.item.title}</Text>
             </View>
         </View>
