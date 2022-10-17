@@ -23,56 +23,13 @@ const Pantry = (props) => {
     const [foundItem, setFoundItem] = useState([]);
 
     const [pantryItems, setPantryItems] = useState([
-        {
-            id: 0,
-            title: 'Onions',
-            quantity: 5,
-            measure: 'st.'
-        },
-        {
-            id: 1,
-            title: 'chicken breast',
-            quantity: 5,
-            measure: 'kg'
-        },
-        {
-            id: 2,
-            title: 'Cream',
-            quantity: 2,
-            measure: 'lt'
-        },
-        {
-            id: 3,
-            title: 'Pepper',
-            quantity: 1,
-            measure: 'st.'
-        },
-        {
-            id: 4,
-            title: 'Onions',
-            quantity: 5,
-            measure: 'st.'
-        },
-        {
-            id: 5,
-            title: 'chicken breast',
-            quantity: 5,
-            measure: 'kg'
-        },
-        {
-            id: 6,
-            title: 'Cream',
-            quantity: 2,
-            measure: 'lt'
-        },
-        {
-            id: 7,
-            title: 'Pepper',
-            quantity: 1,
-            measure: 'st.'
-        },
-    ]);
+        new PantryItem(rngID, "Black Pepper"),
+        new PantryItem(rngID, "Chicken Breast"),
+        new PantryItem(rngID, "Apple"),
+        new PantryItem(rngID, "Beef Tenderloin"),
+        new PantryItem(rngID, "Entrecote"),
 
+    ]);
 
     const renderItem = ({ item }) => (
         <PantryCard item={item} />
@@ -142,8 +99,9 @@ const Pantry = (props) => {
 
                 <View style={SearchBarStyle.container}>
                     <TextInput value={searchText} onChangeText={(input) => {
+                        let capitalized = input.toUpperCase();
                         setSearchText(input);
-                        setFoundItem(showResults(searchText));
+                        setFoundItem(showResults(capitalized));
                     }} style={SearchBarStyle.searchInput} placeholder="Search here..." />
                     <TouchableOpacity onPress={() => { setSearchText("") }}>
                         {<Icon style={searchText == "" ? { display: "none" } : SearchBarStyle.icon} name="close-button" height="20" width="20" />}
