@@ -91,6 +91,23 @@ export const Crud = {
        db.collection('users').doc(uid).set(userData);
 
     },
+
+    createRecipies: (recipies) => {
+        const collectionName = "recipies";
+
+        
+        for (let i = 0; i < recipies.length; i++) {
+            let docId = i.toString();
+            let recipe = recipies[i];
+
+            db.collection(collectionName).doc(docId).set(recipe);
+        }
+
+    },
+
+    createJSON: (jsonString) => {
+        db.collection("JSON").doc("test").set({content: jsonString});
+    },
     
 };
 
@@ -103,4 +120,5 @@ const generateUid = () => {
     }
 
     return uid;
-  }
+}
+

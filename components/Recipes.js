@@ -5,6 +5,8 @@ import { bigCardStyles, recipePage } from '../styles/styles';
 import SearchBar from './SearchBar.js';
 import AppManager from '../utils/AppManager.js'
 import { Constants } from '../utils/Constants';
+import { Crud } from '../src/db.js';
+
 
 export const DATA = [
     {
@@ -32,6 +34,24 @@ export const DATA = [
 
 const Recipes = (props) => {
 
+    const [jsonString, setJsonString] = useState("Loading...");
+    
+    
+    fetch('http://10.0.2.2/danne/test.json')
+    .then((response) => {
+        return response.json();
+    })
+    .then((data) => {
+        console.log(JSON.stringify(data));
+        setJsonString(JSON.stringify(data));
+        //Crud.createJSON(JSON.stringify(data));
+    })
+    .catch((err)=> console.log(err));
+    
+
+    
+    
+
     const renderItem = ({ item }) => (
         
         <Pressable onPress={ () => {
@@ -47,18 +67,21 @@ const Recipes = (props) => {
         <View style={recipePage.recipeContainer}>
             <SearchBar/>
             
+            <ScrollView>
+                <Text>{jsonString}</Text>
+            </ScrollView>
 
-        <FlatList
-            data={DATA}
-            renderItem={renderItem}
-            keyExtractor={(item) => {
-                item.id
-            }}
-            horizontal
-            snapToAlignment="start"
-            decelerationRate={"fast"}
-            snapToInterval={Dimensions.get("window").width}
-        />
+            <FlatList
+                data={DATA}
+                renderItem={renderItem}
+                keyExtractor={(item) => {
+                    item.id
+                }}
+                horizontal
+                snapToAlignment="start"
+                decelerationRate={"fast"}
+                snapToInterval={Dimensions.get("window").width}
+            />
         </View>
     );
 
