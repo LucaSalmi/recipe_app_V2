@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TextInput, Button, ScrollView, TouchableOpacity, FlatList, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, ScrollView, TouchableOpacity, FlatList, Dimensions, Alert } from 'react-native';
 import { useState } from 'react';
 import { Card, PantryCard, SmallCard } from './Card';
 import { pantryItemStyle, bigCardStyles, Fab, shoplistPage, SearchBarStyle, pantryCardStyles } from '../styles/styles';
@@ -24,23 +24,65 @@ const Pantry = (props) => {
     const [foundItem, setFoundItem] = useState([]);
 
     const [pantryItems, setPantryItems] = useState([
-        new PantryItem(rngID, "Black Pepper"),
-        new PantryItem(rngID, "Chicken Breast"),
-        new PantryItem(rngID, "Apple"),
-        new PantryItem(rngID, "Beef Tenderloin"),
-        new PantryItem(rngID, "Entrecote"),
+        new PantryItem(rngID(), "Black Pepper"),
+        new PantryItem(rngID(), "Chicken Breast"),
+        new PantryItem(rngID(), "Apple"),
+        new PantryItem(rngID(), "Beef Tenderloin"),
+        new PantryItem(rngID(), "Entrecote"),
 
     ]);
 
-    const renderItem = ({item}) => (
-        <PantryCard item={item} array={pantryItems} func={setPantryItems} />
+    const pantryItemCard = ({ item }) => (
+        <PantryCard item={item} />
     );
-    const renderItem2 = ({ item }) => (
+    const searchResultCard = ({ item }) => (
         <SearchCard title={item} />
     );
 
     function rngID() {
         return Math.floor(Math.random() * 9999);
+    }
+
+    const createTwoButtonAlert = (props) =>{
+        Alert.alert(
+            "Deleting Item",
+            "Do you really want to remove " + props.item.title + " from your pantry?",
+            [
+                {
+                    text: "No",
+                    style: "cancel",
+                    onPress: ()=>{
+                        console.log(props.item)
+                    }
+                },
+                {
+                    text: "Yes", onPress: () => {
+                        let x = [];
+                        for (const ingredient of pantryItems) {
+                            if (ingredient.id != props.item.id) {
+                                let temp = ingredient;
+                                x.push(temp);
+                            }
+                        }
+                        setPantryItems(x);
+                    }
+                }
+            ]
+        );
+    }
+
+    function PantryCard(myProps) {
+        return (
+            <View style={pantryCardStyles.superView}>
+                <View onTouchStart={() => {
+
+                    createTwoButtonAlert(myProps)
+
+                }} style={[pantryCardStyles.container, bigCardStyles.elevation]}>
+                    <Text>{myProps.item.title}</Text>
+                </View>
+            </View>
+        );
     }
 
     function SearchCard(myProps) {
@@ -88,7 +130,7 @@ const Pantry = (props) => {
             <FlatList
 
                 data={pantryItems}
-                renderItem={renderItem}
+                renderItem={pantryItemCard}
                 keyExtractor={(item) => {
                     item.id
                 }}
@@ -116,7 +158,7 @@ const Pantry = (props) => {
                 <FlatList
 
                     data={foundItem}
-                    renderItem={renderItem2}
+                    renderItem={searchResultCard}
                     keyExtractor={(item) => {
                         item.id
                     }}

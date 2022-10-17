@@ -59,27 +59,10 @@ export function SmallCard(myProps) {
     );
 }
 
-export function PantryCard(myProps) {
-    return (
-        <View style={pantryCardStyles.superView}>
-            <View onTouchStart={() => {
-              let x = myProps.array.pantryItems;
-              x.splice(myProps.item)
-              myProps.array.setPantryItems(x)
-
-            }} style={[pantryCardStyles.container, bigCardStyles.elevation]}>
-                <Text>{myProps.item.title}</Text>
-            </View>
-        </View>
-    );
-}
-
 export function SearchCard(myProps) {
   return (
       <View style={pantryCardStyles.superView}>
-          <View onTouchStart={() => {
-            console.log("pressed")
-          }} style={[pantryCardStyles.container, bigCardStyles.elevation]}>
+          <View style={[pantryCardStyles.container, bigCardStyles.elevation]}>
               <Text>{myProps.title}</Text>
           </View>
       </View>
