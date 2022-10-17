@@ -31,8 +31,8 @@ const Pantry = (props) => {
 
     ]);
 
-    const renderItem = ({ item }) => (
-        <PantryCard item={item} />
+    const renderItem = ({item}) => (
+        <PantryCard item={item} array={setFoundItem} />
     );
     const renderItem2 = ({ item }) => (
         <SearchCard title={item} />
@@ -65,6 +65,7 @@ const Pantry = (props) => {
                     }
 
                 }} style={[pantryCardStyles.container, bigCardStyles.elevation]}>
+
                     <Text>{myProps.title}</Text>
                 </View>
             </View>
@@ -93,6 +94,7 @@ const Pantry = (props) => {
                 snapToAlignment="start"
                 decelerationRate={"fast"}
                 snapToInterval={Dimensions.get("window").width}
+
             />
 
             <View style={showSheet ? shoplistPage.sheetContainer : { display: "none" }}>
@@ -103,7 +105,10 @@ const Pantry = (props) => {
                         setSearchText(input);
                         setFoundItem(showResults(capitalized));
                     }} style={SearchBarStyle.searchInput} placeholder="Search here..." />
-                    <TouchableOpacity onPress={() => { setSearchText("") }}>
+                    <TouchableOpacity onPress={() => {
+                        setFoundItem([]);
+                        setSearchText("");
+                    }}>
                         {<Icon style={searchText == "" ? { display: "none" } : SearchBarStyle.icon} name="close-button" height="20" width="20" />}
                     </TouchableOpacity>
                 </View>
