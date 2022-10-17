@@ -63,7 +63,10 @@ export function PantryCard(myProps) {
     return (
         <View style={pantryCardStyles.superView}>
             <View onTouchStart={() => {
-              console.log("pressed")
+              let x = myProps.array.pantryItems;
+              x.splice(myProps.item)
+              myProps.array.setPantryItems(x)
+
             }} style={[pantryCardStyles.container, bigCardStyles.elevation]}>
                 <Text>{myProps.item.title}</Text>
             </View>

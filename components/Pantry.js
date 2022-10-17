@@ -8,6 +8,7 @@ import { PantryItem } from '../PantryItem';
 
 
 
+
 const Pantry = (props) => {
 
     const [showSheet, setShowSheet] = useState(false);
@@ -32,7 +33,7 @@ const Pantry = (props) => {
     ]);
 
     const renderItem = ({item}) => (
-        <PantryCard item={item} array={setFoundItem} />
+        <PantryCard item={item} array={pantryItems} func={setPantryItems} />
     );
     const renderItem2 = ({ item }) => (
         <SearchCard title={item} />
@@ -60,7 +61,7 @@ const Pantry = (props) => {
                     if (!doubleItem) {
                         let pantryItem = new PantryItem(rngID(), myProps.title)
                         i.push(pantryItem)
-                        setPantryItems([...i, pantryItems]);
+                        setPantryItems(i);
                         toggleSheet();
                     }
 
