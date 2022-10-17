@@ -15,8 +15,7 @@ export function BigCard(myProps) {
     >
       
 
-      <View style={[myProps.style, bigCardStyles.elevation]}>
-      <ImageBackground style={{width: "100%", height: "100%"}} source={{uri: myProps.imageSource}}>
+      <ImageBackground style={[myProps.style, bigCardStyles.elevation, {resizeMode: "stretch"}]} source={{uri: myProps.imageSource}}>
         <TouchableOpacity style={myProps.topCard}>
           
           <Icon
@@ -35,8 +34,8 @@ export function BigCard(myProps) {
           </View>
           <Text style={bigCardStyles.dishName}>{myProps.title}</Text>
         </View>
-        </ImageBackground>
-      </View>
+
+      </ImageBackground>
       
     </View>
   );
