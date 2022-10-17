@@ -1,14 +1,17 @@
-import { StyleSheet, Text, View, TextInput, Button, ScrollView, FlatList, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, ScrollView, FlatList, Dimensions, Pressable } from 'react-native';
 import { useState } from 'react';
 import { BigCard, SmallCard } from './Card';
 import { bigCardStyles, recipePage } from '../styles/styles';
 import SearchBar from './SearchBar.js';
+import AppManager from '../utils/AppManager.js'
+import { Constants } from '../utils/Constants';
 
-DATA = [
+export const DATA = [
     {
         id: 0,
         title: 'Delicious banana bread',
         cookingTime: '25 min'
+        
     },
     {
         id: 1,
@@ -30,17 +33,21 @@ DATA = [
 const Recipes = (props) => {
 
     const renderItem = ({ item }) => (
-        //<BigCard title={item.title}/>
-        <BigCard title={item.title} style={bigCardStyles.container} topCard={bigCardStyles.topCard} cookingTime={item.cookingTime} />
+        
+        <Pressable onPress={ () => {
+            AppManager.currentRecipe = item
+            props.setScreen(Constants.RECIPEDETAILS)
+        }}>
+            <BigCard title={item.title} style={bigCardStyles.container} topCard={bigCardStyles.topCard} cookingTime={item.cookingTime} />
+        </Pressable>
+        
     );
 
     return (
         <View style={recipePage.recipeContainer}>
             <SearchBar/>
-            <Button title ={"Details"}onPress={() => {
-                
-                props.setScreen(props.detailId)
-            }}></Button>
+            
+
         <FlatList
             data={DATA}
             renderItem={renderItem}
