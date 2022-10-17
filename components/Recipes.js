@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TextInput, Button, ScrollView, FlatList, Dimensions, Pressable } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, ScrollView, FlatList, Dimensions, Pressable, ImageBackground } from 'react-native';
 import { useState } from 'react';
 import { BigCard, SmallCard } from './Card';
 import { bigCardStyles, recipePage } from '../styles/styles';
@@ -45,10 +45,12 @@ const Recipes = (props) => {
     const renderItem = ({ item }) => (
         
         <Pressable onPress={ () => {
-            AppManager.currentRecipe = item
-            props.setScreen(Constants.RECIPEDETAILS)
-        }}>
-            <BigCard title={item.title} style={bigCardStyles.container} topCard={bigCardStyles.topCard} cookingTime={item.cookingTime} imageSource={item.image}/>
+                AppManager.currentRecipe = item
+                props.setScreen(Constants.RECIPEDETAILS)
+            }}>
+
+            <BigCard title={item.title} style={bigCardStyles.container} topCard={bigCardStyles.topCard} imageSource={item.image} cookingTime={item.cookingTime}/>
+            
         </Pressable>
         
     );

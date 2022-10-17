@@ -4,6 +4,7 @@ import {StyleSheet, Text, View, TouchableOpacity, ImageBackground } from 'react-
 import Icon from "react-native-ico-material-design";
 
 export function BigCard(myProps) {
+
   return (
     <View
       style={
@@ -12,8 +13,10 @@ export function BigCard(myProps) {
           : [bigCardStyles.superView]
       }
     >
-      <ImageBackground source={{uri: "https://images-ext-2.discordapp.net/external/ZhhLWpTpPE3ncP_CvIHfyiiCOvL0aQnPc48uhjoyxGQ/https/spoonacular.com/recipeImages/715483-556x370.jpg"}}>
+      
+
       <View style={[myProps.style, bigCardStyles.elevation]}>
+      <ImageBackground style={{width: "100%", height: "100%"}} source={{uri: myProps.imageSource}}>
         <TouchableOpacity style={myProps.topCard}>
           
           <Icon
@@ -32,8 +35,9 @@ export function BigCard(myProps) {
           </View>
           <Text style={bigCardStyles.dishName}>{myProps.title}</Text>
         </View>
+        </ImageBackground>
       </View>
-      </ImageBackground>
+      
     </View>
   );
 }
