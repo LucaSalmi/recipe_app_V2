@@ -1,9 +1,11 @@
-import { StyleSheet, Text, View, TextInput, Button, ScrollView, TouchableOpacity, FlatList, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, ScrollView, TouchableOpacity, FlatList, Dimensions, Alert } from 'react-native';
 import { useState } from 'react';
 import { Card, PantryCard, SmallCard } from './Card';
-import { pantryItemStyle, smallCardStyles, Fab, shoplistPage, SearchBarStyle } from '../styles/styles';
+import { pantryItemStyle, bigCardStyles, Fab, shoplistPage, SearchBarStyle, pantryCardStyles } from '../styles/styles';
 import Icon from "react-native-ico-material-design";
 import { ingredients } from '../PantryData';
+import { PantryItem } from '../PantryItem';
+
 
 
 
@@ -22,71 +24,102 @@ const Pantry = (props) => {
     const [foundItem, setFoundItem] = useState([]);
 
     const [pantryItems, setPantryItems] = useState([
-        {
-            id: 0,
-            title: 'Onions',
-            quantity: 5,
-            measure: 'st.'
-        },
-        {
-            id: 1,
-            title: 'chicken breast',
-            quantity: 5,
-            measure: 'kg'
-        },
-        {
-            id: 2,
-            title: 'Cream',
-            quantity: 2,
-            measure: 'lt'
-        },
-        {
-            id: 3,
-            title: 'Pepper',
-            quantity: 1,
-            measure: 'st.'
-        },
-        {
-            id: 4,
-            title: 'Onions',
-            quantity: 5,
-            measure: 'st.'
-        },
-        {
-            id: 5,
-            title: 'chicken breast',
-            quantity: 5,
-            measure: 'kg'
-        },
-        {
-            id: 6,
-            title: 'Cream',
-            quantity: 2,
-            measure: 'lt'
-        },
-        {
-            id: 7,
-            title: 'Pepper',
-            quantity: 1,
-            measure: 'st.'
-        },
+        new PantryItem(rngID(), "Black Pepper"),
+        new PantryItem(rngID(), "Chicken Breast"),
+        new PantryItem(rngID(), "Apple"),
+        new PantryItem(rngID(), "Beef Tenderloin"),
+        new PantryItem(rngID(), "Entrecote"),
+
     ]);
 
-
-    const renderItem = ({ item }) => (
+    const pantryItemCard = ({ item }) => (
         <PantryCard item={item} />
     );
-    const renderItem2 = ({ item }) => (
-        <SmallCard title={item}/>
+    const searchResultCard = ({ item }) => (
+        <SearchCard title={item} />
     );
 
+    function rngID() {
+        return Math.floor(Math.random() * 9999);
+    }
+
+    const createTwoButtonAlert = (props) =>{
+        Alert.alert(
+            "Deleting Item",
+            "Do you really want to remove " + props.item.title + " from your pantry?",
+            [
+                {
+                    text: "No",
+                    style: "cancel",
+                    onPress: ()=>{
+                        console.log(props.item)
+                    }
+                },
+                {
+                    text: "Yes", onPress: () => {
+                        let x = [];
+                        for (const ingredient of pantryItems) {
+                            if (ingredient.id != props.item.id) {
+                                let temp = ingredient;
+                                x.push(temp);
+                            }
+                        }
+                        setPantryItems(x);
+                    }
+                }
+            ]
+        );
+    }
+
+    function PantryCard(myProps) {
+        return (
+            <View style={pantryCardStyles.superView}>
+                <View onTouchStart={() => {
+
+                    createTwoButtonAlert(myProps)
+
+                }} style={[pantryCardStyles.container, bigCardStyles.elevation]}>
+                    <Text>{myProps.item.title}</Text>
+                </View>
+            </View>
+        );
+    }
+
+    function SearchCard(myProps) {
+        let doubleItem = false;
+
+        return (
+            <View style={pantryCardStyles.superView}>
+                <View onTouchStart={() => {
+                    let i = pantryItems;
+                    for (const item of i) {
+
+                        if (item.title == myProps.title) {
+                            doubleItem = true;
+                            break;
+                        }
+                    }
+
+                    if (!doubleItem) {
+                        let pantryItem = new PantryItem(rngID(), myProps.title)
+                        i.push(pantryItem)
+                        setPantryItems(i);
+                        toggleSheet();
+                    }
+
+                }} style={[pantryCardStyles.container, bigCardStyles.elevation]}>
+
+                    <Text>{myProps.title}</Text>
+                </View>
+            </View>
+        );
+    }
 
     return (
 
         <View style={pantryItemStyle.superView}>
 
             <TouchableOpacity activeOpacity={0.7} onPress={() => {
-                console.log('press');
                 toggleSheet();
             }} style={Fab.TouchableOpacityStyle}>
 
@@ -97,50 +130,47 @@ const Pantry = (props) => {
             <FlatList
 
                 data={pantryItems}
-                renderItem={renderItem}
+                renderItem={pantryItemCard}
                 keyExtractor={(item) => {
                     item.id
                 }}
                 snapToAlignment="start"
                 decelerationRate={"fast"}
                 snapToInterval={Dimensions.get("window").width}
+
             />
 
             <View style={showSheet ? shoplistPage.sheetContainer : { display: "none" }}>
 
                 <View style={SearchBarStyle.container}>
                     <TextInput value={searchText} onChangeText={(input) => {
+                        let capitalized = input.toUpperCase();
                         setSearchText(input);
-                        setFoundItem(showResults(searchText));
-                        console.log(foundItem)
+                        setFoundItem(showResults(capitalized));
                     }} style={SearchBarStyle.searchInput} placeholder="Search here..." />
-                    <TouchableOpacity onPress={() => { setSearchText("") }}>
+                    <TouchableOpacity onPress={() => {
+                        setFoundItem([]);
+                        setSearchText("");
+                    }}>
                         {<Icon style={searchText == "" ? { display: "none" } : SearchBarStyle.icon} name="close-button" height="20" width="20" />}
                     </TouchableOpacity>
                 </View>
                 <FlatList
 
-                data={foundItem}
-                renderItem={renderItem2}
-                keyExtractor={(item) => {
-                    item.id
-                }}
-                snapToAlignment="start"
-                decelerationRate={"fast"}
-                snapToInterval={Dimensions.get("window").width}
-            />
+                    data={foundItem}
+                    renderItem={searchResultCard}
+                    keyExtractor={(item) => {
+                        item.id
+                    }}
+                    snapToAlignment="start"
+                    decelerationRate={"fast"}
+                    snapToInterval={Dimensions.get("window").width}
+                />
             </View>
         </View>
 
     )
 }
-
-const tempStyle = StyleSheet.create({
-    myText:{
-       color : 'red',
-       fontSize: 15,
-    },
-});
 
 function showResults(input) {
     let search = '';
