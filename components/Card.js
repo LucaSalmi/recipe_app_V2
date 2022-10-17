@@ -6,6 +6,7 @@ import {
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import Icon from "react-native-ico-material-design";
 import { useState, useEffect } from "react";
+import { styles } from "./RecipeDetails";
 
 export function BigCard(myProps) {
   const [heartEmpty, setFillHeart] = useState(true);

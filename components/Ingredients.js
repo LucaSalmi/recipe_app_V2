@@ -10,6 +10,7 @@ import {
   Item,
   FlatList,
 } from "react-native";
+import { styles } from "./RecipeDetails";
 
 export function IngredientsView() {
   const title = "Gör så här";
@@ -69,9 +70,11 @@ export function IngredientsView() {
     <View>
       {dishesArray.map((calle) => {
         return (
-          <View style={{ flexDirection: "row" }}>
-            <Text style={{ marginEnd: 8 }}>{"*"}</Text>
-            <Text>{calle.dish}</Text>
+          <View style={{ flexDirection: "row", marginStart: 10 }}>
+            <Text style={{ marginEnd: 8, fontSize: 13, marginBottom: 5 }}>
+              {""}
+            </Text>
+            <Text style={{ fontSize: 13, marginBottom: 5 }}>{calle.dish}</Text>
           </View>
         );
       })}
