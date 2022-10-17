@@ -4,8 +4,9 @@ import { BigCard, SmallCard } from './Card';
 import { bigCardStyles, recipePage } from '../styles/styles';
 import SearchBar from './SearchBar.js';
 import AppManager from '../utils/AppManager.js'
+import { Constants } from '../utils/Constants';
 
-DATA = [
+export const DATA = [
     {
         id: 0,
         title: 'Delicious banana bread',
@@ -35,7 +36,7 @@ const Recipes = (props) => {
         
         <Pressable onPress={ () => {
             AppManager.currentRecipe = item
-            props.setScreen(props.detailId)
+            props.setScreen(Constants.RECIPEDETAILS)
         }}>
             <BigCard title={item.title} style={bigCardStyles.container} topCard={bigCardStyles.topCard} cookingTime={item.cookingTime} />
         </Pressable>

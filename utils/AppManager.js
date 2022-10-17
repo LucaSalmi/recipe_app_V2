@@ -7,6 +7,7 @@ const AppManager = {
     secondName: "",
     email: "",
     phone: "",
+    currentRecipe: {},
 }
 
 export default AppManager;

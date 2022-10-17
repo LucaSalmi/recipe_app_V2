@@ -1,12 +1,13 @@
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Pressable } from 'react-native';
 import { useState, useEffect } from 'react';
 import { favoritePage, smallCardStyles } from '../styles/styles.js';
 import SearchBar from './SearchBar.js';
 import { SmallCard } from './Card';
+import { DATA } from './Recipes.js';
+import AppManager from '../utils/AppManager.js';
+import { Constants } from '../utils/Constants.js';
 
-var SingletonInstance = {
-    recipes: [{id: 0, title: "First Card"}, {id: 1, title: "Second Card"}, {id: 2, title: "Third Card"}, {id: 3, title: "Fourth Card"}, {id: 3, title: "Fifth Card"}]
-};
+
 
 
 const Favorite = (props) => {
@@ -15,7 +16,7 @@ const Favorite = (props) => {
 
     useEffect(() => {
         setTimeout(()=>{
-            setRecipes(SingletonInstance.recipes);
+            setRecipes(DATA);
         }, 500);
     });
 
@@ -24,7 +25,9 @@ const Favorite = (props) => {
             <SearchBar />
             <ScrollView>   
                 {recipes.length == 0 ? <Text style={{paddingTop: 100}}>Loading...</Text> : <Text style={{display: "none"}}>Hidden</Text>}
-                {recipes.map((item, i)=><SmallCard title={item.title} />)}
+                
+                {recipes.map((item, i)=><Pressable onPress={()=>{console.log(item); AppManager.currentRecipe = item; props.setScreen(Constants.RECIPEDETAILS)}}><SmallCard title={item.title} /></Pressable>)}
+                
             </ScrollView>
         </View>
         
