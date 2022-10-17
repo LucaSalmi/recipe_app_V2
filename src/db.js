@@ -21,8 +21,44 @@ const config = {
 let app = firebase.initializeApp(config);
 export const db = app.firestore();
 
+const RECIPE_COLLECTION = "recipies"
+
 /* CRUD */
 export const Crud = {
+
+    jsonTest: () => {
+        const jsonObj = require('../src/test.json')
+
+        
+        
+        let id = 0
+        
+        
+        
+        for (let recipe of jsonObj.recipes){
+            
+
+           db.collection(RECIPE_COLLECTION).doc(id.toString()).set(
+            {
+                title: recipe.title, 
+                image: recipe.image, 
+                instructions: 
+                recipe.instructions.replace("<ol>", "").replace("<li>", "").replace("</ol>", "").replace("</li>", "")
+            })
+           
+            const SUB_COLLECTION_NAME = "ingredients"
+            let ingredientId = 0
+           
+
+            for(let ingredientname of recipe.extendedIngredients){
+                
+                db.collection(RECIPE_COLLECTION).doc(id.toString()).collection(SUB_COLLECTION_NAME).doc(ingredientId.toString()).set({name: ingredientname.name, amount: ingredientname.amount, unit: ingredientname.unit})
+                ingredientId++
+
+            }
+            id++
+        }
+    },
 
     addUser: async  (username, password) => {
 
@@ -84,6 +120,22 @@ export const Crud = {
         //Return false if the user wasn't found
         let userData = {id: ""};
         return userData;
+    },
+
+    getRecipies: async(setRecipeData) => {
+        
+        let documents;
+        const events = firebase.firestore().collection(RECIPE_COLLECTION)
+        await events.get().then((querySnapshot) => {
+            const tempDoc = querySnapshot.docs.map((doc) => {
+                return {id: doc.id, ...doc.data()}
+            })
+            documents = tempDoc;
+            setRecipeData(documents)
+        })
+        
+        
+        
     },
 
     updateUser: (uid, userData) => {

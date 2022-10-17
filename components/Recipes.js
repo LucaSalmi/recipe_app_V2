@@ -8,7 +8,7 @@ import { Constants } from '../utils/Constants';
 import { Crud } from '../src/db.js';
 
 
-export const DATA = [
+export var DATA = [
     {
         id: 0,
         title: 'Delicious banana bread',
@@ -33,32 +33,22 @@ export const DATA = [
 ]
 
 const Recipes = (props) => {
-
-    const [jsonString, setJsonString] = useState("Loading...");
+    const [recipeData, setRecipeData] = useState([])
     
-    
-    fetch('http://10.0.2.2/danne/test.json')
-    .then((response) => {
-        return response.json();
-    })
-    .then((data) => {
-        console.log(JSON.stringify(data));
-        setJsonString(JSON.stringify(data));
-        //Crud.createJSON(JSON.stringify(data));
-    })
-    .catch((err)=> console.log(err));
-    
-
-    
-    
-
+    if (recipeData.length < 1){
+        Crud.getRecipies(setRecipeData)
+        
+        
+        
+        
+    }
     const renderItem = ({ item }) => (
         
         <Pressable onPress={ () => {
             AppManager.currentRecipe = item
             props.setScreen(Constants.RECIPEDETAILS)
         }}>
-            <BigCard title={item.title} style={bigCardStyles.container} topCard={bigCardStyles.topCard} cookingTime={item.cookingTime} />
+            <BigCard title={item.title} style={bigCardStyles.container} topCard={bigCardStyles.topCard} cookingTime={item.cookingTime} imageSource={item.image}/>
         </Pressable>
         
     );
@@ -66,13 +56,9 @@ const Recipes = (props) => {
     return (
         <View style={recipePage.recipeContainer}>
             <SearchBar/>
-            
-            <ScrollView>
-                <Text>{jsonString}</Text>
-            </ScrollView>
 
             <FlatList
-                data={DATA}
+                data={recipeData}
                 renderItem={renderItem}
                 keyExtractor={(item) => {
                     item.id

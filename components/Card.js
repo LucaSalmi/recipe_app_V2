@@ -1,6 +1,6 @@
 
 import { bigCardStyles, smallCardStyles, pantryCardStyles } from '../styles/styles';
-import {StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, ImageBackground } from 'react-native';
 import Icon from "react-native-ico-material-design";
 
 export function BigCard(myProps) {
@@ -12,14 +12,17 @@ export function BigCard(myProps) {
           : [bigCardStyles.superView]
       }
     >
+      <ImageBackground source={{uri: "https://images-ext-2.discordapp.net/external/ZhhLWpTpPE3ncP_CvIHfyiiCOvL0aQnPc48uhjoyxGQ/https/spoonacular.com/recipeImages/715483-556x370.jpg"}}>
       <View style={[myProps.style, bigCardStyles.elevation]}>
         <TouchableOpacity style={myProps.topCard}>
+          
           <Icon
             name="favorite-heart-outline-button"
             group="material-design"
             height="38"
             width="38"
           />
+          
         </TouchableOpacity>
 
         <View style={bigCardStyles.bottomCard}>
@@ -30,6 +33,7 @@ export function BigCard(myProps) {
           <Text style={bigCardStyles.dishName}>{myProps.title}</Text>
         </View>
       </View>
+      </ImageBackground>
     </View>
   );
 }
