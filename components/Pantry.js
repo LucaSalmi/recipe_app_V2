@@ -1,11 +1,9 @@
 import { StyleSheet, Text, View, TextInput, Button, ScrollView, TouchableOpacity, FlatList, Dimensions, Alert, KeyboardAvoidingView, Modal } from 'react-native';
 import { useState } from 'react';
-import { Card, PantryCard, SmallCard } from './Card';
 import { pantryItemStyle, bigCardStyles, Fab, shoplistPage, SearchBarStyle, pantryCardStyles, customModalStyles } from '../styles/styles';
 import Icon from "react-native-ico-material-design";
 import { ingredients } from '../PantryData';
 import { PantryItem } from '../PantryItem';
-import RadioButton from './RadioButton';
 import RadioButtonContainer from './RadioButtonsContainer';
 
 const Pantry = (props) => {
@@ -75,8 +73,21 @@ const Pantry = (props) => {
         setFoundItem([]);
         setSearchText("");
     }
+
+    function deleteItem(props) {
+        let x = [];
+        for (const ingredient of pantryItems) {
+            if (ingredient.id != props.currentItem.id) {
+                let temp = ingredient;
+                x.push(temp);
+            }
+        }
+        setPantryItems(x);
+    }
+
     //Alert to confirm the elimination of an item in the pantry
     const deleteItemAlert = (props) => {
+        let currentItem = props.item;
         Alert.alert(
             props.item.quantity + props.item.measure + props.item.title,
             "What do You want to do?",
@@ -84,30 +95,28 @@ const Pantry = (props) => {
                 {
                     text: "Return",
                     style: "cancel",
-                    onPress: () => {
-                        console.log(props.item)
-                    }
+                    
                 },
                 {
                     text: "Delete", onPress: () => {
-                        let x = [];
-                        for (const ingredient of pantryItems) {
-                            if (ingredient.id != props.item.id) {
-                                let temp = ingredient;
-                                x.push(temp);
-                            }
-                        }
-                        setPantryItems(x);
+                        deleteItem(currentItem={currentItem});
                     }
                 },
                 {
                     text: "Modify", onPress: () => {
-                        //toggleModal();
+                        setItemToAdd(currentItem);
+                        deleteItem(currentItem={currentItem});
+                        toggleSheet();
+                        toggleModal();
                     }
                 }
             ]
         );
     }
+
+
+
+
     //this Alert triggers when an Item is already present in pantry 
     const AlreadyAddedAlert = (props) => {
         Alert.alert(
@@ -122,10 +131,10 @@ const Pantry = (props) => {
         );
     }
 
-    function removeTutorial(){
+    function removeTutorial() {
         let array = [];
-        for(item of pantryItems){
-            if(item.id != -1){
+        for (item of pantryItems) {
+            if (item.id != -1) {
                 array.push(item)
             }
         }
