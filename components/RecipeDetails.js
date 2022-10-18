@@ -11,7 +11,7 @@ import {
   ImageBackground,
   TouchableOpacity,
 } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Icon from "react-native-ico-material-design";
 import { LinearGradient } from "expo-linear-gradient";
 import { IngredientsView } from "./Ingredients";
@@ -23,6 +23,11 @@ const RecipeDetails = (props) => {
 
   const [count, setCount] = useState(2);
   const [heartEmpty, setFillHeart] = useState(true);
+
+  useEffect(() => {
+    //testar useEffect, triggas igång av att count ändras och printar loggen
+    console.log("rendered testing out useEffect");
+  }, [count]);
 
   const toggleHeart = () => {
     setFillHeart((current) => !current);
@@ -92,7 +97,6 @@ const RecipeDetails = (props) => {
                   ></Icon>
                 </TouchableOpacity>
               </View>
-
               <View style={styles.bottomCard}>
                 <Text style={styles.detailText}>{recipeName}</Text>
               </View>
