@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TextInput, Button, ScrollView, TouchableOpacity, FlatList, Dimensions, Alert } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, ScrollView, TouchableOpacity, FlatList, Dimensions, Alert, KeyboardAvoidingView } from 'react-native';
 import { useState } from 'react';
 import { Card, PantryCard, SmallCard } from './Card';
 import { pantryItemStyle, bigCardStyles, Fab, shoplistPage, SearchBarStyle, pantryCardStyles } from '../styles/styles';
@@ -43,7 +43,7 @@ const Pantry = (props) => {
         return Math.floor(Math.random() * 9999);
     }
 
-    const createTwoButtonAlert = (props) =>{
+    const deleteItemAlert = (props) => {
         Alert.alert(
             "Deleting Item",
             "Do you really want to remove " + props.item.title + " from your pantry?",
@@ -51,7 +51,7 @@ const Pantry = (props) => {
                 {
                     text: "No",
                     style: "cancel",
-                    onPress: ()=>{
+                    onPress: () => {
                         console.log(props.item)
                     }
                 },
@@ -76,7 +76,7 @@ const Pantry = (props) => {
             <View style={pantryCardStyles.superView}>
                 <View onTouchStart={() => {
 
-                    createTwoButtonAlert(myProps)
+                    deleteItemAlert(myProps)
 
                 }} style={[pantryCardStyles.container, bigCardStyles.elevation]}>
                     <Text>{myProps.item.title}</Text>
@@ -140,8 +140,9 @@ const Pantry = (props) => {
 
             />
 
-            <View style={showSheet ? shoplistPage.sheetContainer : { display: "none" }}>
-
+            <KeyboardAvoidingView
+                style={showSheet ? shoplistPage.sheetContainer : { display: "none" }}
+                behavior={Platform.OS === "ios" ? "padding" : "height"}>
                 <View style={SearchBarStyle.container}>
                     <TextInput value={searchText} onChangeText={(input) => {
                         let capitalized = input.toUpperCase();
@@ -166,7 +167,8 @@ const Pantry = (props) => {
                     decelerationRate={"fast"}
                     snapToInterval={Dimensions.get("window").width}
                 />
-            </View>
+            </KeyboardAvoidingView>
+
         </View>
 
     )
