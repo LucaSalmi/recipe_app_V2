@@ -54,8 +54,8 @@ export function InstructionsView() {
       {dishesArray.map((calle) => {
         return (
           <View style={{ flexDirection: "row" }}>
-            <Text style={{ marginEnd: 8 }}>{calle.step}</Text>
-            <Text>{calle.dish}</Text>
+            <Text style={{ marginEnd: 8, marginStart: 10 }}>{calle.step}</Text>
+            <Text style={{ marginStart: 8 }}>{calle.dish}</Text>
           </View>
         );
       })}
