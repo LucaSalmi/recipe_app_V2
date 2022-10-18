@@ -19,6 +19,7 @@ const Pantry = (props) => {
         let newBool = !showSheet;
         setShowSheet(newBool);
         props.navBarChanger(newBool);
+        resetSearch();
     };
 
     const [foundItem, setFoundItem] = useState([]);
@@ -34,6 +35,11 @@ const Pantry = (props) => {
 
     function rngID() {
         return Math.floor(Math.random() * 9999);
+    }
+
+    function resetSearch() {
+        setFoundItem([]);
+        setSearchText("");
     }
 
     const deleteItemAlert = (props) => {
@@ -111,7 +117,7 @@ const Pantry = (props) => {
                         i.push(pantryItem)
                         setPantryItems(i);
                         toggleSheet();
-                    }else{
+                    } else {
                         AlreadyAddedAlert(myProps);
                     }
 
@@ -158,8 +164,7 @@ const Pantry = (props) => {
                         setFoundItem(showResults(capitalized));
                     }} style={SearchBarStyle.searchInput} placeholder="Search here..." />
                     <TouchableOpacity onPress={() => {
-                        setFoundItem([]);
-                        setSearchText("");
+                        resetSearch();
                     }}>
                         {<Icon style={searchText == "" ? { display: "none" } : SearchBarStyle.icon} name="close-button" height="20" width="20" />}
                     </TouchableOpacity>
