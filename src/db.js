@@ -2,6 +2,7 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
+import { DatePickerIOSComponent } from 'react-native';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -21,8 +22,100 @@ const config = {
 let app = firebase.initializeApp(config);
 export const db = app.firestore();
 
+const RECIPE_COLLECTION = "recipies"
+
 /* CRUD */
 export const Crud = {
+
+    apiImport: () => {
+
+        //Remove "return" if you really want to fetch API-data.
+        console.log("Remove return if you really want to fetch API-data ( in Crud.apiImport() ).");
+        return;
+
+        const options = {
+            method: 'GET',
+            headers: {
+                'X-RapidAPI-Key': '071c24e17fmsh4275638029000d1p173340jsncf3efebc4e7a',
+                'X-RapidAPI-Host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com'
+            }
+        };
+        
+        fetch('https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/random?tags=italian&number=100&limitLicense=true', options)
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                Crud.jsonTest(data);
+                //setJsonString(JSON.stringify(data));
+                //console.log(JSON.stringify(data));
+                //Crud.createJSON(JSON.stringify(data));
+            })
+            .catch(err => console.error(err));
+            
+    },
+
+    jsonTest: (jsonObj = null) => {
+
+        if (jsonObj == null) {
+            console.log("jsonObj is null in Crud.jsonTest()");
+            return;
+        }
+
+        //For test data:
+        //jsonObj = require('../src/test.json')
+
+        for (let recipe of jsonObj.recipes){
+
+            console.log(recipe.title);
+            console.log(recipe.image);
+
+            for (let key in recipe) {
+                if (recipe[key] == null) {
+                    recipe[key] = "Unknown value";
+                }
+            }
+
+            if (recipe.image == null || typeof recipe.image == "undefined") {
+                recipe.image = "Unknown value";
+            }
+
+            console.log(recipe.image);
+
+            let instructions = recipe.instructions;
+
+            while (instructions.includes("<ol>") || instructions.includes("<li>") || instructions.includes("</ol>") || instructions.includes("</li>")) {
+                instructions = instructions.replace("<ol>", "");
+                instructions = instructions.replace("<li>", "");
+                instructions = instructions.replace("</ol>", "");
+                instructions = instructions.replace("</li>", "");
+            };
+            
+
+            db.collection(RECIPE_COLLECTION).doc(recipe.id.toString()).set(
+            {
+                id: recipe.id,
+                title: recipe.title, 
+                servings: recipe.servings,
+                readyInMinutes: recipe.readyInMinutes,
+                aggregateLikes: recipe.aggregateLikes,
+                image: recipe.image, 
+                instructions: instructions,
+            })
+           
+            const SUB_COLLECTION_NAME = "ingredients"
+            let ingredientId = 0
+           
+
+            for(let ingredientname of recipe.extendedIngredients){
+                
+                db.collection(RECIPE_COLLECTION).doc(recipe.id.toString()).collection(SUB_COLLECTION_NAME).doc(ingredientId.toString()).set({name: ingredientname.name, amount: ingredientname.amount, unit: ingredientname.unit})
+                ingredientId++
+
+            }
+
+        }
+    },
 
     addUser: async  (username, password) => {
 
@@ -86,10 +179,43 @@ export const Crud = {
         return userData;
     },
 
+    getRecipies: async(setRecipeData) => {
+        
+        let documents;
+        const events = firebase.firestore().collection(RECIPE_COLLECTION)
+        await events.get().then((querySnapshot) => {
+            const tempDoc = querySnapshot.docs.map((doc) => {
+                return {id: doc.id, ...doc.data()}
+            })
+            documents = tempDoc;
+            setRecipeData(documents)
+        })
+        
+        
+        
+    },
+
     updateUser: (uid, userData) => {
 
        db.collection('users').doc(uid).set(userData);
 
+    },
+
+    createRecipies: (recipies) => {
+        const collectionName = "recipies";
+
+        
+        for (let i = 0; i < recipies.length; i++) {
+            let docId = i.toString();
+            let recipe = recipies[i];
+
+            db.collection(collectionName).doc(docId).set(recipe);
+        }
+
+    },
+
+    createJSON: (jsonString) => {
+        db.collection("JSON").doc("test").set({content: jsonString});
     },
     
 };
@@ -103,4 +229,5 @@ const generateUid = () => {
     }
 
     return uid;
-  }
+}
+

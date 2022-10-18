@@ -1,9 +1,6 @@
-import {
-  bigCardStyles,
-  smallCardStyles,
-  pantryCardStyles,
-} from "../styles/styles";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+
+import { bigCardStyles, smallCardStyles, pantryCardStyles } from '../styles/styles';
+import {StyleSheet, Text, View, TouchableOpacity, ImageBackground } from 'react-native';
 import Icon from "react-native-ico-material-design";
 import { useState, useEffect } from "react";
 import { styles } from "./RecipeDetails";
@@ -16,6 +13,7 @@ export function BigCard(myProps) {
     setFillHeart((current) => !current);
   };
 
+
   return (
     <View
       style={
@@ -24,13 +22,14 @@ export function BigCard(myProps) {
           : [bigCardStyles.superView]
       }
     >
-      <View style={[myProps.style, bigCardStyles.elevation]}>
+      <View style={[myProps.style, bigCardStyles.elevation {resizeMode: "stretch"}]} source={{uri: myProps.imageSource}]}>
         <TouchableOpacity
           style={myProps.topCard}
           onPress={() => {
             toggleHeart();
           }}
         >
+
           <Icon
             name={
               heartEmpty
@@ -41,6 +40,7 @@ export function BigCard(myProps) {
             height="38"
             width="38"
           />
+          
         </TouchableOpacity>
 
         <View style={bigCardStyles.bottomCard}>
@@ -50,7 +50,9 @@ export function BigCard(myProps) {
           </View>
           <Text style={bigCardStyles.dishName}>{myProps.title}</Text>
         </View>
-      </View>
+
+      </ImageBackground>
+      
     </View>
   );
 }
@@ -74,19 +76,6 @@ export function SmallCard(myProps) {
     <View style={smallCardStyles.superView}>
       <View style={[smallCardStyles.container, bigCardStyles.elevation]}>
         <Text>{myProps.title}</Text>
-      </View>
-    </View>
-  );
-}
-
-export function PantryCard(myProps) {
-  return (
-    <View style={pantryCardStyles.superView}>
-      <View style={[pantryCardStyles.container, bigCardStyles.elevation]}>
-        <Text>{myProps.item.quantity}</Text>
-        <Text>{myProps.item.measure}</Text>
-        <Text> </Text>
-        <Text>{myProps.item.title}</Text>
       </View>
     </View>
   );

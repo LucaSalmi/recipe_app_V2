@@ -18,7 +18,9 @@ import Profile from "./components/Profile.js";
 import { pageStyles, bigCardStyles } from "./styles/styles.js";
 import { useState, useEffect } from "react";
 import Icon from "react-native-ico-material-design";
-import RecipeDetails from "./components/RecipeDetails";
+
+import RecipeDetails from './components/RecipeDetails';
+import { Constants } from './utils/Constants';
 
 //testing more hello
 //a comment from ankan, hello guys
@@ -44,40 +46,44 @@ const MainContent = () => {
   const PROFILE = 4;
   const RECIPEDETAILS = 5;
 
-  const previousScreen = RECIPES;
 
-  const [screen, setScreen] = useState(RECIPES);
+
+  
+
+  const previousScreen = Constants.RECIPES; 
+
+  const [screen, setScreen] = useState(Constants.RECIPES);
 
   const [hideNav, setHideNav] = useState(false);
 
   let view;
 
   switch (screen) {
-    case RECIPES:
-      view = <Recipes setScreen={setScreen} detailId={RECIPEDETAILS} />;
+
+    case Constants.RECIPES:
+      view = <Recipes setScreen={setScreen}/>
       break;
 
-    case FAVORITE:
-      view = <Favorite props1={{ name: "test", styles: pageStyles }} />;
+    case Constants.FAVORITE:
+      view = <Favorite setScreen={setScreen} />
       break;
 
-    case SHOPLIST:
-      view = <Shoplist navBarChanger={setHideNav} />;
+    case Constants.SHOPLIST:
+      view = <Shoplist navBarChanger={setHideNav} />
       break;
 
-    case PANTRY:
-      view = <Pantry navBarChanger={setHideNav} />;
+    case Constants.PANTRY:
+      view = <Pantry navBarChanger={setHideNav} />
       break;
 
-    case PROFILE:
-      view = <Profile props1={{ name: "test", styles: pageStyles }} />;
+    case Constants.PROFILE:
+      view = <Profile props1={{ name: "test", styles: pageStyles }} />
       break;
 
-    case RECIPEDETAILS:
-      view = (
-        <RecipeDetails setScreen={setScreen} previousPage={previousScreen} />
-      );
-      break;
+    case Constants.RECIPEDETAILS: 
+      view = <RecipeDetails setScreen={setScreen} previousPage={previousScreen}/>
+      break; 
+
   }
 
   const changePage = (pageName) => {
@@ -88,53 +94,31 @@ const MainContent = () => {
     <View style={styles.container}>
       <View style={styles.currentPage}>{view}</View>
       <View style={hideNav ? styles.navBarHidden : styles.navBar}>
-        <TouchableOpacity
-          style={styles.navButton}
-          onPress={() => {
-            changePage(RECIPES);
-          }}
-        >
-          <Icon name="list-button-with-3-elements" group="material-design" />
+
+        <TouchableOpacity style={styles.navButton} onPress={() => { changePage(Constants.RECIPES) }}>
+          <Icon name="list-button-with-3-elements" group="material-design"/>
           <Text>Recipes</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.navButton}
-          onPress={() => {
-            changePage(FAVORITE);
-          }}
-        >
+        <TouchableOpacity style={styles.navButton} onPress={() => { changePage(Constants.FAVORITE) }}>
           <Icon name="favorite-heart-outline-button" group="material-design" />
           <Text>Favorites</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.navButton}
-          onPress={() => {
-            changePage(SHOPLIST);
-          }}
-        >
+
+        <TouchableOpacity style={styles.navButton} onPress={() => { changePage(Constants.SHOPLIST) }}>
           <Icon name="shopping-cart" group="basic" />
           <Text>Shoplist</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.navButton}
-          onPress={() => {
-            changePage(PANTRY);
-          }}
-        >
-          <Icon name="rounded-add-button" group="material-design" />
+
+        <TouchableOpacity style={styles.navButton} onPress={() => { changePage(Constants.PANTRY) }}>
+          <Icon name="rounded-add-button" group="material-design"/>
           <Text>Pantry</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.navButton}
-          onPress={() => {
-            changePage(PROFILE);
-          }}
-        >
-          <Icon name="user-outline" group="material-design" />
+        <TouchableOpacity style={styles.navButton} onPress={() => { changePage(Constants.PROFILE) }}>
+          <Icon name="user-outline" group="material-design"/>
           <Text>Profile</Text>
         </TouchableOpacity>
       </View>

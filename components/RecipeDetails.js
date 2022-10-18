@@ -16,6 +16,7 @@ import Icon from "react-native-ico-material-design";
 import { LinearGradient } from "expo-linear-gradient";
 import { IngredientsView } from "./Ingredients";
 import InstructionsView from "./Instructions";
+import AppManager from '../utils/AppManager.js'
 
 const RecipeDetails = (props) => {
   const imageSource = "../assets/jerkchicken.jpg";
@@ -37,6 +38,7 @@ const RecipeDetails = (props) => {
   const INSTRUCTIONS = 1;
 
   const [tabId, setTabId] = useState(INGREDIENTS);
+  console.log(AppManager.currentRecipe)
 
   let tab;
 
@@ -98,7 +100,7 @@ const RecipeDetails = (props) => {
                 </TouchableOpacity>
               </View>
               <View style={styles.bottomCard}>
-                <Text style={styles.detailText}>{recipeName}</Text>
+                <Text style={styles.detailText}>{AppManager.currentRecipe.title}</Text>
               </View>
             </LinearGradient>
           </ImageBackground>
