@@ -4,6 +4,7 @@ import {StyleSheet, Text, View, TouchableOpacity, ImageBackground } from 'react-
 import Icon from "react-native-ico-material-design";
 import { useState, useEffect } from "react";
 import { styles } from "./RecipeDetails";
+import AppManager from '../utils/AppManager';
 
 export function BigCard(myProps) {
   const [heartEmpty, setFillHeart] = useState(true);
@@ -22,8 +23,7 @@ export function BigCard(myProps) {
           : [bigCardStyles.superView]
       }
     >
-      <ImageBackground>
-      <View style={[myProps.style, bigCardStyles.elevation, {resizeMode: "stretch"}]} source={{uri: myProps.imageSource}}>
+      <ImageBackground style={[myProps.style, bigCardStyles.elevation, {resizeMode: "stretch"}]} source={{uri: myProps.imageSource}}>
         <TouchableOpacity
           style={myProps.topCard}
           onPress={() => {
@@ -52,7 +52,6 @@ export function BigCard(myProps) {
           <Text style={bigCardStyles.dishName}>{myProps.title}</Text>
         </View>
 
-        </View>
 
       </ImageBackground>
       

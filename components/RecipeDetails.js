@@ -60,7 +60,7 @@ const RecipeDetails = (props) => {
     <View>
       <ScrollView>
         <View>
-          <ImageBackground style={styles.image} source={require(imageSource)}>
+          <ImageBackground style={styles.image} source={{uri: AppManager.currentRecipe.image}}>
             <LinearGradient
               style={[styles.image, styles.niceContainer]}
               colors={["transparent", "#000"]}
@@ -86,7 +86,7 @@ const RecipeDetails = (props) => {
                 >
                   <Icon
                     style={
-                      heartEmpty ? styles.bigHeartFill : styles.bigHeartNotFill
+                      heartEmpty ? styles.bigHeartNotFill : styles.bigHeartFill
                     }
                     name={
                       heartEmpty
@@ -221,9 +221,9 @@ export const styles = StyleSheet.create({
     marginBottom: 16,
   },
   bigHeartFill: {
-    backgroundColor: "green",
+    fill: "green",
   },
   bigHeartNotFill: {
-    color: "black",
+    fill: "black",
   },
 });
