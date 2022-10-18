@@ -66,12 +66,4 @@ export function SmallCard(myProps) {
     );
 }
 
-export function SearchCard(myProps) {
-  return (
-      <View style={pantryCardStyles.superView}>
-          <View style={[pantryCardStyles.container, bigCardStyles.elevation]}>
-              <Text>{myProps.title}</Text>
-          </View>
-      </View>
-  );
-}
+

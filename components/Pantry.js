@@ -23,14 +23,7 @@ const Pantry = (props) => {
 
     const [foundItem, setFoundItem] = useState([]);
 
-    const [pantryItems, setPantryItems] = useState([
-        new PantryItem(rngID(), "Black Pepper"),
-        new PantryItem(rngID(), "Chicken Breast"),
-        new PantryItem(rngID(), "Apple"),
-        new PantryItem(rngID(), "Beef Tenderloin"),
-        new PantryItem(rngID(), "Entrecote"),
-
-    ]);
+    const [pantryItems, setPantryItems] = useState([]);
 
     const pantryItemCard = ({ item }) => (
         <PantryCard item={item} />
@@ -71,6 +64,19 @@ const Pantry = (props) => {
         );
     }
 
+    const AlreadyAddedAlert = (props) => {
+        Alert.alert(
+            "You have this item already!",
+            "Your pantry already has " + props.title,
+            [
+                {
+                    text: "Ok",
+                    style: "cancel",
+                },
+            ]
+        );
+    }
+
     function PantryCard(myProps) {
         return (
             <View style={pantryCardStyles.superView}>
@@ -105,6 +111,8 @@ const Pantry = (props) => {
                         i.push(pantryItem)
                         setPantryItems(i);
                         toggleSheet();
+                    }else{
+                        AlreadyAddedAlert(myProps);
                     }
 
                 }} style={[pantryCardStyles.container, bigCardStyles.elevation]}>
