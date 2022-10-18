@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView, Pressable } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Pressable, Button } from 'react-native';
 import { useState, useEffect } from 'react';
 import { favoritePage, smallCardStyles } from '../styles/styles.js';
 import SearchBar from './SearchBar.js';
@@ -20,7 +20,9 @@ const Favorite = (props) => {
         if (!initiated) {
 
             if (AppManager.uid.length > 0) {
-                setRecipes(Crud.getFavorites(AppManager.uid));
+                //Async
+                
+                Crud.getFavorites(setRecipes)
             }
 
             setInitiated(true);
@@ -32,9 +34,10 @@ const Favorite = (props) => {
         <View style={favoritePage.favoriteContainer}>
             <SearchBar />
             <ScrollView>   
-                {recipes.length == 0 ? <Text style={{paddingTop: 100}}>Loading...</Text> : <Text style={{display: "none"}}>Hidden</Text>}
+
+                {recipes.length <= 0 ? <Text style={{paddingTop: 100}}>Logged in? Added favorites?</Text> : <Text style={{display: "none"}}>Hidden</Text>}
                 
-                {recipes.map((item, i)=><Pressable onPress={()=>{console.log(item); AppManager.currentRecipe = item; props.setScreen(Constants.RECIPEDETAILS)}}><SmallCard title={item.title} /></Pressable>)}
+                {recipes != "undefined" && recipes.length > 0 ? recipes.map((item, i)=><Pressable onPress={()=>{console.log(item); AppManager.currentRecipe = item; props.setScreen(Constants.RECIPEDETAILS)}}><SmallCard title={item.title} /></Pressable>) : <Text style={{display: "none"}}>Hidden</Text>}
                 
             </ScrollView>
         </View>

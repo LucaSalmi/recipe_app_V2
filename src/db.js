@@ -4,6 +4,7 @@ import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 import { DatePickerIOSComponent } from 'react-native';
 import { Fab } from '../styles/styles';
+import AppManager from '../utils/AppManager';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -23,7 +24,9 @@ const config = {
 let app = firebase.initializeApp(config);
 export const db = app.firestore();
 
-const RECIPE_COLLECTION = "recipies"
+const USERS_COLLECTION = "users";
+const RECIPE_COLLECTION = "recipies";
+const FAVORITE_COLLECTION = "favorites";
 
 /* CRUD */
 export const Crud = {
@@ -180,7 +183,7 @@ export const Crud = {
         return userData;
     },
 
-    getRecipies: async(setRecipeData) => {
+    getRecipies: async (setRecipeData) => {
         
         let documents;
         const events = firebase.firestore().collection(RECIPE_COLLECTION)
@@ -190,6 +193,7 @@ export const Crud = {
             })
             documents = tempDoc;
             setRecipeData(documents)
+            AppManager.allRecipes = documents;
         })
         
         
@@ -200,13 +204,13 @@ export const Crud = {
 
         console.log("Add?" + add);
 
-        const FAVORITE_SUB_COLLECTION = "favorites";
+        
 
         if (add) {
-            db.collection("users").doc(uid.toString()).collection(FAVORITE_SUB_COLLECTION).doc(recipeId.toString()).set({favorite: true});
+            db.collection(USERS_COLLECTION).doc(uid.toString()).collection(FAVORITE_COLLECTION).doc(recipeId.toString()).set({id: recipeId.toString()});
         }
         else {
-            db.collection("users").doc(uid.toString()).collection(FAVORITE_SUB_COLLECTION).doc(recipeId.toString()).delete().then(() => {
+            db.collection(USERS_COLLECTION).doc(uid.toString()).collection(FAVORITE_COLLECTION).doc(recipeId.toString()).delete().then(() => {
                 console.log("Document successfully deleted!");
             }).catch((error) => {
                 console.error("Error removing document: ", error);
@@ -214,11 +218,34 @@ export const Crud = {
         }
     },
 
-    getFavorites: (uid) => {
+    getFavorites: async (setRecipes) => {
 
+        let favoriteIds = [];
 
+        const events = firebase.firestore().collection(USERS_COLLECTION).doc(AppManager.uid.toString()).collection(FAVORITE_COLLECTION)
+        await events.get().then((querySnapshot) => {
+            const tempDoc = querySnapshot.docs.map((doc) => {
+                return {id: doc.id, ...doc.data()}
+            })
+            for (let document of tempDoc) {
+                favoriteIds.push(document.id.toString());
+            }
+        })
+        
+        let allRecipies = AppManager.allRecipes;
 
-        return [];
+        let documents = [];
+
+        for (let recipe of allRecipies) {
+            if (recipe.id == favoriteIds[0]) {
+                console.log(true);
+            }
+            if (favoriteIds.includes(recipe.id.toString())) {
+                documents.push(recipe);
+            }
+        }
+
+        setRecipes(documents);
     },
 
     updateUser: (uid, userData) => {

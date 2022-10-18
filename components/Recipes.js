@@ -33,15 +33,8 @@ export var DATA = [
 ]
 
 const Recipes = (props) => {
-    const [recipeData, setRecipeData] = useState([])
     
-    if (recipeData.length < 1){
-        Crud.getRecipies(setRecipeData)
-        
-        
-        
-        
-    }
+
     const renderItem = ({ item }) => (
         
         <Pressable id={item.id} onPress={ () => {
@@ -59,7 +52,7 @@ const Recipes = (props) => {
         <View style={recipePage.recipeContainer}>
             <SearchBar/>
             <FlatList
-                data={recipeData}
+                data={props.recipeData}
                 renderItem={renderItem}
                 keyExtractor={(item) => {
                     item.id
