@@ -58,7 +58,6 @@ const Recipes = (props) => {
     return (
         <View style={recipePage.recipeContainer}>
             <SearchBar/>
-            <Button title={"DANNE"} onPress={()=>{Crud.jsonTest()}}></Button>
             <FlatList
                 data={recipeData}
                 renderItem={renderItem}

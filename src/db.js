@@ -2,6 +2,7 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
+import { DatePickerIOSComponent } from 'react-native';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -26,14 +27,56 @@ const RECIPE_COLLECTION = "recipies"
 /* CRUD */
 export const Crud = {
 
-    jsonTest: () => {
-        const jsonObj = require('../src/test.json')
+    apiImport: () => {
 
+        const options = {
+            method: 'GET',
+            headers: {
+                'X-RapidAPI-Key': '071c24e17fmsh4275638029000d1p173340jsncf3efebc4e7a',
+                'X-RapidAPI-Host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com'
+            }
+        };
         
-        
-        
-        
+        fetch('https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/random?tags=italian&number=100&limitLicense=true', options)
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                Crud.jsonTest(data);
+                //setJsonString(JSON.stringify(data));
+                //console.log(JSON.stringify(data));
+                //Crud.createJSON(JSON.stringify(data));
+            })
+            .catch(err => console.error(err));
+            
+    },
+
+    jsonTest: (jsonObj = null) => {
+
+        if (jsonObj == null) {
+            console.log("jsonObj is null in Crud.jsonTest()");
+            return;
+        }
+
+        //For test data:
+        //jsonObj = require('../src/test.json')
+
         for (let recipe of jsonObj.recipes){
+
+            console.log(recipe.title);
+            console.log(recipe.image);
+
+            for (let key in recipe) {
+                if (recipe[key] == null) {
+                    recipe[key] = "Unknown value";
+                }
+            }
+
+            if (recipe.image == null || typeof recipe.image == "undefined") {
+                recipe.image = "Unknown value";
+            }
+
+            console.log(recipe.image);
 
             let instructions = recipe.instructions;
 
@@ -49,6 +92,9 @@ export const Crud = {
             {
                 id: recipe.id,
                 title: recipe.title, 
+                servings: recipe.servings,
+                readyInMinutes: recipe.readyInMinutes,
+                aggregateLikes: recipe.aggregateLikes,
                 image: recipe.image, 
                 instructions: instructions,
             })
