@@ -95,17 +95,17 @@ const Pantry = (props) => {
                 {
                     text: "Return",
                     style: "cancel",
-                    
+
                 },
                 {
                     text: "Delete", onPress: () => {
-                        deleteItem(currentItem={currentItem});
+                        deleteItem(currentItem = { currentItem });
                     }
                 },
                 {
                     text: "Modify", onPress: () => {
                         setItemToAdd(currentItem);
-                        deleteItem(currentItem={currentItem});
+                        deleteItem(currentItem = { currentItem });
                         toggleSheet();
                         toggleModal();
                     }
@@ -113,9 +113,6 @@ const Pantry = (props) => {
             ]
         );
     }
-
-
-
 
     //this Alert triggers when an Item is already present in pantry 
     const AlreadyAddedAlert = (props) => {
