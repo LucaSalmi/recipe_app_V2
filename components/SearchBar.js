@@ -14,7 +14,6 @@ const SearchBar = () => {
             <TouchableOpacity onPress={() => {setSearchText("")}}>
                 {<Icon style={searchText == "" ? {display: "none"} : styles.icon} name="close-button"  height="20" width="20" />}
             </TouchableOpacity>
-            
         </View>
     )
 
@@ -27,7 +26,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         width: '90%',
         height: 50,
-        backgroundColor: 'gray',
+        backgroundColor: '#EAE9E9',
         borderRadius: 8,
         marginTop: 10,
         
