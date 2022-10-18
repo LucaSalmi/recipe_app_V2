@@ -75,6 +75,7 @@ export function BigCard(myProps) {
 */
 
 export function SmallCard(myProps) {
+
   return (
     <View style={smallCardStyles.superView}>
       <View style={[smallCardStyles.container, bigCardStyles.elevation]}>

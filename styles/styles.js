@@ -1,35 +1,35 @@
 import { StyleSheet, Dimensions } from 'react-native';
 
 export const pageStyles = StyleSheet.create({
-	text: {
-		fontSize: 20,
-		color: "blue",
-	},
+    text: {
+        fontSize: 20,
+        color: "blue",
+    },
 });
 
 export const bigCardStyles = StyleSheet.create({
-	container: {
-		flexDirection: 'column',
-		backgroundColor: '#fff',
-		justifyContent: 'space-between',
-		height: '70%',
-		width: '85%',
-		borderRadius: 10,
-		borderWidth: 1,
+    container: {
+        flexDirection: 'column',
+        backgroundColor: '#fff',
+        justifyContent: 'space-between',
+        height: '70%',
+        width: '85%',
+        borderRadius: 10,
+        borderWidth: 1,
         marginTop: 20,
-	},
-	elevation: {
-		elevation: 10,
-		shadowColor: '#52006A',
-	},
-	superView: {
-		flex: 1,
-		height: Dimensions.get('window').height,
-		width: Dimensions.get('window').width,
-		alignItems: 'center',
-	},
+    },
+    elevation: {
+        elevation: 10,
+        shadowColor: '#52006A',
+    },
+    superView: {
+        flex: 1,
+        height: Dimensions.get('window').height,
+        width: Dimensions.get('window').width,
+        alignItems: 'center',
+    },
     topCard: {
-        flexDirection: 'row-reverse',   
+        flexDirection: 'row-reverse',
         marginStart: 25,
         marginTop: 14,
     },
@@ -42,7 +42,7 @@ export const bigCardStyles = StyleSheet.create({
         flexDirection: 'row',
         fontSize: 15,
     },
-    dishName : {
+    dishName: {
         fontSize: 20,
     }
 })
@@ -50,41 +50,41 @@ export const bigCardStyles = StyleSheet.create({
 export const smallCardStyles = StyleSheet.create({
     container: {
         flexDirection: 'column',
-		backgroundColor: '#fff',
-		alignItems: 'center',
-		justifyContent: 'center',
-		height: '90%',
-		width: '85%',
-		borderRadius: 25,
-		borderWidth: 1
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '90%',
+        width: '85%',
+        borderRadius: 25,
+        borderWidth: 1
     },
     superView: {
-		flex: 1,
-		height: Dimensions.get('window').height*0.2,
-		width: Dimensions.get('window').width,
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
+        flex: 1,
+        height: Dimensions.get('window').height * 0.2,
+        width: Dimensions.get('window').width,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
 });
 
 export const pantryCardStyles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-		backgroundColor: '#fff',
-		alignItems: 'center',
-		justifyContent: 'center',
-		height: '90%',
-		width: '85%',
-		borderRadius: 25,
-		borderWidth: 1
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '90%',
+        width: '85%',
+        borderRadius: 25,
+        borderWidth: 1
     },
     superView: {
-		flex: 1,
-		height: Dimensions.get('window').height*0.1,
-		width: Dimensions.get('window').width,
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
+        flex: 1,
+        height: Dimensions.get('window').height * 0.1,
+        width: Dimensions.get('window').width,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
 });
 
 export const shoplistPage = StyleSheet.create({
@@ -117,7 +117,7 @@ export const shoplistPage = StyleSheet.create({
         borderTopLeftRadius: 15,
         borderTopRightRadius: 15,
         //padding: 20,
-        alignItems:'center',
+        alignItems: 'center',
         backgroundColor: "#353839",
     },
 });
@@ -146,26 +146,26 @@ export const recipePage = StyleSheet.create({
 export const pantryItemStyle = StyleSheet.create({
 
     itemCard: {
-		flexDirection: 'column',
-		backgroundColor: '#fff',
-		alignItems: 'center',
-		justifyContent: 'center',
-		height: '15%',
-		width: '85%',
-		borderRadius: 25,
-		borderWidth: 1
-	},
-	elevation: {
-		elevation: 10,
-		shadowColor: '#52006A',
-	},
-	superView: {
-		flex: 1,
-		height: Dimensions.get('window').height,
-		width: Dimensions.get('window').width,
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
+        flexDirection: 'column',
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '15%',
+        width: '85%',
+        borderRadius: 25,
+        borderWidth: 1
+    },
+    elevation: {
+        elevation: 10,
+        shadowColor: '#52006A',
+    },
+    superView: {
+        flex: 1,
+        height: Dimensions.get('window').height,
+        width: Dimensions.get('window').width,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
 });
 
 export const profilePage = StyleSheet.create({
@@ -212,19 +212,19 @@ export const Fab = StyleSheet.create({
         justifyContent: 'center',
         right: 10,
         bottom: 10,
-        borderWidth:2,
+        borderWidth: 2,
         borderRadius: 50,
-        zIndex:100,
-        backgroundColor:'white',
-     },
-     floatingButtonStyle: {
+        zIndex: 100,
+        backgroundColor: 'white',
+    },
+    floatingButtonStyle: {
         resizeMode: 'contain',
         width: 50,
         height: 50,
-        zIndex:100,
+        zIndex: 100,
 
         //backgroundColor:'black'
-      },
+    },
 
 });
 
@@ -238,8 +238,8 @@ export const SearchBarStyle = StyleSheet.create({
         backgroundColor: 'gray',
         borderRadius: 8,
         marginTop: 10,
-        
-        
+
+
     },
     searchInput: {
         width: '90%',
@@ -248,11 +248,60 @@ export const SearchBarStyle = StyleSheet.create({
         fontSize: 16,
         display: "flex",
         justifyContent: "center"
-        
+
     },
     icon: {
-        
-        
-        
     }
 })
+
+export const customModalStyles = StyleSheet.create({
+    buttonsContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        marginBottom: 20,
+    },
+    row: {
+        flexDirection: 'row',
+    },
+    column: {
+
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+
+    },
+    modalView: {
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height / 1.5,
+        backgroundColor: 'green',
+        borderRadius: 20,
+        paddingHorizontal: 15,
+        paddingTop: 10,
+        shadowColor: 'black',
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+        shadowOpacity: 0.55,
+        shadowRadius: 8,
+        elevation: 20,
+        flexDirection: 'column'
+    },
+    textSize: {
+        textAlign: 'center',
+        fontSize: 15,
+    },
+    inputStyle: {
+        textAlign: 'center',
+        width: '20%',
+        backgroundColor: 'grey',
+        borderColor: 'black',
+        borderWidth: 1,
+    },
+});
