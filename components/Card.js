@@ -2,8 +2,17 @@
 import { bigCardStyles, smallCardStyles, pantryCardStyles } from '../styles/styles';
 import {StyleSheet, Text, View, TouchableOpacity, ImageBackground } from 'react-native';
 import Icon from "react-native-ico-material-design";
+import { useState, useEffect } from "react";
+import { styles } from "./RecipeDetails";
 
 export function BigCard(myProps) {
+  const [heartEmpty, setFillHeart] = useState(true);
+
+  const toggleHeart = () => {
+    //let toggle = !heartEmpty;
+    setFillHeart((current) => !current);
+  };
+
 
   return (
     <View
@@ -13,13 +22,20 @@ export function BigCard(myProps) {
           : [bigCardStyles.superView]
       }
     >
-      
+      <View style={[myProps.style, bigCardStyles.elevation {resizeMode: "stretch"}]} source={{uri: myProps.imageSource}]}>
+        <TouchableOpacity
+          style={myProps.topCard}
+          onPress={() => {
+            toggleHeart();
+          }}
+        >
 
-      <ImageBackground style={[myProps.style, bigCardStyles.elevation, {resizeMode: "stretch"}]} source={{uri: myProps.imageSource}}>
-        <TouchableOpacity style={myProps.topCard}>
-          
           <Icon
-            name="favorite-heart-outline-button"
+            name={
+              heartEmpty
+                ? "favorite-heart-outline-button"
+                : "favorite-heart-button"
+            }
             group="material-design"
             height="38"
             width="38"
@@ -29,7 +45,7 @@ export function BigCard(myProps) {
 
         <View style={bigCardStyles.bottomCard}>
           <View style={bigCardStyles.kokTid}>
-            <Icon name="list-button-with-3-elements" group="material-design" />
+            <Icon name="set-timer-button" group="material-design" />
             <Text style={{ marginLeft: 7 }}>{myProps.cookingTime}</Text>
           </View>
           <Text style={bigCardStyles.dishName}>{myProps.title}</Text>
@@ -56,22 +72,11 @@ export function BigCard(myProps) {
 */
 
 export function SmallCard(myProps) {
-    return (
-        <View style={smallCardStyles.superView}>
-            <View style={[smallCardStyles.container, bigCardStyles.elevation]}>
-                <Text>{myProps.title}</Text>
-            </View>
-        </View>
-
-    );
-}
-
-export function SearchCard(myProps) {
   return (
-      <View style={pantryCardStyles.superView}>
-          <View style={[pantryCardStyles.container, bigCardStyles.elevation]}>
-              <Text>{myProps.title}</Text>
-          </View>
+    <View style={smallCardStyles.superView}>
+      <View style={[smallCardStyles.container, bigCardStyles.elevation]}>
+        <Text>{myProps.title}</Text>
       </View>
+    </View>
   );
 }

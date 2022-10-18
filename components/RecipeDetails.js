@@ -11,7 +11,7 @@ import {
   ImageBackground,
   TouchableOpacity,
 } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Icon from "react-native-ico-material-design";
 import { LinearGradient } from "expo-linear-gradient";
 import { IngredientsView } from "./Ingredients";
@@ -21,6 +21,18 @@ import AppManager from '../utils/AppManager.js'
 const RecipeDetails = (props) => {
   const imageSource = "../assets/jerkchicken.jpg";
   const recipeName = "Jerk chicken with cocoa rice";
+
+  const [count, setCount] = useState(2);
+  const [heartEmpty, setFillHeart] = useState(true);
+
+  useEffect(() => {
+    //testar useEffect, triggas igång av att count ändras och printar loggen
+    console.log("rendered testing out useEffect");
+  }, [count]);
+
+  const toggleHeart = () => {
+    setFillHeart((current) => !current);
+  };
 
   const INGREDIENTS = 0;
   const INSTRUCTIONS = 1;
@@ -67,16 +79,26 @@ const RecipeDetails = (props) => {
                   ></Icon>
                 </TouchableOpacity>
 
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    toggleHeart();
+                  }}
+                >
                   <Icon
-                    name="favorite-heart-outline-button"
+                    style={
+                      heartEmpty ? styles.bigHeartFill : styles.bigHeartNotFill
+                    }
+                    name={
+                      heartEmpty
+                        ? "favorite-heart-outline-button"
+                        : "favorite-heart-button"
+                    }
                     group="material-design"
                     width="25"
                     height="25"
                   ></Icon>
                 </TouchableOpacity>
               </View>
-
               <View style={styles.bottomCard}>
                 <Text style={styles.detailText}>{AppManager.currentRecipe.title}</Text>
               </View>
@@ -86,7 +108,12 @@ const RecipeDetails = (props) => {
 
         <View>
           <View style={styles.topInfo}>
-            <TouchableOpacity>
+            <TouchableOpacity
+              disabled={count < 12 ? false : true}
+              onPress={() => {
+                setCount(count + 2);
+              }}
+            >
               <Icon name="round-add-button" width="25" height="25"></Icon>
             </TouchableOpacity>
 
@@ -97,11 +124,16 @@ const RecipeDetails = (props) => {
                 marginHorizontal: 5,
               }}
             >
-              <Text style={styles.detailTextTwo}>4</Text>
+              <Text style={styles.detailTextTwo}>{count}</Text>
               <Text style={{ marginTop: -10 }}>port</Text>
             </View>
 
-            <TouchableOpacity>
+            <TouchableOpacity
+              disabled={count <= 2 ? true : false}
+              onPress={() => {
+                setCount(count - 2);
+              }}
+            >
               <Icon name="round-remove-button" width="25" height="25"></Icon>
             </TouchableOpacity>
           </View>
@@ -186,5 +218,12 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-evenly",
     marginTop: 9,
+    marginBottom: 16,
+  },
+  bigHeartFill: {
+    backgroundColor: "green",
+  },
+  bigHeartNotFill: {
+    color: "black",
   },
 });
