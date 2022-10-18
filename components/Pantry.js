@@ -76,7 +76,7 @@ const Pantry = (props) => {
         setFoundItem([]);
         setSearchText("");
     }
-
+    //Alert to confirm the elimination of an item in the pantry
     const deleteItemAlert = (props) => {
         Alert.alert(
             "Deleting Item",
@@ -104,7 +104,7 @@ const Pantry = (props) => {
             ]
         );
     }
-
+    //this Alert triggers when an Item is already present in pantry 
     const AlreadyAddedAlert = (props) => {
         Alert.alert(
             "You have this item already!",
@@ -118,6 +118,7 @@ const Pantry = (props) => {
         );
     }
 
+    //The modal that houses the quantity inputs for new item added to the pantry
     const QuantityModal = () => {
 
         const [saveInactive, setSaveInactive] = useState(true);
@@ -183,8 +184,7 @@ const Pantry = (props) => {
             </Modal>
         );
     }
-
-
+    //card in the main page of the pantry
     function PantryCard(myProps) {
         return (
             <View style={pantryCardStyles.superView}>
@@ -201,6 +201,7 @@ const Pantry = (props) => {
         );
     }
 
+    //card in the add page of the pantry
     function SearchCard(myProps) {
         let doubleItem = false;
 
@@ -236,7 +237,7 @@ const Pantry = (props) => {
     return (
 
         <View style={pantryItemStyle.superView}>
-
+            {/* FAB */}
             <TouchableOpacity activeOpacity={0.7} onPress={() => {
                 toggleSheet();
             }} style={Fab.TouchableOpacityStyle}>
@@ -245,6 +246,7 @@ const Pantry = (props) => {
 
             </TouchableOpacity>
 
+            {/* List of Items in Pantry */}
             <FlatList
 
                 data={pantryItems}
@@ -258,6 +260,7 @@ const Pantry = (props) => {
 
             />
 
+            {/* View in the Sheet to search and ass new items to pantry */}
             <KeyboardAvoidingView
                 style={showSheet ? shoplistPage.sheetContainer : { display: "none" }}
                 behavior={Platform.OS === "ios" ? "padding" : "height"}>
@@ -276,8 +279,8 @@ const Pantry = (props) => {
                         {<Icon style={searchText == "" ? { display: "none" } : SearchBarStyle.icon} name="close-button" height="20" width="20" />}
                     </TouchableOpacity>
                 </View>
-                <FlatList
 
+                <FlatList
                     data={foundItem}
                     renderItem={searchResultCard}
                     keyExtractor={(item) => {
