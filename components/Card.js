@@ -22,7 +22,8 @@ export function BigCard(myProps) {
           : [bigCardStyles.superView]
       }
     >
-      <View style={[myProps.style, bigCardStyles.elevation {resizeMode: "stretch"}]} source={{uri: myProps.imageSource}]}>
+      <ImageBackground>
+      <View style={[myProps.style, bigCardStyles.elevation, {resizeMode: "stretch"}]} source={{uri: myProps.imageSource}}>
         <TouchableOpacity
           style={myProps.topCard}
           onPress={() => {
@@ -51,11 +52,14 @@ export function BigCard(myProps) {
           <Text style={bigCardStyles.dishName}>{myProps.title}</Text>
         </View>
 
+        </View>
+
       </ImageBackground>
       
     </View>
   );
 }
+
 
 /*
 export function BigCard(myProps) {
