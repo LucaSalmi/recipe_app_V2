@@ -1,11 +1,9 @@
 import { StyleSheet, Text, View, TextInput, Button, ScrollView, TouchableOpacity, FlatList, Dimensions, Alert, KeyboardAvoidingView, Modal } from 'react-native';
 import { useState } from 'react';
-import { Card, PantryCard, SmallCard } from './Card';
 import { pantryItemStyle, bigCardStyles, Fab, shoplistPage, SearchBarStyle, pantryCardStyles, customModalStyles } from '../styles/styles';
 import Icon from "react-native-ico-material-design";
 import { ingredients } from '../PantryData';
 import { PantryItem } from '../PantryItem';
-import RadioButton from './RadioButton';
 import RadioButtonContainer from './RadioButtonsContainer';
 
 const Pantry = (props) => {
@@ -14,6 +12,10 @@ const Pantry = (props) => {
     const [isVisible, setisVisible] = useState(false);
     const [searchText, setSearchText] = useState();
     const [itemToAdd, setItemToAdd] = useState();
+    const [foundItem, setFoundItem] = useState([]);
+    const [pantryItems, setPantryItems] = useState([
+        new PantryItem(-1, " by clicking the button below", "adding", "Start ")
+    ]);
 
     const radioData = [
         {
@@ -36,7 +38,6 @@ const Pantry = (props) => {
         },
     ];
 
-
     const toggleSheet = () => {
         let newBool = !showSheet;
         setShowSheet(newBool);
@@ -48,10 +49,6 @@ const Pantry = (props) => {
         let newBool = !isVisible;
         setisVisible(newBool);
     };
-
-    const [foundItem, setFoundItem] = useState([]);
-
-    const [pantryItems, setPantryItems] = useState([]);
 
     const pantryItemCard = ({ item }) => (
         <PantryCard item={item} />
@@ -76,34 +73,50 @@ const Pantry = (props) => {
         setFoundItem([]);
         setSearchText("");
     }
+
+    function deleteItem(props) {
+        let x = [];
+        for (const ingredient of pantryItems) {
+            if (ingredient.id != props.currentItem.id) {
+                let temp = ingredient;
+                x.push(temp);
+            }
+        }
+        setPantryItems(x);
+    }
+
     //Alert to confirm the elimination of an item in the pantry
     const deleteItemAlert = (props) => {
+        let currentItem = props.item;
         Alert.alert(
-            "Deleting Item",
-            "Do you really want to remove " + props.item.title + " from your pantry?",
+            props.item.quantity + props.item.measure + props.item.title,
+            "What do You want to do?",
             [
                 {
-                    text: "No",
+                    text: "Return",
                     style: "cancel",
-                    onPress: () => {
-                        console.log(props.item)
+                    
+                },
+                {
+                    text: "Delete", onPress: () => {
+                        deleteItem(currentItem={currentItem});
                     }
                 },
                 {
-                    text: "Yes", onPress: () => {
-                        let x = [];
-                        for (const ingredient of pantryItems) {
-                            if (ingredient.id != props.item.id) {
-                                let temp = ingredient;
-                                x.push(temp);
-                            }
-                        }
-                        setPantryItems(x);
+                    text: "Modify", onPress: () => {
+                        setItemToAdd(currentItem);
+                        deleteItem(currentItem={currentItem});
+                        toggleSheet();
+                        toggleModal();
                     }
                 }
             ]
         );
     }
+
+
+
+
     //this Alert triggers when an Item is already present in pantry 
     const AlreadyAddedAlert = (props) => {
         Alert.alert(
@@ -116,6 +129,16 @@ const Pantry = (props) => {
                 },
             ]
         );
+    }
+
+    function removeTutorial() {
+        let array = [];
+        for (item of pantryItems) {
+            if (item.id != -1) {
+                array.push(item)
+            }
+        }
+        return array;
     }
 
     //The modal that houses the quantity inputs for new item added to the pantry
@@ -163,7 +186,7 @@ const Pantry = (props) => {
                                 disabled={saveInactive}
                                 onPress={() => {
 
-                                    let i = pantryItems;
+                                    let i = removeTutorial();
                                     i.push(itemToAdd);
                                     setPantryItems(i);
                                     toggleReadyToSave();
@@ -175,7 +198,6 @@ const Pantry = (props) => {
                                 onPress={() => {
                                     toggleModal();
                                     toggleReadyToSave();
-
                                 }}
                             />
                         </View>
@@ -208,7 +230,7 @@ const Pantry = (props) => {
         return (
             <View style={pantryCardStyles.superView}>
                 <View onTouchStart={() => {
-                    //let i = pantryItems;
+
                     for (const item of pantryItems) {
 
                         if (item.title == myProps.title) {
@@ -260,7 +282,7 @@ const Pantry = (props) => {
 
             />
 
-            {/* View in the Sheet to search and ass new items to pantry */}
+            {/* View in the Sheet to search and add new items to pantry */}
             <KeyboardAvoidingView
                 style={showSheet ? shoplistPage.sheetContainer : { display: "none" }}
                 behavior={Platform.OS === "ios" ? "padding" : "height"}>
