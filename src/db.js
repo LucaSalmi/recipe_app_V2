@@ -2,6 +2,7 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
+import { DatePickerIOSComponent } from 'react-native';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -26,24 +27,80 @@ const RECIPE_COLLECTION = "recipies"
 /* CRUD */
 export const Crud = {
 
-    jsonTest: () => {
-        const jsonObj = require('../src/test.json')
+    apiImport: () => {
 
+        //Remove "return" if you really want to fetch API-data.
+        console.log("Remove return if you really want to fetch API-data ( in Crud.apiImport() ).");
+        return;
+
+        const options = {
+            method: 'GET',
+            headers: {
+                'X-RapidAPI-Key': '071c24e17fmsh4275638029000d1p173340jsncf3efebc4e7a',
+                'X-RapidAPI-Host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com'
+            }
+        };
         
-        
-        let id = 0
-        
-        
-        
+        fetch('https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/random?tags=italian&number=100&limitLicense=true', options)
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                Crud.jsonTest(data);
+                //setJsonString(JSON.stringify(data));
+                //console.log(JSON.stringify(data));
+                //Crud.createJSON(JSON.stringify(data));
+            })
+            .catch(err => console.error(err));
+            
+    },
+
+    jsonTest: (jsonObj = null) => {
+
+        if (jsonObj == null) {
+            console.log("jsonObj is null in Crud.jsonTest()");
+            return;
+        }
+
+        //For test data:
+        //jsonObj = require('../src/test.json')
+
         for (let recipe of jsonObj.recipes){
+
+            console.log(recipe.title);
+            console.log(recipe.image);
+
+            for (let key in recipe) {
+                if (recipe[key] == null) {
+                    recipe[key] = "Unknown value";
+                }
+            }
+
+            if (recipe.image == null || typeof recipe.image == "undefined") {
+                recipe.image = "Unknown value";
+            }
+
+            console.log(recipe.image);
+
+            let instructions = recipe.instructions;
+
+            while (instructions.includes("<ol>") || instructions.includes("<li>") || instructions.includes("</ol>") || instructions.includes("</li>")) {
+                instructions = instructions.replace("<ol>", "");
+                instructions = instructions.replace("<li>", "");
+                instructions = instructions.replace("</ol>", "");
+                instructions = instructions.replace("</li>", "");
+            };
             
 
-           db.collection(RECIPE_COLLECTION).doc(id.toString()).set(
+            db.collection(RECIPE_COLLECTION).doc(recipe.id.toString()).set(
             {
+                id: recipe.id,
                 title: recipe.title, 
+                servings: recipe.servings,
+                readyInMinutes: recipe.readyInMinutes,
+                aggregateLikes: recipe.aggregateLikes,
                 image: recipe.image, 
-                instructions: 
-                recipe.instructions.replace("<ol>", "").replace("<li>", "").replace("</ol>", "").replace("</li>", "")
+                instructions: instructions,
             })
            
             const SUB_COLLECTION_NAME = "ingredients"
@@ -52,11 +109,11 @@ export const Crud = {
 
             for(let ingredientname of recipe.extendedIngredients){
                 
-                db.collection(RECIPE_COLLECTION).doc(id.toString()).collection(SUB_COLLECTION_NAME).doc(ingredientId.toString()).set({name: ingredientname.name, amount: ingredientname.amount, unit: ingredientname.unit})
+                db.collection(RECIPE_COLLECTION).doc(recipe.id.toString()).collection(SUB_COLLECTION_NAME).doc(ingredientId.toString()).set({name: ingredientname.name, amount: ingredientname.amount, unit: ingredientname.unit})
                 ingredientId++
 
             }
-            id++
+
         }
     },
 
