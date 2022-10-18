@@ -214,6 +214,13 @@ export const Crud = {
         }
     },
 
+    getFavorites: (uid) => {
+
+
+
+        return [];
+    },
+
     updateUser: (uid, userData) => {
 
        db.collection('users').doc(uid).set(userData);

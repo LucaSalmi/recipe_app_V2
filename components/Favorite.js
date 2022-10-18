@@ -6,18 +6,26 @@ import { SmallCard } from './Card';
 import { DATA } from './Recipes.js';
 import AppManager from '../utils/AppManager.js';
 import { Constants } from '../utils/Constants.js';
-
+import { Crud } from '../src/db.js'
 
 
 
 const Favorite = (props) => {
 
+    const [initiated, setInitiated] = useState(false);
     const [recipes, setRecipes] = useState([]);
 
     useEffect(() => {
-        setTimeout(()=>{
-            setRecipes(DATA);
-        }, 500);
+
+        if (!initiated) {
+
+            if (AppManager.uid.length > 0) {
+                setRecipes(Crud.getFavorites(AppManager.uid));
+            }
+
+            setInitiated(true);
+        }
+
     });
 
 	return (
