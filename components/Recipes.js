@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, TextInput, Button, ScrollView, FlatList, Dimensions, Pressable, ImageBackground } from 'react-native';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BigCard, SmallCard } from './Card';
 import { bigCardStyles, recipePage } from '../styles/styles';
 import SearchBar from './SearchBar.js';
@@ -33,7 +33,6 @@ export var DATA = [
 ]
 
 const Recipes = (props) => {
-    
 
     const renderItem = ({ item }) => (
         
@@ -42,7 +41,7 @@ const Recipes = (props) => {
                 props.setScreen(Constants.RECIPEDETAILS)
             }}>
 
-            <BigCard id={item.id} title={item.title} style={bigCardStyles.container} topCard={bigCardStyles.topCard} imageSource={item.image} cookingTime={item.cookingTime}/>
+            <BigCard id={item.id} title={item.title} style={bigCardStyles.container} topCard={bigCardStyles.topCard} imageSource={item.image} readyInMinutes={item.readyInMinutes} />
             
         </Pressable>
         
@@ -51,8 +50,9 @@ const Recipes = (props) => {
     return (
         <View style={recipePage.recipeContainer}>
             <SearchBar/>
+
             <FlatList
-                data={props.recipeData}
+                data={AppManager.allRecipes}
                 renderItem={renderItem}
                 keyExtractor={(item) => {
                     item.id

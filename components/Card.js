@@ -8,7 +8,8 @@ import AppManager from '../utils/AppManager';
 import { Crud } from '../src/db.js'
 
 export function BigCard(myProps) {
-  const [heartEmpty, setFillHeart] = useState(true);
+  const [heartEmpty, setFillHeart] = useState(false);
+
 
   const toggleHeart = () => {
 
@@ -59,7 +60,7 @@ export function BigCard(myProps) {
         <View style={bigCardStyles.bottomCard}>
           <View style={bigCardStyles.kokTid}>
             <Icon name="set-timer-button" group="material-design" />
-            <Text style={{ marginLeft: 7 }}>{myProps.cookingTime}</Text>
+            <Text style={{ marginLeft: 7 }}>{myProps.readyInMinutes}</Text>
           </View>
           <Text style={bigCardStyles.dishName}>{myProps.title}</Text>
         </View>
