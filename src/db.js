@@ -31,19 +31,26 @@ export const Crud = {
 
         
         
-        let id = 0
-        
         
         
         for (let recipe of jsonObj.recipes){
+
+            let instructions = recipe.instructions;
+
+            while (instructions.includes("<ol>") || instructions.includes("<li>") || instructions.includes("</ol>") || instructions.includes("</li>")) {
+                instructions = instructions.replace("<ol>", "");
+                instructions = instructions.replace("<li>", "");
+                instructions = instructions.replace("</ol>", "");
+                instructions = instructions.replace("</li>", "");
+            };
             
 
-           db.collection(RECIPE_COLLECTION).doc(id.toString()).set(
+            db.collection(RECIPE_COLLECTION).doc(recipe.id.toString()).set(
             {
+                id: recipe.id,
                 title: recipe.title, 
                 image: recipe.image, 
-                instructions: 
-                recipe.instructions.replace("<ol>", "").replace("<li>", "").replace("</ol>", "").replace("</li>", "")
+                instructions: instructions,
             })
            
             const SUB_COLLECTION_NAME = "ingredients"
@@ -52,11 +59,11 @@ export const Crud = {
 
             for(let ingredientname of recipe.extendedIngredients){
                 
-                db.collection(RECIPE_COLLECTION).doc(id.toString()).collection(SUB_COLLECTION_NAME).doc(ingredientId.toString()).set({name: ingredientname.name, amount: ingredientname.amount, unit: ingredientname.unit})
+                db.collection(RECIPE_COLLECTION).doc(recipe.id.toString()).collection(SUB_COLLECTION_NAME).doc(ingredientId.toString()).set({name: ingredientname.name, amount: ingredientname.amount, unit: ingredientname.unit})
                 ingredientId++
 
             }
-            id++
+
         }
     },
 

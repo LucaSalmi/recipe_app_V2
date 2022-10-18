@@ -44,7 +44,7 @@ const Recipes = (props) => {
     }
     const renderItem = ({ item }) => (
         
-        <Pressable onPress={ () => {
+        <Pressable id={item.id} onPress={ () => {
                 AppManager.currentRecipe = item
                 props.setScreen(Constants.RECIPEDETAILS)
             }}>
@@ -58,7 +58,7 @@ const Recipes = (props) => {
     return (
         <View style={recipePage.recipeContainer}>
             <SearchBar/>
-
+            <Button title={"DANNE"} onPress={()=>{Crud.jsonTest()}}></Button>
             <FlatList
                 data={recipeData}
                 renderItem={renderItem}
