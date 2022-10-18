@@ -49,7 +49,7 @@ const Recipes = (props) => {
                 props.setScreen(Constants.RECIPEDETAILS)
             }}>
 
-            <BigCard title={item.title} style={bigCardStyles.container} topCard={bigCardStyles.topCard} imageSource={item.image} cookingTime={item.cookingTime}/>
+            <BigCard id={item.id} title={item.title} style={bigCardStyles.container} topCard={bigCardStyles.topCard} imageSource={item.image} cookingTime={item.cookingTime}/>
             
         </Pressable>
         

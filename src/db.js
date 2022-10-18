@@ -3,6 +3,7 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 import { DatePickerIOSComponent } from 'react-native';
+import { Fab } from '../styles/styles';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -193,6 +194,24 @@ export const Crud = {
         
         
         
+    },
+
+    updateFavorite: (uid, recipeId, add) => {
+
+        console.log("Add?" + add);
+
+        const FAVORITE_SUB_COLLECTION = "favorites";
+
+        if (add) {
+            db.collection("users").doc(uid.toString()).collection(FAVORITE_SUB_COLLECTION).doc(recipeId.toString()).set({favorite: true});
+        }
+        else {
+            db.collection("users").doc(uid.toString()).collection(FAVORITE_SUB_COLLECTION).doc(recipeId.toString()).delete().then(() => {
+                console.log("Document successfully deleted!");
+            }).catch((error) => {
+                console.error("Error removing document: ", error);
+            });
+        }
     },
 
     updateUser: (uid, userData) => {
