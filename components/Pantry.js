@@ -1,10 +1,13 @@
 import { StyleSheet, Text, View, TextInput, Button, ScrollView, TouchableOpacity, FlatList, Dimensions, Alert, KeyboardAvoidingView, Modal } from 'react-native';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { pantryItemStyle, bigCardStyles, Fab, shoplistPage, SearchBarStyle, pantryCardStyles, customModalStyles } from '../styles/styles';
 import Icon from "react-native-ico-material-design";
 import { ingredients } from '../PantryData';
 import { PantryItem } from '../PantryItem';
 import RadioButtonContainer from './RadioButtonsContainer';
+import AppManager from '../utils/AppManager.js';
+import { Constants } from '../utils/Constants.js';
+import { Crud } from '../src/db.js'
 
 const Pantry = (props) => {
 
@@ -16,6 +19,8 @@ const Pantry = (props) => {
     const [pantryItems, setPantryItems] = useState([
         new PantryItem(-1, " by clicking the button below", "adding", "Start ")
     ]);
+    const [initiated, setInitiated] = useState(false);
+
 
     const radioData = [
         {
@@ -37,6 +42,17 @@ const Pantry = (props) => {
             text: "Pc.",
         },
     ];
+
+    useEffect(() => {
+        if (!initiated) {
+            if (AppManager.uid.length > 0) {
+                //Async
+
+                Crud.getPantry(setPantryItems);
+            }
+            setInitiated(true);
+        }
+    });
 
     const toggleSheet = () => {
         let newBool = !showSheet;
@@ -80,6 +96,8 @@ const Pantry = (props) => {
             if (ingredient.id != props.currentItem.id) {
                 let temp = ingredient;
                 x.push(temp);
+            } else {
+                Crud.updatePantry(ingredient, false);
             }
         }
         setPantryItems(x);
@@ -128,14 +146,17 @@ const Pantry = (props) => {
         );
     }
 
-    function removeTutorial() {
-        let array = [];
-        for (item of pantryItems) {
-            if (item.id != -1) {
-                array.push(item)
-            }
-        }
-        return array;
+    const notLoggedAlert = () => {
+        Alert.alert(
+            "Not Logged In",
+            "You need to login to use this functionality..",
+            [
+                {
+                    text: "Ok",
+                    style: "cancel",
+                },
+            ]
+        );
     }
 
     //The modal that houses the quantity inputs for new item added to the pantry
@@ -168,6 +189,11 @@ const Pantry = (props) => {
                                 toggleReadyToSave();
 
                             }}
+                            onSelectionChange={() => {
+
+                                toggleReadyToSave();
+
+                            }}
                             onChangeText={(input) => {
                                 let temp = itemToAdd;
                                 temp.quantity = input;
@@ -178,20 +204,23 @@ const Pantry = (props) => {
                             <RadioButtonContainer values={radioData} onPress={onRadioButtonPress} />
                         </View>
 
-                        <View style={customModalStyles.row}>
-                            <Button title='Save'
+                        <View style={customModalStyles.buttonsContainer}>
+                            <Button
+                                title='Save'
                                 disabled={saveInactive}
                                 onPress={() => {
 
-                                    let i = removeTutorial();
+                                    let i = pantryItems;
                                     i.push(itemToAdd);
                                     setPantryItems(i);
+                                    Crud.updatePantry(itemToAdd, true);
                                     toggleReadyToSave();
                                     toggleModal();
                                     toggleSheet();
                                 }}
                             />
-                            <Button title='Cancel'
+                            
+                            <Button title='Delete'
                                 onPress={() => {
                                     toggleModal();
                                     toggleReadyToSave();
@@ -258,7 +287,11 @@ const Pantry = (props) => {
         <View style={pantryItemStyle.superView}>
             {/* FAB */}
             <TouchableOpacity activeOpacity={0.7} onPress={() => {
-                toggleSheet();
+                if (AppManager.isLoggedIn) {
+                    toggleSheet();
+                } else {
+                    notLoggedAlert();
+                }
             }} style={Fab.TouchableOpacityStyle}>
 
                 <Icon name={showSheet ? "clear-button" : "add-plus-button"} group="material-design"></Icon>

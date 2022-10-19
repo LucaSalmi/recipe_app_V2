@@ -3,6 +3,7 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 import { DatePickerIOSComponent } from 'react-native';
+import { PantryItem } from '../PantryItem';
 import { Fab } from '../styles/styles';
 import AppManager from '../utils/AppManager';
 
@@ -17,7 +18,7 @@ const config = {
     projectId: "recipes-app-v2",
     storageBucket: "recipes-app-v2.appspot.com",
     messagingSenderId: "296424842617",
-    appId: "1:296424842617:web:69face62f1a2f5d6993ba8"  
+    appId: "1:296424842617:web:69face62f1a2f5d6993ba8"
 };
 
 // Initialize Firebase
@@ -28,6 +29,8 @@ const USERS_COLLECTION = "users";
 const RECIPE_COLLECTION = "recipies";
 const FAVORITE_COLLECTION = "favorites";
 const INGREDIENTS_COLLECTION = "ingredients"
+const PANTRY_COLLECTION = "pantry";
+
 
 /* CRUD */
 export const Crud = {
@@ -45,7 +48,7 @@ export const Crud = {
                 'X-RapidAPI-Host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com'
             }
         };
-        
+
         fetch('https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/random?tags=italian&number=100&limitLicense=true', options)
             .then(response => {
                 return response.json();
@@ -57,7 +60,7 @@ export const Crud = {
                 //Crud.createJSON(JSON.stringify(data));
             })
             .catch(err => console.error(err));
-            
+
     },
 
     jsonTest: (jsonObj = null) => {
@@ -70,7 +73,7 @@ export const Crud = {
         //For test data:
         //jsonObj = require('../src/test.json')
 
-        for (let recipe of jsonObj.recipes){
+        for (let recipe of jsonObj.recipes) {
 
             console.log(recipe.title);
             console.log(recipe.image);
@@ -95,26 +98,26 @@ export const Crud = {
                 instructions = instructions.replace("</ol>", "");
                 instructions = instructions.replace("</li>", "");
             };
-            
+
 
             db.collection(RECIPE_COLLECTION).doc(recipe.id.toString()).set(
-            {
-                id: recipe.id,
-                title: recipe.title, 
-                servings: recipe.servings,
-                readyInMinutes: recipe.readyInMinutes,
-                aggregateLikes: recipe.aggregateLikes,
-                image: recipe.image, 
-                instructions: instructions,
-            })
-           
+                {
+                    id: recipe.id,
+                    title: recipe.title,
+                    servings: recipe.servings,
+                    readyInMinutes: recipe.readyInMinutes,
+                    aggregateLikes: recipe.aggregateLikes,
+                    image: recipe.image,
+                    instructions: instructions,
+                })
+
             const SUB_COLLECTION_NAME = "ingredients"
             let ingredientId = 0
-           
 
-            for(let ingredientname of recipe.extendedIngredients){
-                
-                db.collection(RECIPE_COLLECTION).doc(recipe.id.toString()).collection(SUB_COLLECTION_NAME).doc(ingredientId.toString()).set({name: ingredientname.name, amount: ingredientname.amount, unit: ingredientname.unit})
+
+            for (let ingredientname of recipe.extendedIngredients) {
+
+                db.collection(RECIPE_COLLECTION).doc(recipe.id.toString()).collection(SUB_COLLECTION_NAME).doc(ingredientId.toString()).set({ name: ingredientname.name, amount: ingredientname.amount, unit: ingredientname.unit })
                 ingredientId++
 
             }
@@ -122,16 +125,16 @@ export const Crud = {
         }
     },
 
-    addUser: async  (username, password) => {
+    addUser: async (username, password) => {
 
         let documents;
-        
+
         const events = firebase.firestore().collection('users')
         await events.get().then((querySnapshot) => {
             const tempDoc = querySnapshot.docs.map((doc) => {
                 return { id: doc.id, ...doc.data() }
-             })
-             documents = tempDoc;
+            })
+            documents = tempDoc;
 
         })
 
@@ -159,17 +162,17 @@ export const Crud = {
         //Createing user successful. Returning the uid.
         return uid;
     },
-    
+
     getUser: async (username, password) => {
 
         let documents;
-        
+
         const events = firebase.firestore().collection('users')
         await events.get().then((querySnapshot) => {
             const tempDoc = querySnapshot.docs.map((doc) => {
                 return { id: doc.id, ...doc.data() }
-             })
-             documents = tempDoc;
+            })
+            documents = tempDoc;
 
         })
 
@@ -180,25 +183,25 @@ export const Crud = {
         }
 
         //Return false if the user wasn't found
-        let userData = {id: ""};
+        let userData = { id: "" };
         return userData;
     },
 
     getRecipies: async (setRecipeData) => {
-        
+
         let documents;
         const events = firebase.firestore().collection(RECIPE_COLLECTION)
         await events.get().then((querySnapshot) => {
             const tempDoc = querySnapshot.docs.map((doc) => {
-                return {id: doc.id, ...doc.data()}
+                return { id: doc.id, ...doc.data() }
             })
             documents = tempDoc;
             setRecipeData(documents)
             AppManager.allRecipes = documents;
         })
-        
-        
-        
+
+
+
     },
 
     getIngredients: async (setIngredients) => {
@@ -221,10 +224,10 @@ export const Crud = {
 
         console.log("Add?" + add);
 
-        
+
 
         if (add) {
-            db.collection(USERS_COLLECTION).doc(uid.toString()).collection(FAVORITE_COLLECTION).doc(recipeId.toString()).set({id: recipeId.toString()});
+            db.collection(USERS_COLLECTION).doc(uid.toString()).collection(FAVORITE_COLLECTION).doc(recipeId.toString()).set({ id: recipeId.toString() });
         }
         else {
             db.collection(USERS_COLLECTION).doc(uid.toString()).collection(FAVORITE_COLLECTION).doc(recipeId.toString()).delete().then(() => {
@@ -242,13 +245,13 @@ export const Crud = {
         const events = firebase.firestore().collection(USERS_COLLECTION).doc(AppManager.uid.toString()).collection(FAVORITE_COLLECTION)
         await events.get().then((querySnapshot) => {
             const tempDoc = querySnapshot.docs.map((doc) => {
-                return {id: doc.id, ...doc.data()}
+                return { id: doc.id, ...doc.data() }
             })
             for (let document of tempDoc) {
                 favoriteIds.push(document.id.toString());
             }
         })
-        
+
         let allRecipies = AppManager.allRecipes;
 
         let documents = [];
@@ -267,14 +270,14 @@ export const Crud = {
 
     updateUser: (uid, userData) => {
 
-       db.collection('users').doc(uid).set(userData);
+        db.collection('users').doc(uid).set(userData);
 
     },
 
     createRecipies: (recipies) => {
         const collectionName = "recipies";
 
-        
+
         for (let i = 0; i < recipies.length; i++) {
             let docId = i.toString();
             let recipe = recipies[i];
@@ -285,9 +288,44 @@ export const Crud = {
     },
 
     createJSON: (jsonString) => {
-        db.collection("JSON").doc("test").set({content: jsonString});
+        db.collection("JSON").doc("test").set({ content: jsonString });
     },
-    
+
+    getPantry: async (setPantryItems) => {
+
+        const events = firebase.firestore().collection(USERS_COLLECTION).doc(AppManager.uid.toString()).collection(PANTRY_COLLECTION)
+        await events.get().then((querySnapshot) => {
+            const tempDoc = querySnapshot.docs.map((doc) => {
+                return { id: doc.id, ...doc.data() }
+            })
+            let array = [];
+            for (let document of tempDoc) {
+                let item = new PantryItem(document.id, document.title, document.measure, document.quantity);
+                array.push(item);
+            }
+            setPantryItems(array);
+        })
+    },
+
+    updatePantry: (pantryItem, add) => {
+
+        console.log("Add?" + add);
+
+        if (add) {
+            db.collection(USERS_COLLECTION).doc(AppManager.uid.toString())
+                .collection(PANTRY_COLLECTION)
+                .doc(pantryItem.id.toString())
+                .set({ id: pantryItem.id.toString(), title: pantryItem.title.toString(), measure: pantryItem.measure.toString(), quantity: pantryItem.quantity.toString()});
+        }
+        else {
+            db.collection(USERS_COLLECTION).doc(AppManager.uid.toString()).collection(PANTRY_COLLECTION).doc(pantryItem.id.toString()).delete().then(() => {
+                console.log("Document successfully deleted!");
+            }).catch((error) => {
+                console.error("Error removing document: ", error);
+            });
+        }
+    },
+
 };
 
 const generateUid = () => {
