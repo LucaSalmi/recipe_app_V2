@@ -1,51 +1,79 @@
-import {React, useState} from "react";
-import {View, TextInput, StyleSheet, Button, TouchableOpacity} from 'react-native'
+import { React, useState } from "react";
+import {
+  View,
+  TextInput,
+  StyleSheet,
+  Button,
+  TouchableOpacity,
+  Text,
+} from "react-native";
 import Icon from "react-native-ico-material-design";
 
-
-
 const SearchBar = () => {
+  const [searchText, setSearchText] = useState("");
 
-    const [searchText, setSearchText] = useState("")
-
-    return(
-        <View style={styles.container}>
-            <TextInput value={searchText} onChangeText={(input) => {setSearchText(input)}} style={styles.searchInput} placeholder="Search here..."/>
-            <TouchableOpacity onPress={() => {setSearchText("")}}>
-                {<Icon style={searchText == "" ? {display: "none"} : styles.icon} name="close-button"  height="20" width="20" />}
-            </TouchableOpacity>
-        </View>
-    )
-
-}
+  return (
+    <View style={{ flexDirection: "row" }}>
+      <View style={styles.container}>
+        <TextInput
+          value={searchText}
+          onChangeText={(input) => {
+            setSearchText(input);
+          }}
+          style={styles.searchInput}
+          placeholder="Search here..."
+        />
+        <TouchableOpacity
+          styles={styles.icon}
+          onPress={() => {
+            setSearchText("");
+          }}
+        >
+          {
+            <Icon
+              style={searchText == "" ? { display: "none" } : styles.icon}
+              name="close-button"
+              height="20"
+              width="20"
+            />
+          }
+        </TouchableOpacity>
+      </View>
+      <View
+        style={{
+          justifyContent: "center",
+        }}
+      >
+        <Text>FILTER</Text>
+      </View>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
-    container: {
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        width: '90%',
-        height: 50,
-        backgroundColor: '#EAE9E9',
-        borderRadius: 8,
-        marginTop: 10,
-        
-        
-    },
-    searchInput: {
-        width: '90%',
-        height: '100%',
-        paddingLeft: 8,
-        fontSize: 16,
-        display: "flex",
-        justifyContent: "center"
-        
-    },
-    icon: {
-        
-        
-        
-    }
-})
+  container: {
+    display: "flex",
+    flexDirection: "row",
+    // alignItems: "center",
+    width: "85%",
+    height: 50,
+    backgroundColor: "#EAE9E9",
+    borderRadius: 8,
+    marginTop: 10,
+    borderWidth: 1,
+    borderColor: "black",
+  },
+  searchInput: {
+    width: "90%",
+    height: "100%",
+    fontSize: 16,
+    display: "flex",
+    justifyContent: "center",
+    marginStart: 15,
+  },
+  icon: {
+    marginStart: -15,
+  },
+});
 
 export default SearchBar;
