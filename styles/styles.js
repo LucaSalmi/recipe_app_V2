@@ -270,12 +270,12 @@ export const customModalStyles = StyleSheet.create({
   buttonsContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
+    
   },
   centeredView: {
     flex: 1,
     justifyContent: "flex-end",
     alignItems: "center",
-    marginBottom: 20,
   },
   row: {
     flexDirection: "row",
@@ -289,7 +289,7 @@ export const customModalStyles = StyleSheet.create({
     alignItems: "center",
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height / 1.5,
-    backgroundColor: "green",
+    backgroundColor: "white",
     borderRadius: 20,
     paddingHorizontal: 15,
     paddingTop: 10,

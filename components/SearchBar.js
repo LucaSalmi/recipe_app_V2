@@ -39,13 +39,14 @@ const SearchBar = () => {
           }
         </TouchableOpacity>
       </View>
-      <View
+      <TouchableOpacity
         style={{
           justifyContent: "center",
+          padding: 10,
         }}
       >
-        <Text>FILTER</Text>
-      </View>
+        <Icon name="sort-button-with-three-lines" height="22" width="22"></Icon>
+      </TouchableOpacity>
     </View>
   );
 };
