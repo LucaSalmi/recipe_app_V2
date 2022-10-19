@@ -17,6 +17,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { IngredientsView } from "./Ingredients";
 import InstructionsView from "./Instructions";
 import AppManager from '../utils/AppManager.js'
+import { Crud } from "../src/db";
 
 const RecipeDetails = (props) => {
   const imageSource = "../assets/jerkchicken.jpg";
@@ -24,6 +25,12 @@ const RecipeDetails = (props) => {
 
   const [count, setCount] = useState(2);
   const [heartEmpty, setFillHeart] = useState(true);
+  
+  const [ingredients, setIngredients] = useState([])
+  
+  if (ingredients.length == 0){
+    Crud.getIngredients(setIngredients)
+  }
 
   useEffect(() => {
     //testar useEffect, triggas igång av att count ändras och printar loggen
@@ -38,13 +45,15 @@ const RecipeDetails = (props) => {
   const INSTRUCTIONS = 1;
 
   const [tabId, setTabId] = useState(INGREDIENTS);
-  console.log(AppManager.currentRecipe)
+  
 
   let tab;
 
   switch (tabId) {
     case INGREDIENTS:
-      tab = <IngredientsView setTabId={setTabId} />;
+      tab = <IngredientsView setTabId={setTabId} 
+      ingredients = {ingredients} />;
+
       break;
 
     case INSTRUCTIONS:

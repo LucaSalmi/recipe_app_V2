@@ -28,7 +28,9 @@ export const db = app.firestore();
 const USERS_COLLECTION = "users";
 const RECIPE_COLLECTION = "recipies";
 const FAVORITE_COLLECTION = "favorites";
+const INGREDIENTS_COLLECTION = "ingredients"
 const PANTRY_COLLECTION = "pantry";
+
 
 /* CRUD */
 export const Crud = {
@@ -199,6 +201,22 @@ export const Crud = {
         })
 
 
+
+    },
+
+    getIngredients: async (setIngredients) => {
+        
+        const location = firebase.firestore()
+        .collection(RECIPE_COLLECTION)
+        .doc(AppManager.currentRecipe.id.toString())
+        .collection(INGREDIENTS_COLLECTION)
+        await location.get().then((querySnapshot) => {
+            const documents = querySnapshot.docs.map((doc) => {
+                return {id: doc.id, ...doc.data()}
+            })
+            setIngredients(documents)
+            
+        })
 
     },
 
