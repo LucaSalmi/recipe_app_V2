@@ -21,34 +21,55 @@ import Icon from "react-native-ico-material-design";
 
 import RecipeDetails from './components/RecipeDetails';
 import { Constants } from './utils/Constants';
+import { Crud } from './src/db.js';
 
 //testing more hello
 //a comment from ankan, hello guys
 //dev WHAT
 
 export default function App() {
-  if (Platform.OS == "android") {
-    return <MainContent />;
-  } else {
-    return (
-      <SafeAreaView style={{ flex: 1 }}>
-        <MainContent />
-      </SafeAreaView>
-    );
+
+  const [recipeData, setRecipeData] = useState([]);
+
+  if (recipeData.length < 1){
+
+    Crud.getRecipies(setRecipeData)
+    
   }
+
+  if (Platform.OS == "android") {
+    if(recipeData.length > 0){
+       return <MainContent recipeData={recipeData}/>;
+    }
+    else {
+      return <Text>Loading...</Text>
+    }
+  } else {
+    if(recipeData.length > 0){
+      return (
+        <SafeAreaView style={{ flex: 1 }}>
+          <MainContent recipeData={recipeData}/>
+        </SafeAreaView>
+      );
+   }
+   else {
+     return <Text>Loading...</Text>
+   }
+  }
+  
 }
 
-const MainContent = () => {
+const MainContent = (props) => {
+
+ 
+
+
   const RECIPES = 0;
   const FAVORITE = 1;
   const SHOPLIST = 2;
   const PANTRY = 3;
   const PROFILE = 4;
   const RECIPEDETAILS = 5;
-
-
-
-  
 
   const previousScreen = Constants.RECIPES; 
 
@@ -61,7 +82,7 @@ const MainContent = () => {
   switch (screen) {
 
     case Constants.RECIPES:
-      view = <Recipes setScreen={setScreen}/>
+      view = <Recipes setScreen={setScreen} recipeData={props.recipeData}/>
       break;
 
     case Constants.FAVORITE:

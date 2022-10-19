@@ -8,6 +8,7 @@ const AppManager = {
     email: "",
     phone: "",
     currentRecipe: {},
+    allRecipes: [],
 }
 
 export default AppManager;

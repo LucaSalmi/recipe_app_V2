@@ -13,14 +13,27 @@ import {
 import Icon from "react-native-ico-material-design";
 import { useState, useEffect } from "react";
 import { styles } from "./RecipeDetails";
-import AppManager from "../utils/AppManager";
+import AppManager from '../utils/AppManager';
+import { Crud } from '../src/db.js'
 
 export function BigCard(myProps) {
-  const [heartEmpty, setFillHeart] = useState(true);
+  const [heartEmpty, setFillHeart] = useState(false);
+
 
   const toggleHeart = () => {
+
+    if (AppManager.uid.length == 0) {
+      console.log("Must be logged in to add favorites");
+      return;
+    }
+
+    //Firestore update
+    Crud.updateFavorite(AppManager.uid, myProps.id, heartEmpty);
+
     //let toggle = !heartEmpty;
     setFillHeart((current) => !current);
+
+    
   };
 
   return (
@@ -68,6 +81,7 @@ export function BigCard(myProps) {
             >
               {"20 min"}
             </Text>
+
           </View>
           <Text
             style={[

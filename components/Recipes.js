@@ -19,6 +19,7 @@ import AppManager from "../utils/AppManager.js";
 import { Constants } from "../utils/Constants";
 import { Crud } from "../src/db.js";
 
+
 export var DATA = [
   {
     id: 0,
