@@ -29,7 +29,9 @@ export function IngredientsView(props) {
             <Text style={{ marginEnd: 8, fontSize: 13, marginBottom: 5 }}>
               {""}
             </Text>
-            <Text style={{ fontSize: 13, marginBottom: 5 }}>{ingredient.name}</Text>
+            <Text style={{ fontSize: 13, margin: 2 }}>{ingredient.amount}</Text>
+            <Text style={{ fontSize: 13, margin: 2 }}>{ingredient.unit}</Text>
+            <Text style={{ fontSize: 13, margin: 2 }}>{ingredient.name}</Text>
           </View>
         );
       })}
