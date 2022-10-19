@@ -189,7 +189,7 @@ export const Crud = {
         const events = firebase.firestore().collection(RECIPE_COLLECTION)
         await events.get().then((querySnapshot) => {
             const tempDoc = querySnapshot.docs.map((doc) => {
-                return {id: doc.id, ...doc.data()}
+                return {id: doc.id, isFavorite: false, ...doc.data()}
             })
             documents = tempDoc;
             setRecipeData(documents)
@@ -218,7 +218,7 @@ export const Crud = {
         }
     },
 
-    getFavorites: async (setRecipes) => {
+    getFavorites: async (setFavorites) => {
 
         let favoriteIds = [];
 
@@ -245,7 +245,7 @@ export const Crud = {
             }
         }
 
-        setRecipes(documents);
+        setFavorites(documents);
     },
 
     updateUser: (uid, userData) => {

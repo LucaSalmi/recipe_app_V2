@@ -17,7 +17,7 @@ import AppManager from '../utils/AppManager';
 import { Crud } from '../src/db.js'
 
 export function BigCard(myProps) {
-  const [heartEmpty, setFillHeart] = useState(false);
+  const [heartEmpty, setFillHeart] = useState(!myProps.isFavorite);
 
 
   const toggleHeart = () => {
@@ -28,7 +28,7 @@ export function BigCard(myProps) {
     }
 
     //Firestore update
-    Crud.updateFavorite(AppManager.uid, myProps.id, heartEmpty);
+    Crud.updateFavorite(AppManager.uid, myProps.recipeId, heartEmpty);
 
     //let toggle = !heartEmpty;
     setFillHeart((current) => !current);

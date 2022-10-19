@@ -11,7 +11,7 @@ import {
   ImageBackground,
   TouchableOpacity,
 } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BigCard, SmallCard } from "./Card";
 import { bigCardStyles, recipePage } from "../styles/styles";
 import SearchBar from "./SearchBar.js";
@@ -19,36 +19,28 @@ import AppManager from "../utils/AppManager.js";
 import { Constants } from "../utils/Constants";
 import { Crud } from "../src/db.js";
 
-
-export var DATA = [
-  {
-    id: 0,
-    title: "Delicious banana bread",
-    cookingTime: "25 min",
-  },
-  {
-    id: 1,
-    title: "Bananasplit with icecream",
-    cookingTime: "15 min",
-  },
-  {
-    id: 3,
-    title: "Meatball parm",
-    cookingTime: "20 min",
-  },
-  {
-    id: 4,
-    title: "Goomba bread with a slice of ham",
-    cookingTime: "10 min",
-  },
-];
-
 const Recipes = (props) => {
-  const [recipeData, setRecipeData] = useState([]);
+  const [initiated, setInitated] = useState(false);
+  const [recipeData, setRecipeData] = useState(props.recipeData);
+  const [favorites, setFavorites] = useState([]);
+  const [favoritesIds, setFavoritesIds] = useState([]);
 
-  if (recipeData.length < 1) {
-    Crud.getRecipies(setRecipeData);
+  if (!initiated) {
+
+    if (AppManager.uid.length > 0) {
+      Crud.getFavorites(setFavorites);
+    }
+
+    setInitated(true);
   }
+  
+  useEffect(() => {
+    let newFavoritesIds = [];
+    for (let favorite of favorites) {
+      newFavoritesIds.push(favorite.id.toString());
+    }
+    setFavoritesIds(newFavoritesIds);
+  }, [favorites]);
 
   const renderItem = ({ item }) => (
     <TouchableOpacity
@@ -64,6 +56,8 @@ const Recipes = (props) => {
         topCard={bigCardStyles.topCard}
         imageSource={item.image}
         cookingTime={item.cookingTime}
+        isFavorite={favoritesIds.includes(item.id.toString()) ? true : false}
+        recipeId={item.id}
       />
     </TouchableOpacity>
   );
