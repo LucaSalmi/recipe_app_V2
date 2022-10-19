@@ -96,7 +96,7 @@ const Pantry = (props) => {
             if (ingredient.id != props.currentItem.id) {
                 let temp = ingredient;
                 x.push(temp);
-            }else{
+            } else {
                 Crud.updatePantry(ingredient, false);
             }
         }
@@ -189,6 +189,11 @@ const Pantry = (props) => {
                                 toggleReadyToSave();
 
                             }}
+                            onSelectionChange={() => {
+
+                                toggleReadyToSave();
+
+                            }}
                             onChangeText={(input) => {
                                 let temp = itemToAdd;
                                 temp.quantity = input;
@@ -199,8 +204,9 @@ const Pantry = (props) => {
                             <RadioButtonContainer values={radioData} onPress={onRadioButtonPress} />
                         </View>
 
-                        <View style={customModalStyles.row}>
-                            <Button title='Save'
+                        <View style={customModalStyles.buttonsContainer}>
+                            <Button
+                                title='Save'
                                 disabled={saveInactive}
                                 onPress={() => {
 
@@ -213,7 +219,8 @@ const Pantry = (props) => {
                                     toggleSheet();
                                 }}
                             />
-                            <Button title='Cancel'
+                            
+                            <Button title='Delete'
                                 onPress={() => {
                                     toggleModal();
                                     toggleReadyToSave();
