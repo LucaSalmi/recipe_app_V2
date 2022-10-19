@@ -16,11 +16,13 @@ import Icon from "react-native-ico-material-design";
 import { LinearGradient } from "expo-linear-gradient";
 import { IngredientsView } from "./Ingredients";
 import InstructionsView from "./Instructions";
-import AppManager from '../utils/AppManager.js'
+import AppManager from "../utils/AppManager.js";
 
 const RecipeDetails = (props) => {
   const imageSource = "../assets/jerkchicken.jpg";
   const recipeName = "Jerk chicken with cocoa rice";
+
+  //const [currentTab, setCurrentTab] = useState(0);
 
   const [count, setCount] = useState(2);
   const [heartEmpty, setFillHeart] = useState(true);
@@ -38,7 +40,7 @@ const RecipeDetails = (props) => {
   const INSTRUCTIONS = 1;
 
   const [tabId, setTabId] = useState(INGREDIENTS);
-  console.log(AppManager.currentRecipe)
+  console.log(AppManager.currentRecipe);
 
   let tab;
 
@@ -60,7 +62,10 @@ const RecipeDetails = (props) => {
     <View>
       <ScrollView>
         <View>
-          <ImageBackground style={styles.image} source={{uri: AppManager.currentRecipe.image}}>
+          <ImageBackground
+            style={styles.image}
+            source={{ uri: AppManager.currentRecipe.image }}
+          >
             <LinearGradient
               style={[styles.image, styles.niceContainer]}
               colors={["transparent", "#000"]}
@@ -100,7 +105,9 @@ const RecipeDetails = (props) => {
                 </TouchableOpacity>
               </View>
               <View style={styles.bottomCard}>
-                <Text style={styles.detailText}>{AppManager.currentRecipe.title}</Text>
+                <Text style={styles.detailText}>
+                  {AppManager.currentRecipe.title}
+                </Text>
               </View>
             </LinearGradient>
           </ImageBackground>
@@ -114,7 +121,12 @@ const RecipeDetails = (props) => {
                 setCount(count + 2);
               }}
             >
-              <Icon name="round-add-button" width="25" height="25"></Icon>
+              <Icon
+                color={count < 12 ? "#000000" : "#B2BEB5"}
+                name="round-add-button"
+                width="25"
+                height="25"
+              ></Icon>
             </TouchableOpacity>
 
             <View
@@ -134,7 +146,12 @@ const RecipeDetails = (props) => {
                 setCount(count - 2);
               }}
             >
-              <Icon name="round-remove-button" width="25" height="25"></Icon>
+              <Icon
+                color={count <= 2 ? "#B2BEB5" : "#000000"}
+                name="round-remove-button"
+                width="25"
+                height="25"
+              ></Icon>
             </TouchableOpacity>
           </View>
         </View>
@@ -145,7 +162,15 @@ const RecipeDetails = (props) => {
               changeTab(INGREDIENTS);
             }}
           >
-            <Text>Ingredients</Text>
+            <Text
+              style={
+                tabId == INGREDIENTS
+                  ? { textDecorationLine: "underline" }
+                  : { textDecorationLine: "none" }
+              }
+            >
+              Ingredients
+            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -153,7 +178,15 @@ const RecipeDetails = (props) => {
               changeTab(INSTRUCTIONS);
             }}
           >
-            <Text>Instructions</Text>
+            <Text
+              style={
+                tabId == INSTRUCTIONS
+                  ? { textDecorationLine: "underline" }
+                  : { textDecorationLine: "none" }
+              }
+            >
+              Instructions
+            </Text>
           </TouchableOpacity>
         </View>
 
