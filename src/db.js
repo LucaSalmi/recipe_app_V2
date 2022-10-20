@@ -356,17 +356,22 @@ export const Crud = {
     updateShoplist: (shoplistItem, add) => {
 
         if (add) {
-            db.collection(USERS_COLLECTION).doc(AppManager.uid.toString())
+            db.collection(USERS_COLLECTION)
+                .doc(AppManager.uid.toString())
                 .collection(SHOPLIST_COLLECTION)
                 .doc(shoplistItem.desc)
                 .set({ desc: shoplistItem.desc, checked: shoplistItem.checked });
         }
         else {
-            db.collection(USERS_COLLECTION).doc(AppManager.uid.toString()).collection(SHOPLIST_COLLECTION).doc(shoplistItem.desc).delete().then(() => {
-                console.log("Document successfully deleted!");
-            }).catch((error) => {
-                console.error("Error removing document: ", error);
-            });
+            db.collection(USERS_COLLECTION)
+                .doc(AppManager.uid.toString())
+                .collection(SHOPLIST_COLLECTION)
+                .doc(shoplistItem.desc)
+                .delete().then(() => {
+                    console.log("Document successfully deleted!");
+                }).catch((error) => {
+                    console.error("Error removing document: ", error);
+                });
         }
     },
 

@@ -53,6 +53,9 @@ const Profile = (props) => {
         if (AppManager.pantryContent.length < 1) {
             Crud.getPantry(null);
         }
+        if (AppManager.shoplistContent.length < 1) {
+            Crud.getShoplist();
+        }
 
     };
 
@@ -113,6 +116,7 @@ const Profile = (props) => {
         AppManager.phone = "";
 
         AppManager.pantryContent = [];
+        AppManager.shoplistContent = [];
 
     };
 
