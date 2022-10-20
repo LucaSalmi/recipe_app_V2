@@ -9,6 +9,7 @@ const AppManager = {
     phone: "",
     currentRecipe: {},
     allRecipes: [],
+    allIngredients: [],
 }
 
 export default AppManager;
