@@ -24,19 +24,15 @@ export const bigCardStyles = StyleSheet.create({
     height: null,
     resizeMode: "contain",
     overflow: "hidden",
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
-    borderBottomWidth: 2,
-    borderBottomColor: "black",
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
   },
   card: {
     height: "95%",
     width: "95%",
-    borderRadius: 15,
-    borderWidth: 1.5,
+    
     borderColor: "black",
-    borderBottomLeftRadius: 2,
-    borderBottomRightRadius: 2,
+    
     margin: 10,
     //justifyContent: "space-between",
   },
@@ -57,6 +53,9 @@ export const bigCardStyles = StyleSheet.create({
     //marginStart: 15,
     //marginTop: 2,
     backgroundColor: "white",
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+
   },
   kokTid: {
     flexDirection: "row",
@@ -161,6 +160,27 @@ export const recipePage = StyleSheet.create({
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
     backgroundColor: "#F3F3F3",
+  },
+
+  button:{
+    borderRadius: 5,
+    padding: 5,
+    //backgroundColor: "#F3F3F3",
+    
+  },
+  shadowProp: {
+    shadowColor: 'rgba(0,0,0, .4)', // IOS
+    shadowOffset: { height: 1, width: 1 }, // IOS
+    shadowOpacity: 1, // IOS
+    shadowRadius: 1, //IOS
+    backgroundColor: '#fff',
+    elevation: 2, // Android
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    padding: 5
+
   },
 });
 export const pantryItemStyle = StyleSheet.create({

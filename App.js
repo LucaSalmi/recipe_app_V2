@@ -261,6 +261,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     backgroundColor: "#F3F3F3",
+    
     //backgroundColor: "red",
     //paddingBottom: 18,
     //paddingTop: 18,
