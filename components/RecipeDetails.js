@@ -83,7 +83,7 @@ const RecipeDetails = (props) => {
               <View style={styles.topCard}>
                 <TouchableOpacity
                   onPress={() => {
-                    props.setScreen(props.previousPage);
+                    props.setScreen(AppManager.previousScreen);
                   }}
                 >
                   <Icon

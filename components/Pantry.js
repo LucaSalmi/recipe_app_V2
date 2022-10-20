@@ -12,21 +12,7 @@ const Pantry = (props) => {
     const [showSheet, setShowSheet] = useState(false);
     const [searchText, setSearchText] = useState();
     const [foundItem, setFoundItem] = useState([]);
-    const [pantryItems, setPantryItems] = useState([
-        new PantryItem(-1, "Start adding products by clicking the button below")
-    ]);
-    const [initiated, setInitiated] = useState(false);
-
-    useEffect(() => {
-        if (!initiated) {
-            if (AppManager.uid.length > 0) {
-                //Async
-
-                Crud.getPantry(setPantryItems);
-            }
-            setInitiated(true);
-        }
-    });
+    const [pantryItems, setPantryItems] = useState(AppManager.pantryContent);
 
     const toggleSheet = () => {
         let newBool = !showSheet;
