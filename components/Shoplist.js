@@ -11,7 +11,7 @@ const Shoplist = (props) => {
 
     const [items, setItems] = useState(AppManager.shoplistContent);
 
-    const [username, setUsername] = useState("Guest");
+    const [username, setUsername] = useState("Log on to use");
 
     useEffect(() => {
 
@@ -32,7 +32,7 @@ const Shoplist = (props) => {
         <View style={shoplistPage.shoplistContainer}>
             <SearchBar />
             <View style={shoplistPage.headerContainer}>
-                <Text style={shoplistPage.headerText}>{username}s shopping list</Text>
+                <Text style={shoplistPage.headerText}>{username} shopping list</Text>
                 <Button style={shoplistPage.filterButton} title="FILTER" onPress={() => { toggleSheet() }}></Button>
             </View>
 
