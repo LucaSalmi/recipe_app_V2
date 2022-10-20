@@ -8,40 +8,17 @@ import RadioButtonContainer from './RadioButtonsContainer';
 import AppManager from '../utils/AppManager.js';
 import { Constants } from '../utils/Constants.js';
 import { Crud } from '../src/db.js'
+import { generateUid } from '../src/db.js';
 
 const Pantry = (props) => {
 
     const [showSheet, setShowSheet] = useState(false);
-    const [isVisible, setisVisible] = useState(false);
     const [searchText, setSearchText] = useState();
-    const [itemToAdd, setItemToAdd] = useState();
     const [foundItem, setFoundItem] = useState([]);
     const [pantryItems, setPantryItems] = useState([
-        new PantryItem(-1, " by clicking the button below", "adding", "Start ")
+        new PantryItem(-1, "Start adding products by clicking the button below")
     ]);
     const [initiated, setInitiated] = useState(false);
-
-
-    const radioData = [
-        {
-            text: "Gr.",
-        },
-        {
-            text: "Kg.",
-        },
-        {
-            text: "Lt.",
-        },
-        {
-            text: "P.",
-        },
-        {
-            text: "Dl.",
-        },
-        {
-            text: "Pc.",
-        },
-    ];
 
     useEffect(() => {
         if (!initiated) {
@@ -61,11 +38,6 @@ const Pantry = (props) => {
         resetSearch();
     };
 
-    const toggleModal = () => {
-        let newBool = !isVisible;
-        setisVisible(newBool);
-    };
-
     const pantryItemCard = ({ item }) => (
         <PantryCard item={item} />
     );
@@ -73,17 +45,6 @@ const Pantry = (props) => {
     const searchResultCard = ({ item }) => (
         <SearchCard title={item} />
     );
-
-    const onRadioButtonPress = (itemIdx) => {
-        let temp = itemToAdd;
-        temp.measure = radioData[itemIdx].text
-        setItemToAdd(temp);
-        console.log(temp)
-    };
-
-    function rngID() {
-        return Math.floor(Math.random() * 9999);
-    }
 
     function resetSearch() {
         setFoundItem([]);
@@ -107,8 +68,8 @@ const Pantry = (props) => {
     const deleteItemAlert = (props) => {
         let currentItem = props.item;
         Alert.alert(
-            props.item.quantity + props.item.measure + props.item.title,
-            "What do You want to do?",
+            props.item.title,
+            "What do you want to do?",
             [
                 {
                     text: "Return",
@@ -120,14 +81,7 @@ const Pantry = (props) => {
                         deleteItem(currentItem = { currentItem });
                     }
                 },
-                {
-                    text: "Modify", onPress: () => {
-                        setItemToAdd(currentItem);
-                        deleteItem(currentItem = { currentItem });
-                        toggleSheet();
-                        toggleModal();
-                    }
-                }
+
             ]
         );
     }
@@ -159,79 +113,6 @@ const Pantry = (props) => {
         );
     }
 
-    //The modal that houses the quantity inputs for new item added to the pantry
-    const QuantityModal = () => {
-
-        const [saveInactive, setSaveInactive] = useState(true);
-
-        const toggleReadyToSave = () => {
-            let newBool = !saveInactive;
-            setSaveInactive(newBool);
-        };
-
-        return (
-            <Modal
-                animationType="fade"
-                transparent={true}
-                visible={isVisible}
-            >
-                <View style={customModalStyles.centeredView}>
-                    <View style={customModalStyles.modalView}>
-                        <Text
-                            style={customModalStyles.textSize}>How much do you have?
-                        </Text>
-
-                        <TextInput
-                            keyboardType='numeric'
-                            style={customModalStyles.inputStyle}
-                            onEndEditing={() => {
-
-                                toggleReadyToSave();
-
-                            }}
-                            onSelectionChange={() => {
-
-                                toggleReadyToSave();
-
-                            }}
-                            onChangeText={(input) => {
-                                let temp = itemToAdd;
-                                temp.quantity = input;
-                                setItemToAdd(temp);
-                            }}
-                        />
-                        <View style={customModalStyles.row}>
-                            <RadioButtonContainer values={radioData} onPress={onRadioButtonPress} />
-                        </View>
-
-                        <View style={customModalStyles.buttonsContainer}>
-                            <Button
-                                title='Save'
-                                disabled={saveInactive}
-                                onPress={() => {
-
-                                    let i = pantryItems;
-                                    i.push(itemToAdd);
-                                    setPantryItems(i);
-                                    Crud.updatePantry(itemToAdd, true);
-                                    toggleReadyToSave();
-                                    toggleModal();
-                                    toggleSheet();
-                                }}
-                            />
-                            
-                            <Button title='Delete'
-                                onPress={() => {
-                                    toggleModal();
-                                    toggleReadyToSave();
-                                }}
-                            />
-                        </View>
-                    </View>
-                </View>
-            </Modal>
-        );
-    }
     //card in the main page of the pantry
     function PantryCard(myProps) {
         return (
@@ -241,8 +122,6 @@ const Pantry = (props) => {
                     deleteItemAlert(myProps)
 
                 }} style={[pantryCardStyles.container, bigCardStyles.elevation]}>
-                    <Text>{myProps.item.quantity}</Text>
-                    <Text>{myProps.item.measure}</Text>
                     <Text>{myProps.item.title}</Text>
                 </View>
             </View>
@@ -266,9 +145,12 @@ const Pantry = (props) => {
                     }
 
                     if (!doubleItem) {
-                        let pantryItem = new PantryItem(rngID(), myProps.title, radioData[0].text)
-                        setItemToAdd(pantryItem);
-                        toggleModal();
+                        let newItem = new PantryItem(generateUid(), myProps.title);
+                        let tempArray = pantryItems;
+                        tempArray.push(newItem);
+                        setPantryItems(tempArray);
+                        Crud.updatePantry(newItem, true);
+                        toggleSheet();
 
                     } else {
                         AlreadyAddedAlert(myProps);
@@ -317,7 +199,7 @@ const Pantry = (props) => {
                 style={showSheet ? shoplistPage.sheetContainer : { display: "none" }}
                 behavior={Platform.OS === "ios" ? "padding" : "height"}>
 
-                <QuantityModal />
+                {/*<QuantityModal />*/}
 
                 <View style={SearchBarStyle.container}>
                     <TextInput value={searchText} onChangeText={(input) => {
@@ -343,9 +225,7 @@ const Pantry = (props) => {
                     snapToInterval={Dimensions.get("window").width}
                 />
             </KeyboardAvoidingView>
-
         </View>
-
     )
 }
 

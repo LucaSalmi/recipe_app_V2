@@ -1,9 +1,8 @@
+
 export class PantryItem{
 
-    constructor(id, title, measure, quantity){
+    constructor(id, title){
         this.id = id;
         this.title = title;
-        this.measure = measure;
-        this.quantity = quantity;
     }
 }
