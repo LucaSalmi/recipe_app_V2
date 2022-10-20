@@ -66,7 +66,6 @@ const MainContent = (props) => {
   const PROFILE = 4;
   const RECIPEDETAILS = 5;
 
-  const previousScreen = Constants.RECIPES;
 
   const [screen, setScreen] = useState(Constants.RECIPES);
 
@@ -97,12 +96,15 @@ const MainContent = (props) => {
 
     case Constants.RECIPEDETAILS:
       view = (
-        <RecipeDetails setScreen={setScreen} previousPage={previousScreen} />
+        <RecipeDetails setScreen={setScreen}/>
       );
       break;
   }
 
   const changePage = (pageName) => {
+    if(pageName != Constants.RECIPEDETAILS){
+      AppManager.previousScreen = pageName;
+    }
     setScreen(pageName);
   };
 

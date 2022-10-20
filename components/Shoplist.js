@@ -1,9 +1,12 @@
 import { StyleSheet, Text, View, Button, ScrollView, TouchableOpacity, Animated } from 'react-native';
 import { useState, useEffect, useRef } from 'react';
-import { shoplistPage } from '../styles/styles.js';
+import { shoplistPage, Fab } from '../styles/styles.js';
 import AppManager from '../utils/AppManager.js';
 import SearchBar from './SearchBar.js';
-import { Crud } from '../src/db.js';
+import { Crud, generateUid } from '../src/db.js';
+import Icon from "react-native-ico-material-design";
+import { PantryItem } from '../PantryItem.js';
+
 
 const Shoplist = (props) => {
 
@@ -18,9 +21,26 @@ const Shoplist = (props) => {
         if (AppManager.isLoggedIn) {
             setUsername(AppManager.username);
         }
-
-
     });
+
+    const syncWithPantry = () => {
+
+        let cleanedShoplist = [];
+    
+        for (const shopListItem of AppManager.shoplistContent) {
+            if(shopListItem.checked){
+                let temp = new PantryItem(generateUid(), shopListItem.desc);
+                AppManager.pantryContent.push(temp);
+                Crud.updateShoplist(shopListItem, false);
+            }else{
+                cleanedShoplist.push(shopListItem);
+            }
+        }
+    
+        setItems(cleanedShoplist);
+        AppManager.shoplistContent = cleanedShoplist;
+    
+    }
 
     const toggleSheet = () => {
         let newBool = !showSheet;
@@ -37,13 +57,22 @@ const Shoplist = (props) => {
             </View>
 
             <ScrollView style={showSheet ? { display: "none" } : shoplistPage.shoppingItemsContainer}>
-                {items.map((item, i) => <ItemRow 
-                key={i} itemName={item.desc} checked={item.checked} index={i} items={items} setItems={setItems} />)}
+                {items.map((item, i) => <ItemRow
+                    key={i} itemName={item.desc} checked={item.checked} index={i} items={items} setItems={setItems} />)}
             </ScrollView>
+
+            <TouchableOpacity activeOpacity={0.5} onPress={() => {
+                if(AppManager.isLoggedIn){
+                    syncWithPantry();
+                }
+            }} style={Fab.TouchableOpacityStyle}>
+                <Icon name="synchronization-button-with-two-arrows" />
+            </TouchableOpacity>
 
             <View style={showSheet ? shoplistPage.sheetContainer : { display: "none" }}>
                 <Text>SHEET</Text>
             </View>
+
         </View>
 
     );
