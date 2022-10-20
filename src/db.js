@@ -344,7 +344,7 @@ export const Crud = {
             })
             let array = [];
             for (let document of tempDoc) {
-                let item = { desc: document.desc, checked: true }
+                let item = { desc: document.desc, checked: document.checked }
                 array.push(item);
             }
             AppManager.shoplistContent = array;

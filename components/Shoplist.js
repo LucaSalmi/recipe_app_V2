@@ -21,26 +21,26 @@ const Shoplist = (props) => {
         if (AppManager.isLoggedIn) {
             setUsername(AppManager.username);
         }
+        
     });
 
     const syncWithPantry = () => {
 
         let cleanedShoplist = [];
-    
+
         for (const shopListItem of AppManager.shoplistContent) {
-            if(shopListItem.checked){
+            if (shopListItem.checked) {
                 let temp = new PantryItem(generateUid(), shopListItem.desc);
                 AppManager.pantryContent.push(temp);
                 Crud.updateShoplist(shopListItem, false);
                 Crud.updatePantry(temp, true);
-            }else{
+            } else {
                 cleanedShoplist.push(shopListItem);
             }
         }
-    
+
         setItems(cleanedShoplist);
         AppManager.shoplistContent = cleanedShoplist;
-    
     }
 
     const toggleSheet = () => {
@@ -63,7 +63,7 @@ const Shoplist = (props) => {
             </ScrollView>
 
             <TouchableOpacity activeOpacity={0.5} onPress={() => {
-                if(AppManager.isLoggedIn){
+                if (AppManager.isLoggedIn) {
                     syncWithPantry();
                 }
             }} style={Fab.TouchableOpacityStyle}>
@@ -81,8 +81,6 @@ const Shoplist = (props) => {
 
 const ItemRow = (props) => {
 
-    const [isReady, setIsReady] = useState(false);
-
     const [checked, setChecked] = useState(props.checked);
 
     const buttonPress = () => {
@@ -95,21 +93,20 @@ const ItemRow = (props) => {
         let newItems = props.items;
         newItems[index].checked = newCheckedValue;
         props.setItems(newItems);
+        AppManager.shoplistContent = newItems;
         Crud.updateShoplist(newItems[index], true)
 
     };
 
-    useEffect(() => {
-        setTimeout(() => {
-            setIsReady(true);
-        }, 500);
-    });
-
     return (
         <TouchableOpacity style={{ paddingTop: 5, paddingBottom: 5 }} onPress={() => { buttonPress() }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                {isReady ? <Text style={{ textDecorationLine: checked ? 'line-through' : '', textDecorationStyle: checked ? 'solid' : '' }}>{props.itemName}</Text> : <Text>Loading...</Text>}
-                {isReady ? <Text style={{ width: 25, height: 25, borderStyle: 'solid', borderWidth: 1, borderColor: 'black', textAlign: 'center', paddingTop: 3.5 }}>{checked ? "X" : " "}</Text> : <Text>...</Text>}
+                <Text
+                    style={{ textDecorationLine: checked ? 'line-through' : '', textDecorationStyle: checked ? 'solid' : '' }}>{props.itemName}
+                </Text>
+                <Text
+                    style={{ width: 25, height: 25, borderStyle: 'solid', borderWidth: 1, borderColor: 'black', textAlign: 'center', paddingTop: 3.5 }}>{checked ? "X" : " "}
+                </Text>
             </View>
 
             <View style={{ borderBottomColor: 'black', borderBottomWidth: StyleSheet.hairlineWidth }} />
