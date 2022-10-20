@@ -10,6 +10,8 @@ const AppManager = {
     currentRecipe: {},
     allRecipes: [],
     allIngredients: [],
+    pantryContent: [],
+    shoplistContent: [],
 }
 
 export default AppManager;

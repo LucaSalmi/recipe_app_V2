@@ -24,7 +24,7 @@ const Profile = (props) => {
             userData = await Crud.getUser(username, password);
 
             console.log("USERDATA = " + userData.id);
-        
+
             if (userData.id.length == 0) {
                 console.log("Wrong username/password!");
                 return;
@@ -39,7 +39,7 @@ const Profile = (props) => {
         AppManager.uid = uid;
         AppManager.username = username;
         AppManager.password = password;
-        
+
         AppManager.firstName = userData.firstName;
         AppManager.secondName = userData.secondName;
         AppManager.email = userData.email;
@@ -49,7 +49,11 @@ const Profile = (props) => {
         setSecondName(userData.secondName);
         setEmail(userData.email);
         setPhone(userData.phone);
-        
+
+        if (AppManager.pantryContent.length < 1) {
+            Crud.getPantry(null);
+        }
+
     };
 
     const createAccount = async () => {
@@ -108,6 +112,8 @@ const Profile = (props) => {
         AppManager.email = "";
         AppManager.phone = "";
 
+        AppManager.pantryContent = [];
+
     };
 
     useEffect(() => {
@@ -124,40 +130,40 @@ const Profile = (props) => {
 
     });
 
-	return (
+    return (
         <View style={profilePage.profileContainer}>
 
-            <Text style={{padding: 50, fontSize: 20, fontWeight: "bold"}}>PROFILE PAGE</Text>
+            <Text style={{ padding: 50, fontSize: 20, fontWeight: "bold" }}>PROFILE PAGE</Text>
 
             <View style={isLoggedIn ? profilePage.hidden : profilePage.inputContainer}>
                 <Text>Username</Text>
-                <TextInput style={profilePage.inputField} value={username} onChangeText={(text)=>{ setUsername(text.trim()); }}></TextInput>
+                <TextInput style={profilePage.inputField} value={username} onChangeText={(text) => { setUsername(text.trim()); }}></TextInput>
                 <Text>Password</Text>
-                <TextInput style={[profilePage.inputField, profilePage.defaultMarginBottom]} value={password} onChangeText={(text)=>{ setPassword(text); }}></TextInput>
-                <Button  title="LOGIN" onPress={()=>{login()}}></Button>
+                <TextInput style={[profilePage.inputField, profilePage.defaultMarginBottom]} value={password} onChangeText={(text) => { setPassword(text); }}></TextInput>
+                <Button title="LOGIN" onPress={() => { login() }}></Button>
                 <Text style={profilePage.defaultMarginTop}>Don't have an account?</Text>
-                <Button title="SIGN UP" onPress={()=>{createAccount()}}></Button>
+                <Button title="SIGN UP" onPress={() => { createAccount() }}></Button>
             </View>
-            
+
             <View style={isLoggedIn ? profilePage.inputContainer : profilePage.hidden}>
                 <Text>Welcome, {username}!</Text>
                 <Text>{/* "SPACER" */}</Text>
                 <Text>First name</Text>
-                <TextInput style={profilePage.inputField} value={firstName} onChangeText={(text)=>{ setFirstName(text); }}></TextInput>
+                <TextInput style={profilePage.inputField} value={firstName} onChangeText={(text) => { setFirstName(text); }}></TextInput>
                 <Text>Second name</Text>
-                <TextInput style={profilePage.inputField} value={secondName} onChangeText={(text)=>{ setSecondName(text); }}></TextInput>
+                <TextInput style={profilePage.inputField} value={secondName} onChangeText={(text) => { setSecondName(text); }}></TextInput>
                 <Text>Email</Text>
-                <TextInput style={profilePage.inputField} value={email} onChangeText={(text)=>{ setEmail(text); }}></TextInput>
+                <TextInput style={profilePage.inputField} value={email} onChangeText={(text) => { setEmail(text); }}></TextInput>
                 <Text>Phone</Text>
-                <TextInput style={profilePage.inputField} value={phone} onChangeText={(text)=>{ setPhone(text); }}></TextInput>
+                <TextInput style={profilePage.inputField} value={phone} onChangeText={(text) => { setPhone(text); }}></TextInput>
                 <Text>{/* "SPACER" */}</Text>
-                <Button title="SAVE" onPress={()=>{save()}}></Button>
+                <Button title="SAVE" onPress={() => { save() }}></Button>
                 <Text>{/* "SPACER" */}</Text>
-                <Button title="LOGOUT" onPress={()=>{logout()}}></Button>
+                <Button title="LOGOUT" onPress={() => { logout() }}></Button>
             </View>
         </View>
-        
-	);
+
+    );
 }
 
 export default Profile;

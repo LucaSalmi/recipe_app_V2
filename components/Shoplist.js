@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { shoplistPage } from '../styles/styles.js';
 import AppManager from '../utils/AppManager.js';
 import SearchBar from './SearchBar.js';
+import { Crud } from '../src/db.js';
 
 var SingletonInstance = {
     items: [{ desc: "Några pallar äpplen", checked: true }, { desc: "En trave bananer", checked: false }, { desc: "Ett litet, litet bär", checked: false }],
@@ -12,19 +13,16 @@ const Shoplist = (props) => {
 
     const [showSheet, setShowSheet] = useState(false);
 
-    const [items, setItems] = useState([]);
+    const [items, setItems] = useState(AppManager.shoplistContent);
 
     const [username, setUsername] = useState("Guest");
 
     useEffect(() => {
 
-        //Download users shoppinglist from firestore
-        setTimeout(() => {
-            setItems(SingletonInstance.items);
-            if (AppManager.isLoggedIn) {
-                setUsername(AppManager.username);
-            }
-        }, 100);
+        if (AppManager.isLoggedIn) {
+            setUsername(AppManager.username);
+        }
+
 
     });
 
