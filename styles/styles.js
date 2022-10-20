@@ -96,7 +96,7 @@ export const pantryCardStyles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     height: "90%",
-    width: "85%",
+    width: "75%",
     borderRadius: 25,
     borderWidth: 1,
   },

@@ -2,11 +2,8 @@ import { StyleSheet, Text, View, TextInput, Button, ScrollView, TouchableOpacity
 import { useState, useEffect } from 'react';
 import { pantryItemStyle, bigCardStyles, Fab, shoplistPage, SearchBarStyle, pantryCardStyles, customModalStyles } from '../styles/styles';
 import Icon from "react-native-ico-material-design";
-import { ingredients } from '../PantryData';
 import { PantryItem } from '../PantryItem';
-import RadioButtonContainer from './RadioButtonsContainer';
 import AppManager from '../utils/AppManager.js';
-import { Constants } from '../utils/Constants.js';
 import { Crud } from '../src/db.js'
 import { generateUid } from '../src/db.js';
 
@@ -117,7 +114,7 @@ const Pantry = (props) => {
     function PantryCard(myProps) {
         return (
             <View style={pantryCardStyles.superView}>
-                <View onTouchStart={() => {
+                <View onTouchEnd={() => {
 
                     deleteItemAlert(myProps)
 
@@ -134,7 +131,7 @@ const Pantry = (props) => {
 
         return (
             <View style={pantryCardStyles.superView}>
-                <View onTouchStart={() => {
+                <View onTouchEnd={() => {
 
                     for (const item of pantryItems) {
 
@@ -203,9 +200,8 @@ const Pantry = (props) => {
 
                 <View style={SearchBarStyle.container}>
                     <TextInput value={searchText} onChangeText={(input) => {
-                        let capitalized = input.toUpperCase();
                         setSearchText(input);
-                        setFoundItem(showResults(capitalized));
+                        setFoundItem(showResults(input));
                     }} style={SearchBarStyle.searchInput} placeholder="Search here..." />
                     <TouchableOpacity onPress={() => {
                         resetSearch();
@@ -232,16 +228,17 @@ const Pantry = (props) => {
 function showResults(input) {
     let search = '';
     var foundItem = [];
+    let allIng = AppManager.allIngredients
     try {
 
         for (let i = 0; i < input.length; i++) {
             search = search + input[i];
 
-            for (let i = 0; i < ingredients.length; i++) {
+            for (let i = 0; i < allIng.length; i++) {
 
-                if (ingredients[i].includes(search)) {
-                    if (!foundItem.includes(ingredients[i])) {
-                        foundItem.push(ingredients[i])
+                if (allIng[i].includes(search)) {
+                    if (!foundItem.includes(allIng[i])) {
+                        foundItem.push(allIng[i])
                     }
                 }
             }
