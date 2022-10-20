@@ -370,7 +370,7 @@ export const Crud = {
             let docId = i.toString();
             let ingredient = AppManager.allIngredients[i];
             console.log(ingredient);
-            if (ingredient == null) {
+            if (ingredient == null || ingredient == "or" || ingredient == "if unavailable") {
                 continue;
             }
             db.collection(ALL_INGREDIENTS_COLLECTION).doc(docId).set({name: ingredient.toString()});
