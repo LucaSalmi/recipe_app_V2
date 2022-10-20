@@ -3,28 +3,22 @@ import { useState, useEffect, useRef } from 'react';
 import { shoplistPage } from '../styles/styles.js';
 import AppManager from '../utils/AppManager.js';
 import SearchBar from './SearchBar.js';
-
-var SingletonInstance = {
-    items: [{ desc: "Några pallar äpplen", checked: true }, { desc: "En trave bananer", checked: false }, { desc: "Ett litet, litet bär", checked: false }],
-};
+import { Crud } from '../src/db.js';
 
 const Shoplist = (props) => {
 
     const [showSheet, setShowSheet] = useState(false);
 
-    const [items, setItems] = useState([]);
+    const [items, setItems] = useState(AppManager.shoplistContent);
 
     const [username, setUsername] = useState("Guest");
 
     useEffect(() => {
 
-        //Download users shoppinglist from firestore
-        setTimeout(() => {
-            setItems(SingletonInstance.items);
-            if (AppManager.isLoggedIn) {
-                setUsername(AppManager.username);
-            }
-        }, 100);
+        if (AppManager.isLoggedIn) {
+            setUsername(AppManager.username);
+        }
+
 
     });
 
@@ -43,7 +37,8 @@ const Shoplist = (props) => {
             </View>
 
             <ScrollView style={showSheet ? { display: "none" } : shoplistPage.shoppingItemsContainer}>
-                {items.map((item, i) => <ItemRow key={i} itemName={item.desc} checked={item.checked} index={i} />)}
+                {items.map((item, i) => <ItemRow 
+                key={i} itemName={item.desc} checked={item.checked} index={i} items={items} setItems={setItems} />)}
             </ScrollView>
 
             <View style={showSheet ? shoplistPage.sheetContainer : { display: "none" }}>
@@ -66,9 +61,11 @@ const ItemRow = (props) => {
 
         setChecked(newCheckedValue);
 
-        //Update on firestore
         let index = props.index;
-        SingletonInstance.items[index].checked = newCheckedValue;
+        let newItems = props.items;
+        newItems[index].checked = newCheckedValue;
+        props.setItems(newItems);
+        Crud.updateShoplist(newItems[index], true)
 
     };
 
