@@ -301,7 +301,7 @@ export const Crud = {
             })
             let array = [];
             for (let document of tempDoc) {
-                let item = new PantryItem(document.id, document.title, document.measure, document.quantity);
+                let item = new PantryItem(document.id, document.title);
                 array.push(item);
             }
             setPantryItems(array);
@@ -316,7 +316,7 @@ export const Crud = {
             db.collection(USERS_COLLECTION).doc(AppManager.uid.toString())
                 .collection(PANTRY_COLLECTION)
                 .doc(pantryItem.id.toString())
-                .set({ id: pantryItem.id.toString(), title: pantryItem.title.toString(), measure: pantryItem.measure.toString(), quantity: pantryItem.quantity.toString()});
+                .set({ id: pantryItem.id.toString(), title: pantryItem.title.toString()});
         }
         else {
             db.collection(USERS_COLLECTION).doc(AppManager.uid.toString()).collection(PANTRY_COLLECTION).doc(pantryItem.id.toString()).delete().then(() => {
@@ -329,7 +329,7 @@ export const Crud = {
 
 };
 
-const generateUid = () => {
+export const generateUid = () => {
     let uid = "";
 
     for (let i = 0; i < 32; i++) {

@@ -16,10 +16,6 @@ import { styles } from "./RecipeDetails";
 export function IngredientsView(props) {
   const title = "Gör så här";
 
-  
-
-  
-  
   return (
     <View>
       

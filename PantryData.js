@@ -1,11 +1,7 @@
 
 const ingredients = [
 
-    'Cow',
-    'Pig',
-    'Chicken',
-    'Horse',
-    'Lamb',
+    'Lamb Chops',
     'Apple',
     'Banana',
     'Orange',
@@ -28,6 +24,7 @@ const ingredients = [
     'Salt',
     'Curry',
     'Chili Pepper',
+    'Garlic Clove',
 ];
 
 export {ingredients}
