@@ -19,6 +19,8 @@ import { IngredientsView } from "./Ingredients";
 import InstructionsView from "./Instructions";
 import AppManager from '../utils/AppManager.js'
 import { Crud } from "../src/db";
+import { recipePage } from "../styles/styles";
+
 
 const RecipeDetails = (props) => {
   const imageSource = "../assets/jerkchicken.jpg";
@@ -191,7 +193,10 @@ const RecipeDetails = (props) => {
           </ImageBackground>
         </View>
 
+
         <View>
+          <LinearGradient colors={["#F3F3F3", "transparent"]}>         
+        <View> 
           <View style={styles.topInfo}>
             <TouchableOpacity
               disabled={count < 12 ? false : true}
@@ -235,37 +240,37 @@ const RecipeDetails = (props) => {
         </View>
 
         <View style={styles.tabs}>
+          
           <TouchableOpacity
             onPress={() => {
               changeTab(INGREDIENTS);
             }}
+            style={tabId == INGREDIENTS
+            ? recipePage.shadowProp
+            : recipePage.button}
+            
           >
-            <Text
-              style={
-                tabId == INGREDIENTS
-                  ? { textDecorationLine: "underline" }
-                  : { textDecorationLine: "none" }
-              }
-            >
+            
+            <Text>
               Ingredients
             </Text>
+            
           </TouchableOpacity>
-
+          
           <TouchableOpacity
             onPress={() => {
               changeTab(INSTRUCTIONS);
             }}
+            style={tabId == INSTRUCTIONS
+            ? recipePage.shadowProp
+            : recipePage.button}
           >
-            <Text
-              style={
-                tabId == INSTRUCTIONS
-                  ? { textDecorationLine: "underline" }
-                  : { textDecorationLine: "none" }
-              }
-            >
+            <Text>
               Instructions
             </Text>
           </TouchableOpacity>
+        </View>
+        </LinearGradient>   
         </View>
 
         <View>{tab}</View>

@@ -16,22 +16,42 @@ import { styles } from "./RecipeDetails";
 export function IngredientsView(props) {
   const title = "Gör så här";
 
+
+
   return (
     <View>
-      
+
       {props.ingredients.map((ingredient) => {
+
+        let ingredientname = ingredient.name
+        let fixedName = ingredientname.charAt(0).toUpperCase() + ingredientname.slice(1)
+        
+        
         return (
-          <View style={{ flexDirection: "row", marginStart: 10 }}>
-            <Text style={{ marginEnd: 8, fontSize: 13, marginBottom: 5 }}>
-              {""}
-            </Text>
-            <Text style={{ fontSize: 13, margin: 2 }}>{ingredient.amount}</Text>
-            <Text style={{ fontSize: 13, margin: 2 }}>{ingredient.unit}</Text>
-            <Text style={{ fontSize: 13, margin: 2 }}>{ingredient.name}</Text>
+
+          
+          <View style={{ flexDirection: "column" }}>
+
+            <View style={{ flexDirection: "row", marginStart: 10}}>
+              
+              <Text style={{ fontSize: 16, margin: 6, fontWeight: 'bold'}}>{ingredient.amount}</Text>
+              <Text style={{ fontSize: 16, margin: 6}}>{ingredient.unit}</Text>
+              <Text style={{ fontSize: 16, margin: 6, fontWeight:'bold'}}>{fixedName}</Text>
+            </View>
+
+            <View style={{
+              borderBottomColor: 'black',
+              borderBottomWidth: StyleSheet.hairlineWidth,
+              marginStart: 10
+            }}>
+                
+            </View>
+
           </View>
+
         );
       })}
-      
+
     </View>
   );
 }

@@ -15,6 +15,7 @@ import { useState, useEffect } from "react";
 import { styles } from "./RecipeDetails";
 import AppManager from '../utils/AppManager';
 import { Crud } from '../src/db.js'
+import { LinearGradient } from "expo-linear-gradient";
 
 export function BigCard(myProps) {
   const [heartEmpty, setFillHeart] = useState(!myProps.isFavorite);
@@ -46,9 +47,14 @@ export function BigCard(myProps) {
     >
       <View style={[bigCardStyles.card]}>
         <ImageBackground
-          style={[{ flexDirection: "row-reverse" }, bigCardStyles.imageInCard]}
+          style={bigCardStyles.imageInCard}
           source={{ uri: myProps.imageSource }}
         >
+
+          <LinearGradient
+              style={[bigCardStyles.imageInCard, {flexDirection: "row-reverse"}]}
+              colors={["#F3F3F3", "transparent", "transparent", "transparent", "transparent", "transparent", "transparent", "transparent"]}
+            >
           <TouchableOpacity
             onPress={() => {
               toggleHeart();
@@ -61,11 +67,12 @@ export function BigCard(myProps) {
                   : "favorite-heart-button"
               }
               group="material-design"
-              height="38"
-              width="38"
+              height="25"
+              width="25"
               style={{ margin: 15 }}
             />
           </TouchableOpacity>
+          </LinearGradient>
         </ImageBackground>
 
         <View style={bigCardStyles.bottomCard}>
