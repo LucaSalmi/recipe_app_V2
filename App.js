@@ -22,6 +22,7 @@ import Icon from "react-native-ico-material-design";
 import RecipeDetails from "./components/RecipeDetails";
 import { Constants } from "./utils/Constants";
 import { Crud } from "./src/db.js";
+import AppManager from "./utils/AppManager";
 
 //testing more hello
 //a comment from ankan, hello guys
@@ -32,6 +33,10 @@ export default function App() {
 
   if (recipeData.length < 1) {
     Crud.getRecipies(setRecipeData);
+  }
+
+  if (AppManager.allIngredients.length < 1) {
+    Crud.getAllIngredients();
   }
 
   if (Platform.OS == "android") {

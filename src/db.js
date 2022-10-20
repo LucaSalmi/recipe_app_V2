@@ -30,6 +30,7 @@ const RECIPE_COLLECTION = "recipies";
 const FAVORITE_COLLECTION = "favorites";
 const INGREDIENTS_COLLECTION = "ingredients"
 const PANTRY_COLLECTION = "pantry";
+const ALL_INGREDIENTS_COLLECTION = "all_ingredients";
 
 
 /* CRUD */
@@ -199,6 +200,7 @@ export const Crud = {
             documents = tempDoc;
             setRecipeData(documents)
             AppManager.allRecipes = documents;
+            console.log(AppManager.allRecipes.length);
         })
 
 
@@ -325,6 +327,71 @@ export const Crud = {
                 console.error("Error removing document: ", error);
             });
         }
+    },
+
+    getTotalIngredients: async () => {
+
+        let recipes = AppManager.allRecipes;
+
+        console.log("Recipies length = " + AppManager.allRecipes);
+        
+        for (let recipe of recipes) {
+            const location = firebase.firestore()
+            .collection(RECIPE_COLLECTION)
+            .doc(recipe.id.toString())
+            .collection(INGREDIENTS_COLLECTION)
+            await location.get().then((querySnapshot) => {
+                const documents = querySnapshot.docs.map((doc) => {
+                    return { id: doc.id, ...doc.data() }
+                })
+
+                for (let document of documents) {
+                    console.log("DANNE 1: " + document);
+                    if (!AppManager.allIngredients.includes(document.name)) {
+                        console.log("DANNE 2: " + document);
+                        AppManager.allIngredients.push(document.name);
+                    }
+                }
+
+                
+                //console.log(documents);
+            
+            })
+        }
+
+
+    },
+
+    createIngredients: () => {
+
+        console.log(AppManager.allIngredients);
+
+        for (let i = 0; i < AppManager.allIngredients.length; i++) {
+            let docId = i.toString();
+            let ingredient = AppManager.allIngredients[i];
+            console.log(ingredient);
+            if (ingredient == null) {
+                continue;
+            }
+            db.collection(ALL_INGREDIENTS_COLLECTION).doc(docId).set({name: ingredient.toString()});
+        }
+
+    },
+
+    getAllIngredients: async () => {
+
+        const events = firebase.firestore().collection(ALL_INGREDIENTS_COLLECTION)
+        await events.get().then((querySnapshot) => {
+            const tempDoc = querySnapshot.docs.map((doc) => {
+                return { id: doc.id, ...doc.data() }
+            })
+            let array = [];
+            for (let document of tempDoc) {
+                array.push(document.name);
+            }
+            AppManager.allIngredients = array;
+        })
+
     },
 
 };
