@@ -45,6 +45,7 @@ const Pantry = (props) => {
             }
         }
         setPantryItems(x);
+        AppManager.pantryContent = x;
     }
 
     //Alert to confirm the elimination of an item in the pantry
@@ -132,6 +133,7 @@ const Pantry = (props) => {
                         let tempArray = pantryItems;
                         tempArray.push(newItem);
                         setPantryItems(tempArray);
+                        AppManager.pantryContent = tempArray;
                         Crud.updatePantry(newItem, true);
                         toggleSheet();
 

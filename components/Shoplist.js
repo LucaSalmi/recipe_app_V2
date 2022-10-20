@@ -32,6 +32,7 @@ const Shoplist = (props) => {
                 let temp = new PantryItem(generateUid(), shopListItem.desc);
                 AppManager.pantryContent.push(temp);
                 Crud.updateShoplist(shopListItem, false);
+                Crud.updatePantry(temp, true);
             }else{
                 cleanedShoplist.push(shopListItem);
             }
