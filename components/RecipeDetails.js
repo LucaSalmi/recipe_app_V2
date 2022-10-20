@@ -10,6 +10,7 @@ import {
   Image,
   ImageBackground,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import { useState, useEffect } from "react";
 import Icon from "react-native-ico-material-design";
@@ -68,8 +69,75 @@ const RecipeDetails = (props) => {
     setTabId(tabName);
   };
 
+  const addToShoplist = () => {
+
+    let ingredientsToAdd = [];
+
+    //Check pantry
+    for (let ingredient of ingredients) {
+
+      let found = false;
+
+      for (let pantryItem of AppManager.pantryContent) {
+        if (pantryItem.title == ingredient.name) {
+          found = true;
+        }
+      }
+
+      if (!found) {
+        ingredientsToAdd.push(ingredient.name);
+      }
+
+    }
+
+    let filteredIngredients = [];
+
+    //Check shoplist
+    for (let ingredientToAdd of ingredientsToAdd) {
+
+      let found = false;
+
+      for (let shoplistItem of AppManager.shoplistContent) {
+        
+
+        if (ingredientToAdd == shoplistItem.desc) {
+          found = true
+        }
+      }
+
+      if (!found) {
+        filteredIngredients.push(ingredientToAdd);
+      }
+    }
+
+    if (filteredIngredients.length < 1) {
+      console.log("All ingredients already exists in shoplist or pantry.");
+      Alert.alert(
+        "Info",
+        "All ingredients already exists in shoplist or pantry.",
+        [
+            {
+                text: "Return",
+                style: "cancel",
+
+            },
+
+        ]
+      );
+      return;
+    }
+
+    //Finally add to firestore
+    for (let ingredient of filteredIngredients) {
+      let item = {desc: ingredient, checked: false};
+      Crud.updateShoplist(item, true);
+      AppManager.shoplistContent.push(item);
+    }
+  
+  };
+
   return (
-    <View>
+    <View style={{height: "100%", flex: 1}}>
       <ScrollView>
         <View>
           <ImageBackground
@@ -201,7 +269,10 @@ const RecipeDetails = (props) => {
         </View>
 
         <View>{tab}</View>
+        
       </ScrollView>
+
+      <Button title="Add to shoplist" onPress={()=>{ addToShoplist() }}></Button>
     </View>
   );
 };
