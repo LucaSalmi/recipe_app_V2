@@ -41,8 +41,8 @@ export const Crud = {
     apiImport: () => {
 
         //Remove "return" if you really want to fetch API-data.
-        //console.log("Remove return if you really want to fetch API-data ( in Crud.apiImport() ).");
-        //return;
+        console.log("Remove return if you really want to fetch API-data ( in Crud.apiImport() ).");
+        return;
 
         const options = {
             method: 'GET',
