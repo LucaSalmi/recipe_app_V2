@@ -26,13 +26,14 @@ const Recipes = (props) => {
   const [favoritesIds, setFavoritesIds] = useState([]);
 
   if (!initiated) {
+
     if (AppManager.uid.length > 0) {
       Crud.getFavorites(setFavorites);
     }
 
     setInitated(true);
   }
-
+  
   useEffect(() => {
     let newFavoritesIds = [];
     for (let favorite of favorites) {
@@ -64,7 +65,6 @@ const Recipes = (props) => {
   return (
     <View style={recipePage.recipeContainer}>
       <SearchBar />
-
       <FlatList
         data={recipeData}
         renderItem={renderItem}
