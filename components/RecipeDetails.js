@@ -17,11 +17,10 @@ import Icon from "react-native-ico-material-design";
 import { LinearGradient } from "expo-linear-gradient";
 import { IngredientsView } from "./Ingredients";
 import InstructionsView from "./Instructions";
-import AppManager from '../utils/AppManager.js'
+import AppManager from "../utils/AppManager.js";
 import { Crud } from "../src/db";
 import { recipePage } from "../styles/styles";
 import { Constants } from "../utils/Constants";
-
 
 const RecipeDetails = (props) => {
   const imageSource = "../assets/jerkchicken.jpg";
@@ -31,6 +30,7 @@ const RecipeDetails = (props) => {
 
   const [count, setCount] = useState(Constants.DEFAULT_SERVINGS);
   const [heartEmpty, setFillHeart] = useState(true);
+
   
   const [ingredients, setIngredients] = useState([])
   const [roundedIngredients, setRoundedIngredients] = useState([]);
@@ -123,11 +123,11 @@ const RecipeDetails = (props) => {
 
   const [tabId, setTabId] = useState(INGREDIENTS);
 
-
   let tab;
 
   switch (tabId) {
     case INGREDIENTS:
+
       tab = <IngredientsView setTabId={setTabId} 
       ingredients = {roundedIngredients} />;
 
@@ -143,12 +143,10 @@ const RecipeDetails = (props) => {
   };
 
   const addToShoplist = () => {
-
     let ingredientsToAdd = [];
 
     //Check pantry
     for (let ingredient of ingredients) {
-
       let found = false;
 
       for (let pantryItem of AppManager.pantryContent) {
@@ -160,21 +158,17 @@ const RecipeDetails = (props) => {
       if (!found) {
         ingredientsToAdd.push(ingredient.name);
       }
-
     }
 
     let filteredIngredients = [];
 
     //Check shoplist
     for (let ingredientToAdd of ingredientsToAdd) {
-
       let found = false;
 
       for (let shoplistItem of AppManager.shoplistContent) {
-        
-
         if (ingredientToAdd == shoplistItem.desc) {
-          found = true
+          found = true;
         }
       }
 
@@ -189,12 +183,10 @@ const RecipeDetails = (props) => {
         "Info",
         "All ingredients already exists in shoplist or pantry.",
         [
-            {
-                text: "Return",
-                style: "cancel",
-
-            },
-
+          {
+            text: "Return",
+            style: "cancel",
+          },
         ]
       );
       return;
@@ -202,15 +194,14 @@ const RecipeDetails = (props) => {
 
     //Finally add to firestore
     for (let ingredient of filteredIngredients) {
-      let item = {desc: ingredient, checked: false};
+      let item = { desc: ingredient, checked: false };
       Crud.updateShoplist(item, true);
       AppManager.shoplistContent.push(item);
     }
-  
   };
 
   return (
-    <View style={{height: "100%", flex: 1}}>
+    <View style={{ height: "100%", flex: 1 }}>
       <ScrollView>
         <View>
           <ImageBackground
@@ -264,7 +255,6 @@ const RecipeDetails = (props) => {
           </ImageBackground>
         </View>
 
-
         <View>
           <LinearGradient colors={["#F3F3F3", "transparent"]}>         
         <View> 
@@ -314,45 +304,15 @@ const RecipeDetails = (props) => {
           </View>
         </View>
 
-        <View style={styles.tabs}>
-          
-          <TouchableOpacity
-            onPress={() => {
-              changeTab(INGREDIENTS);
-            }}
-            style={tabId == INGREDIENTS
-            ? recipePage.shadowProp
-            : recipePage.button}
-            
-          >
-            
-            <Text>
-              Ingredients
-            </Text>
-            
-          </TouchableOpacity>
-          
-          <TouchableOpacity
-            onPress={() => {
-              changeTab(INSTRUCTIONS);
-            }}
-            style={tabId == INSTRUCTIONS
-            ? recipePage.shadowProp
-            : recipePage.button}
-          >
-            <Text>
-              Instructions
-            </Text>
-          </TouchableOpacity>
-        </View>
-        </LinearGradient>   
-        </View>
-
         <View>{tab}</View>
-        
       </ScrollView>
 
-      <Button title="Add to shoplist" onPress={()=>{ addToShoplist() }}></Button>
+      <Button
+        title="Add to shoplist"
+        onPress={() => {
+          addToShoplist();
+        }}
+      ></Button>
     </View>
   );
 };

@@ -9,6 +9,8 @@ import {
   Platform,
   TouchableOpacity,
   SectionList,
+  Animated,
+  Pressable,
 } from "react-native";
 import Recipes from "./components/Recipes.js";
 import Favorite from "./components/Favorite.js";
@@ -18,11 +20,12 @@ import Profile from "./components/Profile.js";
 import { pageStyles, bigCardStyles } from "./styles/styles.js";
 import { useState, useEffect } from "react";
 import Icon from "react-native-ico-material-design";
-
+import { NavButton } from "./components/NavButton";
 import RecipeDetails from "./components/RecipeDetails";
 import { Constants } from "./utils/Constants";
 import { Crud } from "./src/db.js";
 import AppManager from "./utils/AppManager";
+import { navBarStyles } from "./styles/styles.js";
 
 //testing more hello
 //a comment from ankan, hello guys
@@ -50,7 +53,12 @@ export default function App() {
   } else {
     if (recipeData.length > 0) {
       return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView
+          style={{
+            flex: 1,
+            backgroundColor: Constants.NAVBAR_AND_SAFEAREA_COLOR,
+          }}
+        >
           <MainContent recipeData={recipeData} />
         </SafeAreaView>
       );
@@ -61,6 +69,28 @@ export default function App() {
 }
 
 const MainContent = (props) => {
+  //Animation
+
+  const animation = new Animated.Value(0);
+  const inputRange = [0, 1];
+  const outputRange = [1, 0.8];
+  const scale = animation.interpolate({ inputRange, outputRange });
+
+  const onPressIn = () => {
+    Animated.spring(animation, {
+      toValue: 1,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const onPressOut = () => {
+    Animated.spring(animation, {
+      toValue: 0,
+      useNativeDriver: true,
+    }).start();
+  };
+  // End of animations
+
   const RECIPES = 0;
   const FAVORITE = 1;
   const SHOPLIST = 2;
@@ -68,8 +98,7 @@ const MainContent = (props) => {
   const PROFILE = 4;
   const RECIPEDETAILS = 5;
 
-
-  const [screen, setScreen] = useState(Constants.RECIPES);
+  const [screen, setScreen] = useState(Constants.RECIPES); // defaultar till Constants.RECIPES
 
   const [hideNav, setHideNav] = useState(false);
 
@@ -97,201 +126,68 @@ const MainContent = (props) => {
       break;
 
     case Constants.RECIPEDETAILS:
-      view = (
-        <RecipeDetails setScreen={setScreen}/>
-      );
+      view = <RecipeDetails setScreen={setScreen} />;
       break;
   }
 
   const changePage = (pageName) => {
-    if(pageName != Constants.RECIPEDETAILS){
+    if (pageName != Constants.RECIPEDETAILS) {
       AppManager.previousScreen = pageName;
     }
     setScreen(pageName);
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.currentPage}>{view}</View>
-      <View style={hideNav ? styles.navBarHidden : styles.navBar}>
-        <TouchableOpacity
-          style={[
-            styles.navButton,
-            screen == RECIPES ? styles.activeButton : styles.navButton,
-          ]}
-          onPress={() => {
-            changePage(Constants.RECIPES);
-          }}
-        >
-          <Icon
-            style={[
-              styles.icon,
-              screen == RECIPES ? { fill: "white" } : { fill: "black" },
-            ]}
-            name="list-button-with-3-elements"
-            group="material-design"
-          />
-          <Text
-            style={[
-              screen == RECIPES ? { color: "white" } : { color: "black" },
-            ]}
-          >
-            Recipes
-          </Text>
-        </TouchableOpacity>
+    <View style={navBarStyles.container}>
+      <View style={navBarStyles.currentPage}>{view}</View>
+      <View style={[hideNav ? navBarStyles.navBarHidden : navBarStyles.navBar]}>
+        <NavButton
+          name={"list-button-with-3-elements"}
+          group={"material-design"}
+          screen={screen}
+          changePage={changePage}
+          page={Constants.RECIPES}
+          title={"Recipes"}
+        />
 
-        <TouchableOpacity
-          style={[
-            styles.navButton,
-            screen == FAVORITE ? styles.activeButton : styles.navButton,
-          ]}
-          onPress={() => {
-            changePage(Constants.FAVORITE);
-          }}
-        >
-          <Icon
-            style={[
-              styles.icon,
-              screen == FAVORITE ? { fill: "white" } : { fill: "black" },
-            ]}
-            name="favorite-heart-outline-button"
-            group="material-design"
-          />
-          <Text
-            style={[
-              screen == FAVORITE ? { color: "white" } : { color: "black" },
-            ]}
-          >
-            Favorites
-          </Text>
-        </TouchableOpacity>
+        <NavButton
+          name={"favorite-heart-outline-button"}
+          group={"material-design"}
+          screen={screen}
+          changePage={changePage}
+          page={Constants.FAVORITE}
+          title={"Favorites"}
+        />
 
-        <TouchableOpacity
-          style={[
-            styles.navButton,
-            screen == SHOPLIST ? styles.activeButton : styles.navButton,
-          ]}
-          onPress={() => {
-            changePage(Constants.SHOPLIST);
-          }}
-        >
-          <Icon
-            style={[
-              styles.icon,
-              screen == SHOPLIST ? { fill: "white" } : { fill: "black" },
-            ]}
-            name="shopping-cart"
-            group="basic"
-          />
-          <Text
-            style={[
-              screen == SHOPLIST ? { color: "white" } : { color: "black" },
-            ]}
-          >
-            Shoplist
-          </Text>
-        </TouchableOpacity>
+        <NavButton
+          name={"shopping-cart"}
+          group={"basic"}
+          screen={screen}
+          changePage={changePage}
+          page={Constants.SHOPLIST}
+          title={"Shoplist"}
+        />
 
-        <TouchableOpacity
-          style={[
-            styles.navButton,
-            screen == PANTRY ? styles.activeButton : styles.navButton,
-          ]}
-          onPress={() => {
-            changePage(Constants.PANTRY);
-          }}
-        >
-          <Icon
-            style={[
-              styles.icon,
-              screen == PANTRY ? { fill: "white" } : { fill: "black" },
-            ]}
-            name="rounded-add-button"
-            group="material-design"
-          />
-          <Text
-            style={[screen == PANTRY ? { color: "white" } : { color: "black" }]}
-          >
-            Pantry
-          </Text>
-        </TouchableOpacity>
+        <NavButton
+          name={"rounded-add-button"}
+          group={"material-design"}
+          screen={screen}
+          changePage={changePage}
+          page={Constants.PANTRY}
+          title={"Pantry"}
+        />
 
-        <TouchableOpacity
-          style={[
-            styles.navButton,
-            screen == PROFILE ? styles.activeButton : styles.navButton,
-          ]}
-          onPress={() => {
-            changePage(Constants.PROFILE);
-          }}
-        >
-          <Icon
-            style={[
-              styles.icon,
-              screen == PROFILE ? { fill: "white" } : { fill: "black" },
-            ]}
-            name="user-outline"
-            group="material-design"
-          />
-          <Text
-            style={[
-              screen == PROFILE ? { color: "white" } : { color: "black" },
-            ]}
-          >
-            Profile
-          </Text>
-        </TouchableOpacity>
+        <NavButton
+          name={"user-outline"}
+          group={"material-design"}
+          screen={screen}
+          changePage={changePage}
+          page={Constants.PROFILE}
+          title={"Profile"}
+        />
       </View>
 
       <StatusBar hidden={false} backgroundColor="white" translucent={false} />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    width: "100%",
-    backgroundColor: "#fff",
-  },
-  icon: {
-    //backgroundColor: "red",
-    //width: 200,
-  },
-  currentPage: {
-    flex: 1,
-  },
-  navBar: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    backgroundColor: "#F3F3F3",
-    
-    //backgroundColor: "red",
-    //paddingBottom: 18,
-    //paddingTop: 18,
-  },
-  navBarHidden: {
-    display: "none",
-  },
-  navButton: {
-    flexDirection: "column",
-    alignItems: "center",
-    //width: 80,
-    //height: 45,
-    paddingVertical: 18,
-    //paddingHorizontal: 10,
-    width: "20%",
-    //height: "100%",
-  },
-  activeButton: {
-    backgroundColor: "gray",
-    //paddingVertical: 18,
-    //paddingHorizontal: 18,
-  },
-  defaultText: {
-    fontColor: "black",
-  },
-  activeText: {
-    fontColor: "white",
-  },
-});

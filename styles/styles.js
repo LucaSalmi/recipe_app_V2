@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from "react-native";
+import { Constants } from "../utils/Constants";
 
 export const pageStyles = StyleSheet.create({
   text: {
@@ -30,9 +31,9 @@ export const bigCardStyles = StyleSheet.create({
   card: {
     height: "95%",
     width: "95%",
-    
+
     borderColor: "black",
-    
+
     margin: 10,
     //justifyContent: "space-between",
   },
@@ -55,7 +56,6 @@ export const bigCardStyles = StyleSheet.create({
     backgroundColor: "white",
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
-
   },
   kokTid: {
     flexDirection: "row",
@@ -65,6 +65,90 @@ export const bigCardStyles = StyleSheet.create({
   dishName: {
     fontSize: 20,
     fontWeight: "450",
+  },
+  veganAttribute: {
+    backgroundColor: "green",
+    height: 50,
+    justifyContent: "center",
+    borderRadius: 3,
+    marginEnd: 230,
+    width: 95,
+  },
+  editorsChoiceAttribute: {
+    backgroundColor: "yellow",
+    height: 50,
+    justifyContent: "center",
+    borderRadius: 3,
+    marginEnd: 230,
+    width: 95,
+  },
+  cardBanner: {
+    flexDirection: "row",
+    //backgroundColor: "#90EE90",
+    backgroundColor: "#F9F6EE",
+    justifyContent: "space-between",
+    borderRadius: 2,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+});
+
+export const navBarStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    width: "100%",
+    backgroundColor: "#fff",
+  },
+  icon: {
+    //backgroundColor: "red",
+    //width: 200,
+    alignSelf: "center",
+  },
+  currentPage: {
+    flex: 1,
+  },
+  navBar: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    backgroundColor: Constants.NAVBAR_AND_SAFEAREA_COLOR,
+
+    //backgroundColor: "red",
+    //paddingBottom: 18,
+    //paddingTop: 18,
+  },
+  navBarHidden: {
+    display: "none",
+  },
+  navButton: {
+    flexDirection: "column",
+    alignItems: "center",
+    //width: 80,
+    //height: 45,
+    paddingVertical: 18,
+    //paddingHorizontal: 10,
+    width: "20%",
+    //height: "100%",
+  },
+  activeButton: {
+    flexDirection: "column",
+    alignItems: "center",
+    //width: 80,
+    //height: 45,
+    paddingVertical: 18,
+    //paddingHorizontal: 10,
+    width: "20%",
+    backgroundColor: "gray",
+    //paddingVertical: 18,
+    //paddingHorizontal: 18,
+  },
+  defaultText: {
+    fontColor: "black",
+  },
+  activeText: {
+    fontColor: "white",
   },
 });
 
@@ -169,25 +253,23 @@ export const recipePage = StyleSheet.create({
     backgroundColor: "#F3F3F3",
   },
 
-  button:{
+  button: {
     borderRadius: 5,
     padding: 5,
     //backgroundColor: "#F3F3F3",
-    
   },
   shadowProp: {
-    shadowColor: 'rgba(0,0,0, .4)', // IOS
+    shadowColor: "rgba(0,0,0, .4)", // IOS
     shadowOffset: { height: 1, width: 1 }, // IOS
     shadowOpacity: 1, // IOS
     shadowRadius: 1, //IOS
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     elevation: 2, // Android
     borderRadius: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-    padding: 5
-
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    padding: 5,
   },
 });
 export const pantryItemStyle = StyleSheet.create({
@@ -297,7 +379,6 @@ export const customModalStyles = StyleSheet.create({
   buttonsContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    
   },
   centeredView: {
     flex: 1,
