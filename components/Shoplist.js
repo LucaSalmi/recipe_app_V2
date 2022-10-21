@@ -1,62 +1,85 @@
 import { StyleSheet, Text, View, Button, ScrollView, TouchableOpacity, Animated } from 'react-native';
 import { useState, useEffect, useRef } from 'react';
-import { shoplistPage } from '../styles/styles.js';
+import { shoplistPage, Fab } from '../styles/styles.js';
 import AppManager from '../utils/AppManager.js';
 import SearchBar from './SearchBar.js';
+import { Crud, generateUid } from '../src/db.js';
+import Icon from "react-native-ico-material-design";
+import { PantryItem } from '../PantryItem.js';
 
-var SingletonInstance = {
-    items: [{desc: "Några pallar äpplen", checked: true}, {desc: "En trave bananer", checked:false}, {desc: "Ett litet, litet bär", checked:false}],
-};
 
 const Shoplist = (props) => {
 
     const [showSheet, setShowSheet] = useState(false);
 
-    const [items, setItems] = useState([]);
+    const [items, setItems] = useState(AppManager.shoplistContent);
 
-    const [username, setUsername] = useState("Guest");
+    const [username, setUsername] = useState("Log on to use");
 
     useEffect(() => {
 
-        //Download users shoppinglist from firestore
-        setTimeout(() => {
-            setItems(SingletonInstance.items);
-            if (AppManager.isLoggedIn) {
-                setUsername(AppManager.username);
-            }
-        }, 100);
+        if (AppManager.isLoggedIn) {
+            setUsername(AppManager.username);
+        }
         
     });
 
+    const syncWithPantry = () => {
+
+        let cleanedShoplist = [];
+
+        for (const shopListItem of AppManager.shoplistContent) {
+            if (shopListItem.checked) {
+                let temp = new PantryItem(generateUid(), shopListItem.desc);
+                AppManager.pantryContent.push(temp);
+                Crud.updateShoplist(shopListItem, false);
+                Crud.updatePantry(temp, true);
+            } else {
+                cleanedShoplist.push(shopListItem);
+            }
+        }
+
+        setItems(cleanedShoplist);
+        AppManager.shoplistContent = cleanedShoplist;
+    }
+
     const toggleSheet = () => {
         let newBool = !showSheet;
-        setShowSheet(newBool);  
+        setShowSheet(newBool);
         props.navBarChanger(newBool);
     };
 
-	return (
+    return (
         <View style={shoplistPage.shoplistContainer}>
             <SearchBar />
             <View style={shoplistPage.headerContainer}>
-                <Text style={shoplistPage.headerText}>{username}s shopping list</Text>
+                <Text style={shoplistPage.headerText}>{username} shopping list</Text>
                 <Button style={shoplistPage.filterButton} title="FILTER" onPress={() => { toggleSheet() }}></Button>
             </View>
 
-            <ScrollView style={showSheet ? {display: "none"} : shoplistPage.shoppingItemsContainer}>
-                {items.map((item, i)=><ItemRow key={i} itemName={item.desc} checked={item.checked} index={i}/>)}
+            <ScrollView style={showSheet ? { display: "none" } : shoplistPage.shoppingItemsContainer}>
+                {items.map((item, i) => <ItemRow
+                    key={i} itemName={item.desc} checked={item.checked} index={i} items={items} setItems={setItems} />)}
             </ScrollView>
-            
-            <View style={showSheet ? shoplistPage.sheetContainer : {display: "none"}}>
+
+            <TouchableOpacity activeOpacity={0.5} onPress={() => {
+                if (AppManager.isLoggedIn) {
+                    syncWithPantry();
+                }
+            }} style={Fab.TouchableOpacityStyle}>
+                <Icon name="synchronization-button-with-two-arrows" />
+            </TouchableOpacity>
+
+            <View style={showSheet ? shoplistPage.sheetContainer : { display: "none" }}>
                 <Text>SHEET</Text>
             </View>
+
         </View>
-        
-	);
+
+    );
 }
 
 const ItemRow = (props) => {
-
-    const [isReady, setIsReady] = useState(false);
 
     const [checked, setChecked] = useState(props.checked);
 
@@ -66,31 +89,30 @@ const ItemRow = (props) => {
 
         setChecked(newCheckedValue);
 
-        //Update on firestore
         let index = props.index;
-        SingletonInstance.items[index].checked = newCheckedValue;
-        
+        let newItems = props.items;
+        newItems[index].checked = newCheckedValue;
+        props.setItems(newItems);
+        AppManager.shoplistContent = newItems;
+        Crud.updateShoplist(newItems[index], true)
+
     };
 
-    useEffect(() => {
-        setTimeout(() => {
-            setIsReady(true);
-        }, 500);
-    });
-
-    return(
-        <TouchableOpacity style={{paddingTop: 5, paddingBottom: 5}} onPress={() => {buttonPress()}}>
-            <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                {isReady ? <Text style={{textDecorationLine: checked ? 'line-through' : '', textDecorationStyle: checked ? 'solid' : ''}}>{props.itemName}</Text> : <Text>Loading...</Text>}
-                {isReady ? <Text style={{width: 25, height: 25, borderStyle: 'solid', borderWidth: 1, borderColor: 'black', textAlign: 'center', paddingTop: 3.5}}>{checked ? "X" : " "}</Text> : <Text>...</Text>}
+    return (
+        <TouchableOpacity style={{ paddingTop: 5, paddingBottom: 5 }} onPress={() => { buttonPress() }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                <Text
+                    style={{ textDecorationLine: checked ? 'line-through' : '', textDecorationStyle: checked ? 'solid' : '' }}>{props.itemName}
+                </Text>
+                <Text
+                    style={{ width: 25, height: 25, borderStyle: 'solid', borderWidth: 1, borderColor: 'black', textAlign: 'center', paddingTop: 3.5 }}>{checked ? "X" : " "}
+                </Text>
             </View>
 
-            <View style={{borderBottomColor: 'black', borderBottomWidth: StyleSheet.hairlineWidth}}/>
+            <View style={{ borderBottomColor: 'black', borderBottomWidth: StyleSheet.hairlineWidth }} />
 
         </TouchableOpacity>
-         
     );
-
 }
 
 export default Shoplist;

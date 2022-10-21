@@ -10,74 +10,48 @@ import {
   Item,
   FlatList,
 } from "react-native";
+import AppManager from "../utils/AppManager";
 import { styles } from "./RecipeDetails";
 
-export function IngredientsView() {
+export function IngredientsView(props) {
   const title = "Gör så här";
 
-  const dishesArray = [
-    {
-      step: "1",
-      dish: "1,5 kg kycklingklubba",
-    },
-    {
-      step: "2",
-      dish: "6 salladslökar",
-    },
-    {
-      step: "3",
-      dish: "5 klyftor vitlök",
-    },
-    {
-      step: "4",
-      dish: "1 gul lök",
-    },
-    {
-      step: "5",
-      dish: "1/2 potatis",
-    },
-    {
-      step: "6",
-      dish: "1-3 chilifrukter, scotch bonnet eller habanero beroende på hur starkt man vill ha det",
-    },
-    {
-      step: "7",
-      dish: "3 tomater",
-    },
-    {
-      step: "8",
-      dish: "12 goomba breads",
-    },
-    {
-      step: "2",
-      dish: "6 salladslökar",
-    },
-    {
-      step: "3",
-      dish: "5 klyftor vitlök",
-    },
-    {
-      step: "4",
-      dish: "1 gul lök",
-    },
-    {
-      step: "5",
-      dish: "1/2 potatis",
-    },
-  ];
+
 
   return (
     <View>
-      {dishesArray.map((calle) => {
+
+      {props.ingredients.map((ingredient) => {
+
+        let ingredientname = ingredient.name
+        let fixedName = ingredientname.charAt(0).toUpperCase() + ingredientname.slice(1)
+        
+        
         return (
-          <View style={{ flexDirection: "row", marginStart: 10 }}>
-            <Text style={{ marginEnd: 8, fontSize: 13, marginBottom: 5 }}>
-              {""}
-            </Text>
-            <Text style={{ fontSize: 13, marginBottom: 5 }}>{calle.dish}</Text>
+
+          
+          <View style={{ flexDirection: "column" }}>
+
+            <View style={{ flexDirection: "row", marginStart: 10}}>
+              
+              <Text style={{ fontSize: 16, margin: 6, fontWeight: 'bold'}}>{ingredient.amount}</Text>
+              <Text style={{ fontSize: 16, margin: 6}}>{ingredient.unit}</Text>
+              <Text style={{ fontSize: 16, margin: 6, fontWeight:'bold'}}>{fixedName}</Text>
+            </View>
+
+            <View style={{
+              borderBottomColor: 'black',
+              borderBottomWidth: StyleSheet.hairlineWidth,
+              marginStart: 10
+            }}>
+                
+            </View>
+
           </View>
+
         );
       })}
+
     </View>
   );
 }

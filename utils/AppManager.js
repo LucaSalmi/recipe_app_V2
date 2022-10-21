@@ -1,3 +1,5 @@
+import { Constants } from "./Constants";
+
 const AppManager = {
     isLoggedIn: false,
     uid: "",
@@ -8,6 +10,12 @@ const AppManager = {
     email: "",
     phone: "",
     currentRecipe: {},
+    allRecipes: [],
+    allIngredients: [],
+    pantryContent: [],
+    shoplistContent: [],
+    previousScreen: Constants.RECIPES,
+
 }
 
 export default AppManager;
