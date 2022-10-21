@@ -78,10 +78,6 @@ const RecipeDetails = (props) => {
 
   const updateIngredientAmounts = (newCount) => {
 
-    console.log("DANNE");
-
-    console.log(newCount);
-
     let newRoundedIngredients = [];
 
     for (let ingredient of ingredients) {
@@ -110,15 +106,13 @@ const RecipeDetails = (props) => {
   };
 
   useEffect(() => {
-    //testar useEffect, triggas igång av att count ändras och printar loggen
-    console.log("rendered testing out useEffect");
 
     if (ingredients.length > 0 && !initiated) {
       changeRoundedIngredients();
       setInitiated(true);
     }
 
-  }, [count, ingredients]);
+  }, [ingredients]);
 
   const toggleHeart = () => {
     setFillHeart((current) => !current);
