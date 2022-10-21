@@ -29,15 +29,24 @@ import AppManager from "./utils/AppManager";
 //dev WHAT
 
 export default function App() {
+  return (
+    <Button title="DANNE" onPress={()=>{ console.log("API IMPORT!"); }}></Button>
+  );
+};
+
+/*
+export default function App() {
   const [recipeData, setRecipeData] = useState([]);
 
-  if (recipeData.length < 1) {
-    Crud.getRecipies(setRecipeData);
-  }
-
-  if (AppManager.allIngredients.length < 1) {
-    Crud.getAllIngredients();
-  }
+  useEffect(()=>{
+    if (recipeData.length < 1) {
+      Crud.getRecipies(setRecipeData);
+    }
+  
+    if (AppManager.allIngredients.length < 1) {
+      Crud.getAllIngredients();
+    }
+  }, []);
 
   if (Platform.OS == "android") {
     if (recipeData.length > 0) {
@@ -57,7 +66,7 @@ export default function App() {
     }
   }
 }
-
+*/
 const MainContent = (props) => {
   const RECIPES = 0;
   const FAVORITE = 1;
