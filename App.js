@@ -34,13 +34,15 @@ import { navBarStyles } from "./styles/styles.js";
 export default function App() {
   const [recipeData, setRecipeData] = useState([]);
 
-  if (recipeData.length < 1) {
-    Crud.getRecipies(setRecipeData);
-  }
-
-  if (AppManager.allIngredients.length < 1) {
-    Crud.getAllIngredients();
-  }
+  useEffect(()=>{
+    if (recipeData.length < 1) {
+      Crud.getRecipies(setRecipeData);
+    }
+  
+    if (AppManager.allIngredients.length < 1) {
+      Crud.getAllIngredients();
+    }
+  }, []);
 
   if (Platform.OS == "android") {
     if (recipeData.length > 0) {

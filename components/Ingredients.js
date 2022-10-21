@@ -23,6 +23,7 @@ export function IngredientsView(props) {
         let fixedName =
           ingredientname.charAt(0).toUpperCase() + ingredientname.slice(1);
 
+
         return (
           <View style={{ flexDirection: "column" }}>
             <View
