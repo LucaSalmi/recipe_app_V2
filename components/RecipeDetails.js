@@ -299,7 +299,7 @@ const RecipeDetails = (props) => {
               }}
             >
               <Text style={styles.detailTextTwo}>{count}</Text>
-              <Text style={{ marginTop: -10 }}>port</Text>
+              <Text style={{ marginTop: -10 }}>serv</Text>
             </View>
 
             <TouchableOpacity
