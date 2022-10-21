@@ -6,6 +6,7 @@ import { DatePickerIOSComponent } from 'react-native';
 import { PantryItem } from '../PantryItem';
 import { Fab } from '../styles/styles';
 import AppManager from '../utils/AppManager';
+import { Constants } from '../utils/Constants';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -215,9 +216,32 @@ export const Crud = {
             .doc(AppManager.currentRecipe.id.toString())
             .collection(INGREDIENTS_COLLECTION)
         await location.get().then((querySnapshot) => {
-            const documents = querySnapshot.docs.map((doc) => {
+            let documents = querySnapshot.docs.map((doc) => {
                 return { id: doc.id, ...doc.data() }
             })
+
+            
+
+            //Set servings to 4
+            if (AppManager.currentRecipe.servings != Constants.DEFAULT_SERVINGS) {
+
+                let newDocuments = [];
+
+                const defaultServings = Constants.DEFAULT_SERVINGS;
+
+                const servings = AppManager.currentRecipe.servings;
+
+                for (let ingredient of documents) {
+                    let oldAmount = ingredient.amount;
+                    let oneServings = oldAmount / servings;
+                    let newAmount = oneServings * defaultServings;
+                    ingredient.amount = newAmount;
+                    newDocuments.push(ingredient);
+                }
+
+                documents = newDocuments;
+            }
+
             setIngredients(documents)
 
         })
