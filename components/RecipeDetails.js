@@ -17,10 +17,9 @@ import Icon from "react-native-ico-material-design";
 import { LinearGradient } from "expo-linear-gradient";
 import { IngredientsView } from "./Ingredients";
 import InstructionsView from "./Instructions";
-import AppManager from '../utils/AppManager.js'
+import AppManager from "../utils/AppManager.js";
 import { Crud } from "../src/db";
 import { recipePage } from "../styles/styles";
-
 
 const RecipeDetails = (props) => {
   const imageSource = "../assets/jerkchicken.jpg";
@@ -30,11 +29,11 @@ const RecipeDetails = (props) => {
 
   const [count, setCount] = useState(2);
   const [heartEmpty, setFillHeart] = useState(true);
-  
-  const [ingredients, setIngredients] = useState([])
-  
-  if (ingredients.length == 0){
-    Crud.getIngredients(setIngredients)
+
+  const [ingredients, setIngredients] = useState([]);
+
+  if (ingredients.length == 0) {
+    Crud.getIngredients(setIngredients);
   }
 
   useEffect(() => {
@@ -52,13 +51,11 @@ const RecipeDetails = (props) => {
   const [tabId, setTabId] = useState(INGREDIENTS);
   console.log(AppManager.currentRecipe);
 
-
   let tab;
 
   switch (tabId) {
     case INGREDIENTS:
-      tab = <IngredientsView setTabId={setTabId} 
-      ingredients = {ingredients} />;
+      tab = <IngredientsView setTabId={setTabId} ingredients={ingredients} />;
 
       break;
 
@@ -72,12 +69,10 @@ const RecipeDetails = (props) => {
   };
 
   const addToShoplist = () => {
-
     let ingredientsToAdd = [];
 
     //Check pantry
     for (let ingredient of ingredients) {
-
       let found = false;
 
       for (let pantryItem of AppManager.pantryContent) {
@@ -89,21 +84,17 @@ const RecipeDetails = (props) => {
       if (!found) {
         ingredientsToAdd.push(ingredient.name);
       }
-
     }
 
     let filteredIngredients = [];
 
     //Check shoplist
     for (let ingredientToAdd of ingredientsToAdd) {
-
       let found = false;
 
       for (let shoplistItem of AppManager.shoplistContent) {
-        
-
         if (ingredientToAdd == shoplistItem.desc) {
-          found = true
+          found = true;
         }
       }
 
@@ -118,12 +109,10 @@ const RecipeDetails = (props) => {
         "Info",
         "All ingredients already exists in shoplist or pantry.",
         [
-            {
-                text: "Return",
-                style: "cancel",
-
-            },
-
+          {
+            text: "Return",
+            style: "cancel",
+          },
         ]
       );
       return;
@@ -131,15 +120,14 @@ const RecipeDetails = (props) => {
 
     //Finally add to firestore
     for (let ingredient of filteredIngredients) {
-      let item = {desc: ingredient, checked: false};
+      let item = { desc: ingredient, checked: false };
       Crud.updateShoplist(item, true);
       AppManager.shoplistContent.push(item);
     }
-  
   };
 
   return (
-    <View style={{height: "100%", flex: 1}}>
+    <View style={{ height: "100%", flex: 1 }}>
       <ScrollView>
         <View>
           <ImageBackground
@@ -193,91 +181,94 @@ const RecipeDetails = (props) => {
           </ImageBackground>
         </View>
 
-
         <View>
-          <LinearGradient colors={["#F3F3F3", "transparent"]}>         
-        <View> 
-          <View style={styles.topInfo}>
-            <TouchableOpacity
-              disabled={count < 12 ? false : true}
-              onPress={() => {
-                setCount(count + 2);
-              }}
-            >
-              <Icon
-                color={count < 12 ? "#000000" : "#B2BEB5"}
-                name="round-add-button"
-                width="25"
-                height="25"
-              ></Icon>
-            </TouchableOpacity>
+          <View
+            style={{
+              backgroundColor: "#F3F3F3",
+            }}
+          >
+            <View>
+              <View style={styles.topInfo}>
+                <TouchableOpacity
+                  disabled={count < 12 ? false : true}
+                  onPress={() => {
+                    setCount(count + 2);
+                  }}
+                >
+                  <Icon
+                    color={count < 12 ? "#000000" : "#B2BEB5"}
+                    name="round-add-button"
+                    width="25"
+                    height="25"
+                  ></Icon>
+                </TouchableOpacity>
 
-            <View
-              style={{
-                flexDirection: "column",
-                alignItems: "center",
-                marginHorizontal: 5,
-              }}
-            >
-              <Text style={styles.detailTextTwo}>{count}</Text>
-              <Text style={{ marginTop: -10 }}>port</Text>
+                <View
+                  style={{
+                    flexDirection: "column",
+                    alignItems: "center",
+                    marginHorizontal: 5,
+                  }}
+                >
+                  <Text style={styles.detailTextTwo}>{count}</Text>
+                  <Text style={{ marginTop: -10 }}>port</Text>
+                </View>
+
+                <TouchableOpacity
+                  disabled={count <= 2 ? true : false}
+                  onPress={() => {
+                    setCount(count - 2);
+                  }}
+                >
+                  <Icon
+                    color={count <= 2 ? "#B2BEB5" : "#000000"}
+                    name="round-remove-button"
+                    width="25"
+                    height="25"
+                  ></Icon>
+                </TouchableOpacity>
+              </View>
             </View>
 
-            <TouchableOpacity
-              disabled={count <= 2 ? true : false}
-              onPress={() => {
-                setCount(count - 2);
-              }}
-            >
-              <Icon
-                color={count <= 2 ? "#B2BEB5" : "#000000"}
-                name="round-remove-button"
-                width="25"
-                height="25"
-              ></Icon>
-            </TouchableOpacity>
+            <View style={styles.tabs}>
+              <TouchableOpacity
+                onPress={() => {
+                  changeTab(INGREDIENTS);
+                }}
+                style={
+                  tabId == INGREDIENTS
+                    ? recipePage.shadowProp
+                    : recipePage.button
+                }
+              >
+                <Text>Ingredients</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => {
+                  changeTab(INSTRUCTIONS);
+                }}
+                style={
+                  tabId == INSTRUCTIONS
+                    ? recipePage.shadowProp
+                    : recipePage.button
+                }
+              >
+                <Text>Instructions</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
 
-        <View style={styles.tabs}>
-          
-          <TouchableOpacity
-            onPress={() => {
-              changeTab(INGREDIENTS);
-            }}
-            style={tabId == INGREDIENTS
-            ? recipePage.shadowProp
-            : recipePage.button}
-            
-          >
-            
-            <Text>
-              Ingredients
-            </Text>
-            
-          </TouchableOpacity>
-          
-          <TouchableOpacity
-            onPress={() => {
-              changeTab(INSTRUCTIONS);
-            }}
-            style={tabId == INSTRUCTIONS
-            ? recipePage.shadowProp
-            : recipePage.button}
-          >
-            <Text>
-              Instructions
-            </Text>
-          </TouchableOpacity>
-        </View>
-        </LinearGradient>   
-        </View>
-
         <View>{tab}</View>
-        
       </ScrollView>
 
-      <Button title="Add to shoplist" onPress={()=>{ addToShoplist() }}></Button>
+      <Button
+        title="Add to shoplist"
+        onPress={() => {
+          addToShoplist();
+        }}
+      ></Button>
     </View>
   );
 };
