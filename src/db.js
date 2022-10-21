@@ -41,8 +41,8 @@ export const Crud = {
     apiImport: () => {
 
         //Remove "return" if you really want to fetch API-data.
-        console.log("Remove return if you really want to fetch API-data ( in Crud.apiImport() ).");
-        return;
+        //console.log("Remove return if you really want to fetch API-data ( in Crud.apiImport() ).");
+        //return;
 
         const options = {
             method: 'GET',
@@ -104,20 +104,27 @@ export const Crud = {
             };
             */
 
+            const firestoreRecipe = {
+                id: recipe.id,
+                title: recipe.title,
+                servings: recipe.servings,
+                readyInMinutes: recipe.readyInMinutes,
+                aggregateLikes: recipe.aggregateLikes,
+                image: recipe.image,
+                instructions: instructions,
+                vegetarian: recipe.vegetarian,
+                vegan: recipe.vegan,
+                glutenFree: recipe.glutenFree,
+                dairyFree: recipe.dairyFree,
+                cheap: recipe.cheap,
+                veryPopular: recipe.veryPopular,
+            };
 
-            db.collection(RECIPE_COLLECTION).doc(recipe.id.toString()).set(
-                {
-                    id: recipe.id,
-                    title: recipe.title,
-                    servings: recipe.servings,
-                    readyInMinutes: recipe.readyInMinutes,
-                    aggregateLikes: recipe.aggregateLikes,
-                    image: recipe.image,
-                    instructions: instructions,
-                })
 
-            const SUB_COLLECTION_NAME = "ingredients"
-            let ingredientId = 0
+            db.collection(RECIPE_COLLECTION).doc(recipe.id.toString()).set(firestoreRecipe);
+
+            const SUB_COLLECTION_NAME = "ingredients";
+            let ingredientId = 0;
 
 
             for (let ingredientname of recipe.extendedIngredients) {

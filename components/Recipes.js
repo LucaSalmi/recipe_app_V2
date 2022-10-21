@@ -65,6 +65,7 @@ const Recipes = (props) => {
   return (
     <View style={recipePage.recipeContainer}>
       <SearchBar />
+      <Button title="DANNE" onPress={()=>{ console.log("API IMPORT!"); }}></Button>
       <FlatList
         data={recipeData}
         renderItem={renderItem}
