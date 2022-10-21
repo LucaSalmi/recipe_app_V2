@@ -30,7 +30,7 @@ import AppManager from "./utils/AppManager";
 
 export default function App() {
   return (
-    <Button title="DANNE" onPress={()=>{ console.log("API IMPORT!"); }}></Button>
+    <Button title="DANNE" onPress={()=>{ Crud.apiImport(); console.log("API IMPORT!"); }}></Button>
   );
 };
 
