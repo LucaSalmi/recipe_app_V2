@@ -29,13 +29,6 @@ import AppManager from "./utils/AppManager";
 //dev WHAT
 
 export default function App() {
-  return (
-    <Button title="DANNE" onPress={()=>{ Crud.apiImport(); console.log("API IMPORT!"); }}></Button>
-  );
-};
-
-/*
-export default function App() {
   const [recipeData, setRecipeData] = useState([]);
 
   useEffect(()=>{
@@ -66,7 +59,7 @@ export default function App() {
     }
   }
 }
-*/
+
 const MainContent = (props) => {
   const RECIPES = 0;
   const FAVORITE = 1;
