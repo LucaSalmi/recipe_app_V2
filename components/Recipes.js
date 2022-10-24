@@ -58,7 +58,6 @@ const Recipes = (props) => {
         cookingTime={item.cookingTime}
         isFavorite={favoritesIds.includes(item.id.toString()) ? true : false}
         recipeId={item.id}
-        recipeInstructions={item.instructions}
       />
     </TouchableOpacity>
   );
