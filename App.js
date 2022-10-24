@@ -15,10 +15,10 @@ import Favorite from "./components/Favorite.js";
 import Shoplist from "./components/Shoplist.js";
 import Pantry from "./components/Pantry.js";
 import Profile from "./components/Profile.js";
-import { pageStyles, bigCardStyles } from "./styles/styles.js";
+import { pageStyles, bigCardStyles, navBarStyles } from "./styles/styles.js";
 import { useState, useEffect } from "react";
 import Icon from "react-native-ico-material-design";
-
+import { NavButton } from "./components/NavButton";
 import RecipeDetails from "./components/RecipeDetails";
 import { Constants } from "./utils/Constants";
 import { Crud } from "./src/db.js";
@@ -50,7 +50,12 @@ export default function App() {
   } else {
     if (recipeData.length > 0) {
       return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView
+          style={{
+            flex: 1,
+            backgroundColor: Constants.NAVBAR_AND_SAFEAREA_COLOR,
+          }}
+        >
           <MainContent recipeData={recipeData} />
         </SafeAreaView>
       );
@@ -111,136 +116,53 @@ const MainContent = (props) => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.currentPage}>{view}</View>
-      <View style={hideNav ? styles.navBarHidden : styles.navBar}>
-        <TouchableOpacity
-          style={[
-            styles.navButton,
-            screen == RECIPES ? styles.activeButton : styles.navButton,
-          ]}
-          onPress={() => {
-            changePage(Constants.RECIPES);
-          }}
-        >
-          <Icon
-            style={[
-              styles.icon,
-              screen == RECIPES ? { fill: "white" } : { fill: "black" },
-            ]}
-            name="list-button-with-3-elements"
-            group="material-design"
-          />
-          <Text
-            style={[
-              screen == RECIPES ? { color: "white" } : { color: "black" },
-            ]}
-          >
-            Recipes
-          </Text>
-        </TouchableOpacity>
+    <View style={navBarStyles.container}>
+    <View style={navBarStyles.currentPage}>{view}</View>
+    <View style={[hideNav ? navBarStyles.navBarHidden : navBarStyles.navBar]}>
+      <NavButton
+        name={"list-button-with-3-elements"}
+        group={"material-design"}
+        screen={screen}
+        changePage={changePage}
+        page={Constants.RECIPES}
+        title={"Recipes"}
+      />
 
-        <TouchableOpacity
-          style={[
-            styles.navButton,
-            screen == FAVORITE ? styles.activeButton : styles.navButton,
-          ]}
-          onPress={() => {
-            changePage(Constants.FAVORITE);
-          }}
-        >
-          <Icon
-            style={[
-              styles.icon,
-              screen == FAVORITE ? { fill: "white" } : { fill: "black" },
-            ]}
-            name="favorite-heart-outline-button"
-            group="material-design"
-          />
-          <Text
-            style={[
-              screen == FAVORITE ? { color: "white" } : { color: "black" },
-            ]}
-          >
-            Favorites
-          </Text>
-        </TouchableOpacity>
+      <NavButton
+        name={"favorite-heart-outline-button"}
+        group={"material-design"}
+        screen={screen}
+        changePage={changePage}
+        page={Constants.FAVORITE}
+        title={"Favorites"}
+      />
 
-        <TouchableOpacity
-          style={[
-            styles.navButton,
-            screen == SHOPLIST ? styles.activeButton : styles.navButton,
-          ]}
-          onPress={() => {
-            changePage(Constants.SHOPLIST);
-          }}
-        >
-          <Icon
-            style={[
-              styles.icon,
-              screen == SHOPLIST ? { fill: "white" } : { fill: "black" },
-            ]}
-            name="shopping-cart"
-            group="basic"
-          />
-          <Text
-            style={[
-              screen == SHOPLIST ? { color: "white" } : { color: "black" },
-            ]}
-          >
-            Shoplist
-          </Text>
-        </TouchableOpacity>
+      <NavButton
+        name={"shopping-cart"}
+        group={"basic"}
+        screen={screen}
+        changePage={changePage}
+        page={Constants.SHOPLIST}
+        title={"Shoplist"}
+      />
 
-        <TouchableOpacity
-          style={[
-            styles.navButton,
-            screen == PANTRY ? styles.activeButton : styles.navButton,
-          ]}
-          onPress={() => {
-            changePage(Constants.PANTRY);
-          }}
-        >
-          <Icon
-            style={[
-              styles.icon,
-              screen == PANTRY ? { fill: "white" } : { fill: "black" },
-            ]}
-            name="rounded-add-button"
-            group="material-design"
-          />
-          <Text
-            style={[screen == PANTRY ? { color: "white" } : { color: "black" }]}
-          >
-            Pantry
-          </Text>
-        </TouchableOpacity>
+      <NavButton
+        name={"rounded-add-button"}
+        group={"material-design"}
+        screen={screen}
+        changePage={changePage}
+        page={Constants.PANTRY}
+        title={"Pantry"}
+      />
 
-        <TouchableOpacity
-          style={[
-            styles.navButton,
-            screen == PROFILE ? styles.activeButton : styles.navButton,
-          ]}
-          onPress={() => {
-            changePage(Constants.PROFILE);
-          }}
-        >
-          <Icon
-            style={[
-              styles.icon,
-              screen == PROFILE ? { fill: "white" } : { fill: "black" },
-            ]}
-            name="user-outline"
-            group="material-design"
-          />
-          <Text
-            style={[
-              screen == PROFILE ? { color: "white" } : { color: "black" },
-            ]}
-          >
-            Profile
-          </Text>
-        </TouchableOpacity>
+      <NavButton
+        name={"user-outline"}
+        group={"material-design"}
+        screen={screen}
+        changePage={changePage}
+        page={Constants.PROFILE}
+        title={"Profile"}
+      />
       </View>
 
       <StatusBar hidden={false} backgroundColor="white" translucent={false} />
