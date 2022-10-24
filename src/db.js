@@ -25,14 +25,18 @@ const config = {
     storageBucket: "recipes-app-v2.appspot.com",
     messagingSenderId: "296424842617",
     appId: "1:296424842617:web:69face62f1a2f5d6993ba8"
+    
 };
 
 // Initialize Firebase
 let app = firebase.initializeApp(config);
 export const db = app.firestore();
 
+//DISABLE WHILE TESTING OTHER FUNCTIONS
+/*
 enableIndexedDbPersistence(db)
     .catch((err) => {
+        
         if (err.code == 'failed-precondition') {
             // Multiple tabs open, persistence can only be enabled
             // in one tab at a a time.
@@ -44,6 +48,7 @@ enableIndexedDbPersistence(db)
         }
     });
 // Subsequent queries will use persistence, if it was enabled successfully
+*/
 
 
 const USERS_COLLECTION = "users";

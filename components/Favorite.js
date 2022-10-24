@@ -17,13 +17,13 @@ const Favorite = (props) => {
     useEffect(() => {
 
         if (!initiated) {
-
+            /*
             if (AppManager.uid.length > 0) {
                 //Async
                 
-                Crud.getFavorites(setFavorites)
             }
-
+            */
+            Crud.getFavorites(setFavorites)
             setInitiated(true);
         }
 
