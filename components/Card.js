@@ -18,6 +18,9 @@ import { Crud } from '../src/db.js'
 import { LinearGradient } from "expo-linear-gradient";
 
 export function BigCard(myProps) {
+
+  console.log("DANNE: " + myProps.recipeInstructions);
+
   const [heartEmpty, setFillHeart] = useState(true);
   // stringArray
   const textAttributeArray = [
