@@ -24,6 +24,7 @@ const Recipes = (props) => {
   const [recipeData, setRecipeData] = useState(props.recipeData);
   const [favorites, setFavorites] = useState([]);
   const [favoritesIds, setFavoritesIds] = useState([]);
+  const [searchData, setSearchData] = useState([])
 
   var flatListRef = useRef();
 
@@ -58,6 +59,9 @@ const Recipes = (props) => {
   }, [recipeData]);
 
   const renderItem = ({ item }) => (
+    
+    
+    
     <TouchableOpacity
       id={item.id}
       onPress={() => {
@@ -80,15 +84,20 @@ const Recipes = (props) => {
         recipeId={item.id}
       />
     </TouchableOpacity>
+    
   );
 
   return (
     <View style={recipePage.recipeContainer}>
-      <SearchBar />
+      <SearchBar recipeData={recipeData} setSearchData={setSearchData}/>
+      
       <FlatList
+        data={searchData.length > 0 ? searchData : recipeData}
+
         ref={(ref) => { console.log(ref); flatListRef = ref; }}
         getItemLayout={getItemLayout}
         data={recipeData}
+
         renderItem={renderItem}
         keyExtractor={(item) => {
           item.id;
