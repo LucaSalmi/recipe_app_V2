@@ -89,7 +89,7 @@ export function InstructionsView() {
         return (
           <View style={{ flexDirection: "row" }}>
             <Text style={{ marginEnd: 8, marginStart: 10 }}>{(i+1)}</Text>
-            <Text style={{ marginStart: 8 }}>{item}</Text>
+            <Text style={{ marginStart: 8, width: "80%" }}>{item}</Text>
           </View>
         );
       }) : <Text style={{marginStart: 8, marginEnd: 8}}>{instructions[0]}</Text>}
