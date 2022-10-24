@@ -1,4 +1,5 @@
 // Import the functions you need from the SDKs you need
+import 'expo-firestore-offline-persistence'
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
@@ -7,6 +8,10 @@ import { PantryItem } from '../PantryItem';
 import { Fab } from '../styles/styles';
 import AppManager from '../utils/AppManager';
 import { Constants } from '../utils/Constants';
+import { enableIndexedDbPersistence } from "firebase/firestore";
+import { disableNetwork, enableNetwork } from "firebase/firestore";
+
+
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -26,6 +31,21 @@ const config = {
 let app = firebase.initializeApp(config);
 export const db = app.firestore();
 
+enableIndexedDbPersistence(db)
+    .catch((err) => {
+        if (err.code == 'failed-precondition') {
+            // Multiple tabs open, persistence can only be enabled
+            // in one tab at a a time.
+            // ...
+        } else if (err.code == 'unimplemented') {
+            // The current browser does not support all of the
+            // features required to enable persistence
+            // ...
+        }
+    });
+// Subsequent queries will use persistence, if it was enabled successfully
+
+
 const USERS_COLLECTION = "users";
 const RECIPE_COLLECTION = "recipies";
 const FAVORITE_COLLECTION = "favorites";
@@ -37,6 +57,17 @@ const SHOPLIST_COLLECTION = "shoplist";
 
 /* CRUD */
 export const Crud = {
+
+    goOffline: async () => {
+        await disableNetwork(db);
+        console.log("Network disabled!");
+    },
+
+    goOnline: async () => {
+        await enableNetwork(db);
+        console.log("Network enabled!");
+    },
+    
 
     apiImport: () => {
 
@@ -229,7 +260,7 @@ export const Crud = {
                 return { id: doc.id, ...doc.data() }
             })
 
-            
+
 
             //Set servings to 4
             if (AppManager.currentRecipe.servings != Constants.DEFAULT_SERVINGS) {

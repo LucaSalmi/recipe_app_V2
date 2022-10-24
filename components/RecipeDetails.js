@@ -198,7 +198,6 @@ const RecipeDetails = (props) => {
             style: "cancel",
 
           },
-
         ]
       );
       return;
@@ -327,9 +326,7 @@ const RecipeDetails = (props) => {
                 style={tabId == INGREDIENTS
                   ? recipePage.shadowProp
                   : recipePage.button}
-
               >
-
                 <Text>
                   Ingredients
                 </Text>

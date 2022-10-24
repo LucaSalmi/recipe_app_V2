@@ -59,6 +59,9 @@ const Recipes = (props) => {
         isFavorite={favoritesIds.includes(item.id.toString()) ? true : false}
         recipeId={item.id}
       />
+
+      <Button title="Offline" onPress={Crud.goOffline}></Button>
+      <Button title="Online" onPress={Crud.goOnline}></Button>
     </TouchableOpacity>
   );
 
