@@ -11,7 +11,7 @@ import {
   ImageBackground,
   TouchableOpacity,
 } from "react-native";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { BigCard, SmallCard } from "./Card";
 import { bigCardStyles, recipePage } from "../styles/styles";
 import SearchBar from "./SearchBar.js";
@@ -25,6 +25,12 @@ const Recipes = (props) => {
   const [favorites, setFavorites] = useState([]);
   const [favoritesIds, setFavoritesIds] = useState([]);
   const [searchData, setSearchData] = useState([])
+
+  var flatListRef = useRef();
+
+  const cardWidth = 393;
+
+  var getItemLayout = (recipeData, index) => ( { length: cardWidth, offset: cardWidth * index, index } )
 
   if (!initiated) {
 
@@ -43,6 +49,15 @@ const Recipes = (props) => {
     setFavoritesIds(newFavoritesIds);
   }, [favorites]);
 
+  useEffect(()=>{
+
+    let prevIndex = AppManager.previousRecipeIndex;
+
+    if (recipeData.length > prevIndex && flatListRef != null) {
+      flatListRef.scrollToIndex({animated: false, index: prevIndex});
+    }
+  }, [recipeData]);
+
   const renderItem = ({ item }) => (
     
     
@@ -50,6 +65,11 @@ const Recipes = (props) => {
     <TouchableOpacity
       id={item.id}
       onPress={() => {
+        for (let i = 0; i < recipeData.length; i++) {
+          if (recipeData[i].id == item.id) {
+            AppManager.previousRecipeIndex = i;
+          }
+        }
         AppManager.currentRecipe = item;
         props.setScreen(Constants.RECIPEDETAILS);
       }}
@@ -73,6 +93,11 @@ const Recipes = (props) => {
       
       <FlatList
         data={searchData.length > 0 ? searchData : recipeData}
+
+        ref={(ref) => { console.log(ref); flatListRef = ref; }}
+        getItemLayout={getItemLayout}
+        data={recipeData}
+
         renderItem={renderItem}
         keyExtractor={(item) => {
           item.id;
