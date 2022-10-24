@@ -9,8 +9,26 @@ import {
 } from "react-native";
 import Icon from "react-native-ico-material-design";
 
-const SearchBar = () => {
+const SearchBar = (myProps) => {
   const [searchText, setSearchText] = useState("");
+  var tempArray = []
+
+  const searchRecipeFromWord = () => {
+    
+    for (recipe of myProps.recipeData){
+    
+    let title = recipe.title
+      
+    if(title.toUpperCase().includes(searchText.toUpperCase())){
+          console.log(recipe.title)
+          tempArray.push(recipe)
+
+      }
+    }
+    myProps.setSearchData(tempArray)
+    
+  };
+
 
   return (
     <View style={{ flexDirection: "row" }}>
@@ -18,7 +36,14 @@ const SearchBar = () => {
         <TextInput
           value={searchText}
           onChangeText={(input) => {
+
             setSearchText(input);
+            
+            
+
+          }}
+          onSubmitEditing={() => {
+            searchRecipeFromWord()
           }}
           style={styles.searchInput}
           placeholder="Search here..."
@@ -27,6 +52,7 @@ const SearchBar = () => {
           styles={styles.icon}
           onPress={() => {
             setSearchText("");
+            myProps.setSearchData([])
           }}
         >
           {
