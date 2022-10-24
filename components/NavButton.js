@@ -7,6 +7,8 @@ import { Constants } from "../utils/Constants";
 export const NavButton = (props) => {
   //Animation
 
+  const newVar = []; //stage
+
   const animation = new Animated.Value(0);
   const inputRange = [0, 1];
   const outputRange = [1, 0.8];
