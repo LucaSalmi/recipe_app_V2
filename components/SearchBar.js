@@ -13,21 +13,18 @@ const SearchBar = (myProps) => {
   const [searchText, setSearchText] = useState("");
   var tempArray = []
 
-  const searchRecipeFromWord = () => {
+  const searchRecipeFromWord = (input) => {
 
     for (recipe of myProps.recipeData) {
 
       let title = recipe.title
 
-      if (title.toUpperCase().includes(searchText.toUpperCase())) {
+      if (title.toUpperCase().includes(input.toUpperCase())) {
         console.log(recipe.title)
         tempArray.push(recipe)
-
       }
     }
     myProps.setSearchData(tempArray)
-
-
   };
 
 
@@ -39,12 +36,7 @@ const SearchBar = (myProps) => {
           onChangeText={(input) => {
 
             setSearchText(input);
-
-
-
-          }}
-          onSubmitEditing={() => {
-            searchRecipeFromWord()
+            searchRecipeFromWord(input)
           }}
           style={styles.searchInput}
           placeholder="Search here..."
