@@ -1,6 +1,6 @@
-import { StyleSheet, Text, View, Button, ScrollView, TouchableOpacity, Animated } from 'react-native';
+import { StyleSheet, Text, View, Button, ScrollView, TouchableOpacity, FlatList, Dimensions } from 'react-native';
 import { useState, useEffect, useRef } from 'react';
-import { shoplistPage, Fab } from '../styles/styles.js';
+import { shoplistPage, Fab, shoplistStyles } from '../styles/styles.js';
 import AppManager from '../utils/AppManager.js';
 import SearchBar from './SearchBar.js';
 import { Crud, generateUid } from '../src/db.js';
@@ -16,13 +16,59 @@ const Shoplist = (props) => {
 
     const [username, setUsername] = useState("Log on to use");
 
+    const shopListItemField = ({ item }) => (
+        <ItemRow item={item} items={items} setItems={setItems} />
+    );
+
     useEffect(() => {
 
         if (AppManager.isLoggedIn) {
             setUsername(AppManager.username);
         }
-        
+
     });
+
+    const ItemRow = (props) => {
+
+        const [checked, setChecked] = useState(props.checked);
+    
+        const buttonPress = () => {
+    
+            let newCheckedValue = !checked;
+            let newItems = props.items;
+            let toChange;
+    
+            setChecked(newCheckedValue);
+            for (const item of newItems) {
+                if(item.desc == props.item.desc){
+                    item.checked = newCheckedValue;
+                    toChange = item;
+                }
+            }
+            //let index = props.item.index;
+            //newItems[index].checked = newCheckedValue;
+            props.setItems(newItems);
+            AppManager.shoplistContent = newItems;
+            Crud.updateShoplist(toChange, true)
+    
+        };
+    
+        return (
+            <TouchableOpacity style={{ paddingTop: 5, paddingBottom: 5 }} onPress={() => { buttonPress() }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <Text
+                        style={{ textDecorationLine: checked ? 'line-through' : '', textDecorationStyle: checked ? 'solid' : '' }}>{props.item.desc}
+                    </Text>
+                    <Text
+                        style={{ width: 25, height: 25, borderStyle: 'solid', borderWidth: 1, borderColor: 'black', textAlign: 'center', paddingTop: 3.5 }}>{checked ? "X" : " "}
+                    </Text>
+                </View>
+    
+                <View style={{ borderBottomColor: 'black', borderBottomWidth: StyleSheet.hairlineWidth }} />
+    
+            </TouchableOpacity>
+        );
+    }
 
     const syncWithPantry = () => {
 
@@ -56,12 +102,20 @@ const Shoplist = (props) => {
                 <Text style={shoplistPage.headerText}>{username} shopping list</Text>
                 <Button style={shoplistPage.filterButton} title="FILTER" onPress={() => { toggleSheet() }}></Button>
             </View>
+        
+            <FlatList
+                style={shoplistStyles.list}
+                data={items}
+                renderItem={shopListItemField}
+                keyExtractor={(item) => {
+                    item.id
+                }}
+                snapToAlignment="start"
+                decelerationRate={"fast"}
+                snapToInterval={Dimensions.get("window").width}
 
-            <ScrollView style={showSheet ? { display: "none" } : shoplistPage.shoppingItemsContainer}>
-                {items.map((item, i) => <ItemRow
-                    key={i} itemName={item.desc} checked={item.checked} index={i} items={items} setItems={setItems} />)}
-            </ScrollView>
-
+            />
+            
             <TouchableOpacity activeOpacity={0.5} onPress={() => {
                 if (AppManager.isLoggedIn) {
                     syncWithPantry();
@@ -79,40 +133,6 @@ const Shoplist = (props) => {
     );
 }
 
-const ItemRow = (props) => {
 
-    const [checked, setChecked] = useState(props.checked);
-
-    const buttonPress = () => {
-
-        let newCheckedValue = !checked;
-
-        setChecked(newCheckedValue);
-
-        let index = props.index;
-        let newItems = props.items;
-        newItems[index].checked = newCheckedValue;
-        props.setItems(newItems);
-        AppManager.shoplistContent = newItems;
-        Crud.updateShoplist(newItems[index], true)
-
-    };
-
-    return (
-        <TouchableOpacity style={{ paddingTop: 5, paddingBottom: 5 }} onPress={() => { buttonPress() }}>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                <Text
-                    style={{ textDecorationLine: checked ? 'line-through' : '', textDecorationStyle: checked ? 'solid' : '' }}>{props.itemName}
-                </Text>
-                <Text
-                    style={{ width: 25, height: 25, borderStyle: 'solid', borderWidth: 1, borderColor: 'black', textAlign: 'center', paddingTop: 3.5 }}>{checked ? "X" : " "}
-                </Text>
-            </View>
-
-            <View style={{ borderBottomColor: 'black', borderBottomWidth: StyleSheet.hairlineWidth }} />
-
-        </TouchableOpacity>
-    );
-}
 
 export default Shoplist;

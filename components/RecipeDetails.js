@@ -20,6 +20,7 @@ import InstructionsView from "./Instructions";
 import AppManager from '../utils/AppManager.js'
 import { Crud } from "../src/db";
 import { recipePage } from "../styles/styles";
+import { Constants } from "../utils/Constants";
 
 
 const RecipeDetails = (props) => {
@@ -28,19 +29,90 @@ const RecipeDetails = (props) => {
 
   //const [currentTab, setCurrentTab] = useState(0);
 
-  const [count, setCount] = useState(2);
+  const [count, setCount] = useState(Constants.DEFAULT_SERVINGS);
   const [heartEmpty, setFillHeart] = useState(true);
   
   const [ingredients, setIngredients] = useState([])
+  const [roundedIngredients, setRoundedIngredients] = useState([]);
+  const [initiated, setInitiated] = useState(false);
   
   if (ingredients.length == 0){
     Crud.getIngredients(setIngredients)
   }
 
+  const changeRoundedIngredients = () => {
+
+    let newRoundedIngredients = [];
+
+    for (let i = 0; i < ingredients.length; i++) {
+      let oldAmount = ingredients[i].amount.toString();
+
+      let split = oldAmount.split(".");
+      if (split.length < 2) {
+        newRoundedIngredients.push(ingredients[i]);
+        continue;
+      }
+
+      let firstDecimal = parseInt(split[1][0]);
+
+      let newAmount = split[0];
+
+      if (firstDecimal != 0) {
+        newAmount += "." + firstDecimal;
+      }
+
+      if (parseFloat(newAmount) <= 0) {
+        newAmount = "0.1";
+      }
+
+      let newIngredient = ingredients[i];
+      newIngredient.amount = newAmount;
+
+      newRoundedIngredients.push(newIngredient);
+    }
+
+    setRoundedIngredients(newRoundedIngredients);
+  };
+
+  
+
+  const updateIngredientAmounts = (newCount) => {
+
+    let newRoundedIngredients = [];
+
+    for (let ingredient of ingredients) {
+
+      let ingredientName = ingredient.name;
+      let ingredientUnit = ingredient.unit;
+      let oldAmount = ingredient.amount;
+
+      let oneServing = oldAmount / Constants.DEFAULT_SERVINGS;
+      let newAmount = (oneServing * newCount).toString();
+
+      //Code for rounding decimals in amount
+      let amountSplit = newAmount.split(".");
+      if (amountSplit.length >= 2) {
+        let decimals = amountSplit[1];
+        let firstDecimal = decimals[0];
+        newAmount = amountSplit[0] + "." + firstDecimal;
+      }
+
+      let roundedIngredient = {name: ingredientName, unit: ingredientUnit, amount: newAmount.toString()};
+      newRoundedIngredients.push(roundedIngredient);
+    }
+
+    setRoundedIngredients(newRoundedIngredients);
+    
+  };
+
   useEffect(() => {
-    //testar useEffect, triggas igång av att count ändras och printar loggen
-    console.log("rendered testing out useEffect");
-  }, [count]);
+
+    if (ingredients.length > 0 && !initiated) {
+      changeRoundedIngredients();
+      setInitiated(true);
+    }
+
+  }, [ingredients]);
 
   const toggleHeart = () => {
     setFillHeart((current) => !current);
@@ -50,7 +122,6 @@ const RecipeDetails = (props) => {
   const INSTRUCTIONS = 1;
 
   const [tabId, setTabId] = useState(INGREDIENTS);
-  console.log(AppManager.currentRecipe);
 
 
   let tab;
@@ -58,7 +129,7 @@ const RecipeDetails = (props) => {
   switch (tabId) {
     case INGREDIENTS:
       tab = <IngredientsView setTabId={setTabId} 
-      ingredients = {ingredients} />;
+      ingredients = {roundedIngredients} />;
 
       break;
 
@@ -199,13 +270,15 @@ const RecipeDetails = (props) => {
         <View> 
           <View style={styles.topInfo}>
             <TouchableOpacity
-              disabled={count < 12 ? false : true}
+              disabled={count < 24 ? false : true}
               onPress={() => {
-                setCount(count + 2);
+                let newCount = count + 2;
+                setCount(newCount);
+                updateIngredientAmounts(newCount);
               }}
             >
               <Icon
-                color={count < 12 ? "#000000" : "#B2BEB5"}
+                color={count < 24 ? "#000000" : "#B2BEB5"}
                 name="round-add-button"
                 width="25"
                 height="25"
@@ -220,13 +293,15 @@ const RecipeDetails = (props) => {
               }}
             >
               <Text style={styles.detailTextTwo}>{count}</Text>
-              <Text style={{ marginTop: -10 }}>port</Text>
+              <Text style={{ marginTop: -10 }}>serv</Text>
             </View>
 
             <TouchableOpacity
               disabled={count <= 2 ? true : false}
               onPress={() => {
-                setCount(count - 2);
+                let newCount = count - 2;
+                setCount(newCount);
+                updateIngredientAmounts(newCount);
               }}
             >
               <Icon

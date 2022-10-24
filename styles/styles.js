@@ -102,10 +102,17 @@ export const pantryCardStyles = StyleSheet.create({
   superView: {
     flex: 1,
     height: Dimensions.get("window").height * 0.1,
-    width: Dimensions.get("window").width,
+    width: Dimensions.get("window").width*0.5,
     alignItems: "center",
     justifyContent: "center",
   },
+});
+
+export const shoplistStyles = StyleSheet.create({
+  list:{
+    flex:1,
+    width: Dimensions.get('window').width*0.9,
+  }
 });
 
 export const shoplistPage = StyleSheet.create({

@@ -6,6 +6,7 @@ import { DatePickerIOSComponent } from 'react-native';
 import { PantryItem } from '../PantryItem';
 import { Fab } from '../styles/styles';
 import AppManager from '../utils/AppManager';
+import { Constants } from '../utils/Constants';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -56,7 +57,7 @@ export const Crud = {
                 return response.json();
             })
             .then(data => {
-                Crud.jsonTest(data);
+                Crud.addApiRecipiesToFirestore(data);
                 //setJsonString(JSON.stringify(data));
                 //console.log(JSON.stringify(data));
                 //Crud.createJSON(JSON.stringify(data));
@@ -65,10 +66,10 @@ export const Crud = {
 
     },
 
-    jsonTest: (jsonObj = null) => {
+    addApiRecipiesToFirestore: (jsonObj = null) => {
 
         if (jsonObj == null) {
-            console.log("jsonObj is null in Crud.jsonTest()");
+            console.log("jsonObj is null in Crud.addApiRecipiesToFirestore()");
             return;
         }
 
@@ -94,27 +95,36 @@ export const Crud = {
 
             let instructions = recipe.instructions;
 
+            /* Use this code if we want to remove HTML-tags
             while (instructions.includes("<ol>") || instructions.includes("<li>") || instructions.includes("</ol>") || instructions.includes("</li>")) {
                 instructions = instructions.replace("<ol>", "");
                 instructions = instructions.replace("<li>", "");
                 instructions = instructions.replace("</ol>", "");
                 instructions = instructions.replace("</li>", "");
             };
+            */
+
+            const firestoreRecipe = {
+                id: recipe.id,
+                title: recipe.title,
+                servings: recipe.servings,
+                readyInMinutes: recipe.readyInMinutes,
+                aggregateLikes: recipe.aggregateLikes,
+                image: recipe.image,
+                instructions: instructions,
+                vegetarian: recipe.vegetarian,
+                vegan: recipe.vegan,
+                glutenFree: recipe.glutenFree,
+                dairyFree: recipe.dairyFree,
+                cheap: recipe.cheap,
+                veryPopular: recipe.veryPopular,
+            };
 
 
-            db.collection(RECIPE_COLLECTION).doc(recipe.id.toString()).set(
-                {
-                    id: recipe.id,
-                    title: recipe.title,
-                    servings: recipe.servings,
-                    readyInMinutes: recipe.readyInMinutes,
-                    aggregateLikes: recipe.aggregateLikes,
-                    image: recipe.image,
-                    instructions: instructions,
-                })
+            db.collection(RECIPE_COLLECTION).doc(recipe.id.toString()).set(firestoreRecipe);
 
-            const SUB_COLLECTION_NAME = "ingredients"
-            let ingredientId = 0
+            const SUB_COLLECTION_NAME = "ingredients";
+            let ingredientId = 0;
 
 
             for (let ingredientname of recipe.extendedIngredients) {
@@ -215,9 +225,32 @@ export const Crud = {
             .doc(AppManager.currentRecipe.id.toString())
             .collection(INGREDIENTS_COLLECTION)
         await location.get().then((querySnapshot) => {
-            const documents = querySnapshot.docs.map((doc) => {
+            let documents = querySnapshot.docs.map((doc) => {
                 return { id: doc.id, ...doc.data() }
             })
+
+            
+
+            //Set servings to 4
+            if (AppManager.currentRecipe.servings != Constants.DEFAULT_SERVINGS) {
+
+                let newDocuments = [];
+
+                const defaultServings = Constants.DEFAULT_SERVINGS;
+
+                const servings = AppManager.currentRecipe.servings;
+
+                for (let ingredient of documents) {
+                    let oldAmount = ingredient.amount;
+                    let oneServings = oldAmount / servings;
+                    let newAmount = oneServings * defaultServings;
+                    ingredient.amount = newAmount;
+                    newDocuments.push(ingredient);
+                }
+
+                documents = newDocuments;
+            }
+
             setIngredients(documents)
 
         })

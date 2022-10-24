@@ -6,4 +6,5 @@ export const Constants = {
     PANTRY : 3,
     PROFILE : 4,
     RECIPEDETAILS : 5,
+    DEFAULT_SERVINGS: 4,
 }

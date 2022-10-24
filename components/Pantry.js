@@ -167,7 +167,6 @@ const Pantry = (props) => {
 
             {/* List of Items in Pantry */}
             <FlatList
-
                 data={pantryItems}
                 renderItem={pantryItemCard}
                 keyExtractor={(item) => {

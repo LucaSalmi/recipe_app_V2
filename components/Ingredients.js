@@ -21,7 +21,7 @@ export function IngredientsView(props) {
   return (
     <View>
 
-      {props.ingredients.map((ingredient) => {
+      {props.ingredients.map((ingredient, i) => {
 
         let ingredientname = ingredient.name
         let fixedName = ingredientname.charAt(0).toUpperCase() + ingredientname.slice(1)
