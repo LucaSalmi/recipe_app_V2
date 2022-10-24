@@ -72,13 +72,8 @@ export const bigCardStyles = StyleSheet.create({
     backgroundColor: "green",
     height: 50,
     justifyContent: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.5,
-    shadowRadius: 2,
-    elevation: 20,
-    borderBottomRightRadius: 10,
     borderRadius: 3,
+    marginEnd: 230,
     width: 95,
   },
   editorsChoiceAttribute: {
@@ -100,10 +95,6 @@ export const bigCardStyles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 2,
     elevation: 2,
-  },
-  favIcon: {
-    margin: 10,
-    display: 'none'
   },
 });
 

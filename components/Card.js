@@ -19,6 +19,7 @@ import { LinearGradient } from "expo-linear-gradient";
 
 export function BigCard(myProps) {
 
+  const [heartEmpty, setFillHeart] = useState(true);
   // stringArray
   const textAttributeArray = [
     "Vegan  🌱",
@@ -29,6 +30,24 @@ export function BigCard(myProps) {
     "Gamer food :console:",
     "",
   ];
+
+
+  const toggleHeart = () => {
+
+    setFillHeart((current) => !current);
+    if (AppManager.uid.length == 0) {
+      console.log("Must be logged in to add favorites");
+      return;
+    }
+
+    //Firestore update
+    Crud.updateFavorite(AppManager.uid, myProps.recipeId, heartEmpty);
+
+    //let toggle = !heartEmpty;
+    setFillHeart((current) => !current);
+
+
+  };
 
   return (
     <View
@@ -63,12 +82,20 @@ export function BigCard(myProps) {
             <View
               style={{
                 flexDirection: "row",
-
+                justifyContent: "space-around",
               }}
             >
               <View
                 style={[
                   bigCardStyles.veganAttribute,
+                  {
+                    shadowColor: "#000",
+                    shadowOffset: { width: 0, height: 2 },
+                    shadowOpacity: 0.5,
+                    shadowRadius: 2,
+                    elevation: 20,
+                    borderBottomRightRadius: 10,
+                  },
                 ]}
               >
                 <Text
@@ -82,20 +109,31 @@ export function BigCard(myProps) {
                   {textAttributeArray[0]}
                 </Text>
               </View>
-              <View>
+
+              <TouchableOpacity
+                onPress={() => {
+                  toggleHeart();
+                }}
+                style={[
+                  bigCardStyles.cardBanner,
+                  { height: 50, borderBottomLeftRadius: 10 },
+                ]}
+              >
                 <Icon
-                  style={
-                    [styles.bigHeartFill,
-                    bigCardStyles.favIcon]
-                  }
+                  style={[
+                    heartEmpty ? styles.bigHeartNotFill : styles.bigHeartFill,
+                    { margin: 15 },
+                  ]}
                   name={
-                    "favorite-heart-button"
+                    heartEmpty
+                      ? "favorite-heart-outline-button"
+                      : "favorite-heart-button"
                   }
                   group="material-design"
-                  width="25"
                   height="25"
-                ></Icon>
-              </View>
+                  width="25"
+                />
+              </TouchableOpacity>
             </View>
           </LinearGradient>
         </ImageBackground>
