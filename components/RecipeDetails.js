@@ -31,12 +31,12 @@ const RecipeDetails = (props) => {
 
   const [count, setCount] = useState(Constants.DEFAULT_SERVINGS);
   const [heartEmpty, setFillHeart] = useState(true);
-  
+
   const [ingredients, setIngredients] = useState([])
   const [roundedIngredients, setRoundedIngredients] = useState([]);
   const [initiated, setInitiated] = useState(false);
-  
-  if (ingredients.length == 0){
+
+  if (ingredients.length == 0) {
     Crud.getIngredients(setIngredients)
   }
 
@@ -74,7 +74,7 @@ const RecipeDetails = (props) => {
     setRoundedIngredients(newRoundedIngredients);
   };
 
-  
+
 
   const updateIngredientAmounts = (newCount) => {
 
@@ -97,12 +97,12 @@ const RecipeDetails = (props) => {
         newAmount = amountSplit[0] + "." + firstDecimal;
       }
 
-      let roundedIngredient = {name: ingredientName, unit: ingredientUnit, amount: newAmount.toString()};
+      let roundedIngredient = { name: ingredientName, unit: ingredientUnit, amount: newAmount.toString() };
       newRoundedIngredients.push(roundedIngredient);
     }
 
     setRoundedIngredients(newRoundedIngredients);
-    
+
   };
 
   useEffect(() => {
@@ -128,8 +128,8 @@ const RecipeDetails = (props) => {
 
   switch (tabId) {
     case INGREDIENTS:
-      tab = <IngredientsView setTabId={setTabId} 
-      ingredients = {roundedIngredients} />;
+      tab = <IngredientsView setTabId={setTabId}
+        ingredients={roundedIngredients} />;
 
       break;
 
@@ -143,6 +143,10 @@ const RecipeDetails = (props) => {
   };
 
   const addToShoplist = () => {
+
+    if(!AppManager.isLoggedIn){
+      return;
+    }
 
     let ingredientsToAdd = [];
 
@@ -171,7 +175,7 @@ const RecipeDetails = (props) => {
       let found = false;
 
       for (let shoplistItem of AppManager.shoplistContent) {
-        
+
 
         if (ingredientToAdd == shoplistItem.desc) {
           found = true
@@ -189,11 +193,11 @@ const RecipeDetails = (props) => {
         "Info",
         "All ingredients already exists in shoplist or pantry.",
         [
-            {
-                text: "Return",
-                style: "cancel",
+          {
+            text: "Return",
+            style: "cancel",
 
-            },
+          },
 
         ]
       );
@@ -202,15 +206,15 @@ const RecipeDetails = (props) => {
 
     //Finally add to firestore
     for (let ingredient of filteredIngredients) {
-      let item = {desc: ingredient, checked: false};
+      let item = { desc: ingredient, checked: false };
       Crud.updateShoplist(item, true);
       AppManager.shoplistContent.push(item);
     }
-  
+
   };
 
   return (
-    <View style={{height: "100%", flex: 1}}>
+    <View style={{ height: "100%", flex: 1 }}>
       <ScrollView>
         <View>
           <ImageBackground
@@ -266,93 +270,93 @@ const RecipeDetails = (props) => {
 
 
         <View>
-          <LinearGradient colors={["#F3F3F3", "transparent"]}>         
-        <View> 
-          <View style={styles.topInfo}>
-            <TouchableOpacity
-              disabled={count < 24 ? false : true}
-              onPress={() => {
-                let newCount = count + 2;
-                setCount(newCount);
-                updateIngredientAmounts(newCount);
-              }}
-            >
-              <Icon
-                color={count < 24 ? "#000000" : "#B2BEB5"}
-                name="round-add-button"
-                width="25"
-                height="25"
-              ></Icon>
-            </TouchableOpacity>
+          <LinearGradient colors={["#F3F3F3", "transparent"]}>
+            <View>
+              <View style={styles.topInfo}>
+                <TouchableOpacity
+                  disabled={count < 24 ? false : true}
+                  onPress={() => {
+                    let newCount = count + 2;
+                    setCount(newCount);
+                    updateIngredientAmounts(newCount);
+                  }}
+                >
+                  <Icon
+                    color={count < 24 ? "#000000" : "#B2BEB5"}
+                    name="round-add-button"
+                    width="25"
+                    height="25"
+                  ></Icon>
+                </TouchableOpacity>
 
-            <View
-              style={{
-                flexDirection: "column",
-                alignItems: "center",
-                marginHorizontal: 5,
-              }}
-            >
-              <Text style={styles.detailTextTwo}>{count}</Text>
-              <Text style={{ marginTop: -10 }}>serv</Text>
+                <View
+                  style={{
+                    flexDirection: "column",
+                    alignItems: "center",
+                    marginHorizontal: 5,
+                  }}
+                >
+                  <Text style={styles.detailTextTwo}>{count}</Text>
+                  <Text style={{ marginTop: -10 }}>serv</Text>
+                </View>
+
+                <TouchableOpacity
+                  disabled={count <= 2 ? true : false}
+                  onPress={() => {
+                    let newCount = count - 2;
+                    setCount(newCount);
+                    updateIngredientAmounts(newCount);
+                  }}
+                >
+                  <Icon
+                    color={count <= 2 ? "#B2BEB5" : "#000000"}
+                    name="round-remove-button"
+                    width="25"
+                    height="25"
+                  ></Icon>
+                </TouchableOpacity>
+              </View>
             </View>
 
-            <TouchableOpacity
-              disabled={count <= 2 ? true : false}
-              onPress={() => {
-                let newCount = count - 2;
-                setCount(newCount);
-                updateIngredientAmounts(newCount);
-              }}
-            >
-              <Icon
-                color={count <= 2 ? "#B2BEB5" : "#000000"}
-                name="round-remove-button"
-                width="25"
-                height="25"
-              ></Icon>
-            </TouchableOpacity>
-          </View>
-        </View>
+            <View style={styles.tabs}>
 
-        <View style={styles.tabs}>
-          
-          <TouchableOpacity
-            onPress={() => {
-              changeTab(INGREDIENTS);
-            }}
-            style={tabId == INGREDIENTS
-            ? recipePage.shadowProp
-            : recipePage.button}
-            
-          >
-            
-            <Text>
-              Ingredients
-            </Text>
-            
-          </TouchableOpacity>
-          
-          <TouchableOpacity
-            onPress={() => {
-              changeTab(INSTRUCTIONS);
-            }}
-            style={tabId == INSTRUCTIONS
-            ? recipePage.shadowProp
-            : recipePage.button}
-          >
-            <Text>
-              Instructions
-            </Text>
-          </TouchableOpacity>
-        </View>
-        </LinearGradient>   
+              <TouchableOpacity
+                onPress={() => {
+                  changeTab(INGREDIENTS);
+                }}
+                style={tabId == INGREDIENTS
+                  ? recipePage.shadowProp
+                  : recipePage.button}
+
+              >
+
+                <Text>
+                  Ingredients
+                </Text>
+
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => {
+                  changeTab(INSTRUCTIONS);
+                }}
+                style={tabId == INSTRUCTIONS
+                  ? recipePage.shadowProp
+                  : recipePage.button}
+              >
+                <Text>
+                  Instructions
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </LinearGradient>
         </View>
 
         <View>{tab}</View>
-        
+
       </ScrollView>
 
-      <Button title="Add to shoplist" onPress={()=>{ addToShoplist() }}></Button>
+      <Button title="Add to shoplist" onPress={() => { addToShoplist() }}></Button>
     </View>
   );
 };
@@ -362,8 +366,8 @@ export default RecipeDetails;
 export const styles = StyleSheet.create({
   image: {
     /*
-		height: Dimensions.get('window').height * 0.4,
-		width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height * 0.4,
+    width: Dimensions.get('window').width,
         */
     width: "100%",
     height: Dimensions.get("window").height * 0.4,
