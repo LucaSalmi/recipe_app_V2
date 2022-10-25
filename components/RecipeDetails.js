@@ -36,9 +36,13 @@ const RecipeDetails = (props) => {
   const [roundedIngredients, setRoundedIngredients] = useState([]);
   const [initiated, setInitiated] = useState(false);
 
-  if (ingredients.length == 0) {
+  
+
+  //Run once
+  useEffect(() => {
     Crud.getIngredients(setIngredients)
-  }
+  }, []);
+
 
   const changeRoundedIngredients = () => {
 
@@ -128,8 +132,14 @@ const RecipeDetails = (props) => {
 
   switch (tabId) {
     case INGREDIENTS:
-      tab = <IngredientsView setTabId={setTabId}
-        ingredients={roundedIngredients} />;
+      if (roundedIngredients.length > 0) {
+        tab = <IngredientsView setTabId={setTabId}
+          ingredients={roundedIngredients} />;
+      }
+      else {
+        tab = <Text>Loading ingredients...</Text>;
+      }
+      
 
       break;
 
