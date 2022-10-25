@@ -97,25 +97,30 @@ export function IngredientsView(props) {
               style={{
                 borderBottomColor: "black",
                 borderBottomWidth: StyleSheet.hairlineWidth,
-                marginStart: 10,
+                marginStart: 16,
+                marginEnd: 16,
               }}
             >
-              <View style={{ flexDirection: "row", marginStart: 10 }}>
-                <Text style={{ fontSize: 16, margin: 6, fontWeight: "bold" }}>
-                  {ingredient.amount}
-                </Text>
-                <Text style={{ fontSize: 16, margin: 6 }}>
-                  {ingredient.unit}
-                </Text>
-                <Text style={{ fontSize: 16, margin: 6, fontWeight: "bold" }}>
-                  {fixedName}
-                </Text>
-                {ingredient.isInPantry ? <Icon
-                  style={{fill: "green", marginTop: 9, marginStart: 5}}
-                  name="circle-with-check-symbol"
-                  group="material-design"
-                  height="16"
-                  width="16" /> : <Text style={{display: "none"}}></Text>}
+              <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                <View style={{ flexDirection: "row", marginStart: 10 }}>
+                  <Text style={{ fontSize: 16, margin: 6, fontWeight: "bold" }}>
+                    {ingredient.amount}
+                  </Text>
+                  <Text style={{ fontSize: 16, margin: 6 }}>
+                    {ingredient.unit}
+                  </Text>
+                  <Text style={{ fontSize: 16, margin: 6, fontWeight: "bold" }}>
+                    {fixedName}
+                  </Text>
+                </View>
+                <View style={{marginEnd: 16}}>
+                  {ingredient.isInPantry ? <Icon
+                    style={{fill: "green", marginTop: 9, marginStart: 5}}
+                    name="circle-with-check-symbol"
+                    group="material-design"
+                    height="16"
+                    width="16" /> : <Text style={{display: "none"}}></Text>}
+                </View>
                 
               </View>
             </View>
