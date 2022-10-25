@@ -19,6 +19,7 @@ export function IngredientsView(props) {
   const title = "Gör så här";
 
   const [pantryItems, setPantryItems] = useState([]);
+  const [shoplistItems, setShoplistItems] = useState([]);
 
   const [ingredients, setIngredients] = useState([]);
 
@@ -31,35 +32,51 @@ export function IngredientsView(props) {
 
     if (AppManager.isLoggedIn && AppManager.uid.length > 0) {
       Crud.getPantry(setPantryItems);
+
+      const updateShoplist = async () => {
+        let result = await Crud.getShoplist(); //Stores result in AppManager.shoplistContent
+
+        let shoplistItemNames = [];
+
+        for (let item of AppManager.shoplistContent) {
+          let itemDesc = item.desc
+          shoplistItemNames.push(itemDesc);
+        }
+
+        setShoplistItems(shoplistItemNames);
+      }
+      updateShoplist();
     }
   }, []);
 
   useEffect(()=>{
 
-    if (pantryItems.length > 0) {
+    let userItems = [];
 
-      let pantryTitles = [];
-
-      for (let pantryItem of pantryItems) {
-        pantryTitles.push(pantryItem.title);
-      }
-
-      let updatedIngredients = [];
-
-      for (let ingredient of ingredientsFromProp) {
-
-        ingredient.isInPantry = false;
-        if (pantryTitles.includes(ingredient.name)) {
-          ingredient.isInPantry = true;
-        }
-        updatedIngredients.push(ingredient);
-      }
-
-      setIngredients(updatedIngredients);
-
+    //Get all names from pantry
+    for (let pantryItem of pantryItems) {
+      userItems.push(pantryItem.title);
     }
 
-  }, [pantryItems]);
+    //Get all names from shoplist
+    for (let shoplistItem of AppManager.shoplistContent) {
+      userItems.push(shoplistItem.desc);
+    }
+
+    let updatedIngredients = [];
+
+    for (let ingredient of ingredientsFromProp) {
+
+      ingredient.isInPantry = false;
+      if (userItems.includes(ingredient.name)) {
+        ingredient.isInPantry = true;
+      }
+      updatedIngredients.push(ingredient);
+    }
+
+    setIngredients(updatedIngredients);
+
+  }, [pantryItems, shoplistItems]);
 
   return (
     <View>
