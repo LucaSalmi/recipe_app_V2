@@ -36,7 +36,7 @@ const RecipeDetails = (props) => {
   const [roundedIngredients, setRoundedIngredients] = useState([]);
   const [initiated, setInitiated] = useState(false);
 
-  
+  const [hideAddButton, setHideAddButton] = useState(false);
 
   //Run once
   useEffect(() => {
@@ -216,6 +216,8 @@ const RecipeDetails = (props) => {
       }
     }
 
+    setHideAddButton(true);
+
     if (filteredIngredients.length < 1) {
       console.log("All ingredients already exists in shoplist or pantry.");
       Alert.alert(
@@ -387,7 +389,8 @@ const RecipeDetails = (props) => {
 
       </ScrollView>
 
-      {AppManager.isLoggedIn && tabId == INGREDIENTS ? <Button title="Add to shoplist" onPress={() => { addToShoplist() }}></Button> : <Text style={{display: "none"}}></Text>}
+      {AppManager.isLoggedIn && !hideAddButton ? <Button title="Add to shoplist" onPress={() => { addToShoplist() }}></Button> : <Text style={{display: "none"}}></Text>}
+
     </View>
   );
 };
