@@ -19,7 +19,7 @@ import { IngredientsView } from "./Ingredients";
 import InstructionsView from "./Instructions";
 import AppManager from '../utils/AppManager.js'
 import { Crud } from "../src/db";
-import { recipePage } from "../styles/styles";
+import { pageStyles, recipePage } from "../styles/styles";
 import { Constants } from "../utils/Constants";
 
 
@@ -115,7 +115,18 @@ const RecipeDetails = (props) => {
   }, [ingredients]);
 
   const toggleHeart = () => {
+   
+    if (AppManager.uid.length == 0) {
+      console.log("Must be logged in to add favorites");
+      return;
+    }
+
+    //Firestore update
+    Crud.updateFavorite(AppManager.uid, AppManager.currentRecipe.id, heartEmpty);
+
+    //let toggle = !heartEmpty;
     setFillHeart((current) => !current);
+
   };
 
   const INGREDIENTS = 0;
@@ -230,12 +241,13 @@ const RecipeDetails = (props) => {
                   onPress={() => {
                     props.setScreen(AppManager.previousScreen);
                   }}
+                  style={pageStyles.iconBackground}
                 >
                   <Icon
                     name="go-back-left-arrow"
                     group="material-design"
-                    width="25"
-                    height="25"
+                    width="20"
+                    height="20"
                   ></Icon>
                 </TouchableOpacity>
 
@@ -243,6 +255,7 @@ const RecipeDetails = (props) => {
                   onPress={() => {
                     toggleHeart();
                   }}
+                  style={pageStyles.iconBackground}
                 >
                   <Icon
                     style={

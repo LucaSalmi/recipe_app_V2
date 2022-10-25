@@ -7,6 +7,14 @@ export const pageStyles = StyleSheet.create({
     fontSize: 20,
     color: "blue",
   },
+  iconBackground: {
+    height: 38,
+    justifyContent: "center",
+    alignItems: "center",
+    width: 38,
+    borderRadius: 38/2,
+    backgroundColor: Constants.NAVBAR_AND_SAFEAREA_COLOR
+  },
 });
 
 export const bigCardStyles = StyleSheet.create({
@@ -16,7 +24,7 @@ export const bigCardStyles = StyleSheet.create({
     justifyContent: "space-between",
     height: "70%",
     width: "85%",
-    borderRadius: 10,
+    borderRadius: Constants.DEFAULT_BORDER_RADIUS,
     borderWidth: 1,
     marginTop: 20,
   },
@@ -26,8 +34,8 @@ export const bigCardStyles = StyleSheet.create({
     height: null,
     resizeMode: "contain",
     overflow: "hidden",
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
+    borderTopLeftRadius: Constants.DEFAULT_BORDER_RADIUS,
+    borderTopRightRadius: Constants.DEFAULT_BORDER_RADIUS,
   },
   card: {
     height: "95%",
@@ -67,6 +75,7 @@ export const bigCardStyles = StyleSheet.create({
   dishName: {
     fontSize: 20,
     fontWeight: "450",
+    
   },
   veganAttribute: {
     backgroundColor: "green",
@@ -156,21 +165,42 @@ export const navBarStyles = StyleSheet.create({
 
 export const smallCardStyles = StyleSheet.create({
   container: {
-    flexDirection: "column",
+    flexDirection: "row",
     backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center",
-    height: "90%",
-    width: "85%",
-    borderRadius: 25,
-    borderWidth: 1,
+    justifyContent: "space-between",
+    height: Dimensions.get("window").height * 0.2,
+    width: Dimensions.get("window").width * 0.95,
+    borderRadius: Constants.DEFAULT_BORDER_RADIUS,
+    marginVertical: 5
+    
   },
   superView: {
     flex: 1,
-    height: Dimensions.get("window").height * 0.2,
-    width: Dimensions.get("window").width,
+    
     alignItems: "center",
     justifyContent: "center",
+  },
+  imageStyle: {
+    width: "33.3%",
+    height: "100%",
+    borderBottomLeftRadius: Constants.DEFAULT_BORDER_RADIUS,
+    borderTopLeftRadius: Constants.DEFAULT_BORDER_RADIUS,
+    
+    overflow: "hidden",
+
+  },
+  rightSide: {
+    height: "100%",
+    width: "66%",
+    flexDirection: "column",
+    justifyContent: "space-between",
+  },
+  shadow: {
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
   },
 });
 
@@ -208,7 +238,7 @@ export const shoplistPage = StyleSheet.create({
     alignItems: "center",
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
-    backgroundColor: "#0005",
+    
   },
   headerContainer: {
     width: Dimensions.get("window").width,
@@ -241,7 +271,7 @@ export const favoritePage = StyleSheet.create({
     alignItems: "center",
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
-    backgroundColor: "#0005",
+    backgroundColor: Constants.NAVBAR_AND_SAFEAREA_COLOR,
   },
 });
 

@@ -31,12 +31,14 @@ const Shoplist = (props) => {
     const ItemRow = (props) => {
 
         const [checked, setChecked] = useState(props.checked);
-    
+        let itemName = props.item.desc
+        itemName = itemName.charAt(0).toUpperCase() + itemName.slice(1)
         const buttonPress = () => {
     
             let newCheckedValue = !checked;
             let newItems = props.items;
             let toChange;
+            
     
             setChecked(newCheckedValue);
             for (const item of newItems) {
@@ -45,6 +47,7 @@ const Shoplist = (props) => {
                     toChange = item;
                 }
             }
+            
             //let index = props.item.index;
             //newItems[index].checked = newCheckedValue;
             props.setItems(newItems);
@@ -57,7 +60,7 @@ const Shoplist = (props) => {
             <TouchableOpacity style={{ paddingTop: 5, paddingBottom: 5 }} onPress={() => { buttonPress() }}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                     <Text
-                        style={{ textDecorationLine: checked ? 'line-through' : '', textDecorationStyle: checked ? 'solid' : '' }}>{props.item.desc}
+                        style={{ textDecorationLine: checked ? 'line-through' : '', textDecorationStyle: checked ? 'solid' : '' }}>{itemName}
                     </Text>
                     <Text
                         style={{ width: 25, height: 25, borderStyle: 'solid', borderWidth: 1, borderColor: 'black', textAlign: 'center', paddingTop: 3.5 }}>{checked ? "X" : " "}
@@ -99,7 +102,7 @@ const Shoplist = (props) => {
         <View style={shoplistPage.shoplistContainer}>
             <SearchBar />
             <View style={shoplistPage.headerContainer}>
-                <Text style={shoplistPage.headerText}>{username} shopping list</Text>
+                <Text style={shoplistPage.headerText}>{username}'s shopping list</Text>
                 <Button style={shoplistPage.filterButton} title="FILTER" onPress={() => { toggleSheet() }}></Button>
             </View>
         
