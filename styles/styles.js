@@ -174,6 +174,37 @@ export const smallCardStyles = StyleSheet.create({
   },
 });
 
+export const filterItemCard = StyleSheet.create({
+  container: {
+    flexDirection: "column",
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "8%",
+    width: "35%",
+    borderRadius: 50,
+    borderWidth: 1,
+    margin: 5,
+    marginTop: 15,
+  },
+  superView: {
+    flex: 1,
+    height: Dimensions.get("window").height * 0.5,
+    width: Dimensions.get("window").width,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  text:{
+    textAlign: 'center',
+    textSize: 18,
+  },
+  scrolling:{
+    flex: 1,
+    height: Dimensions.get("window").height,
+    width: Dimensions.get("window").width,
+  }
+});
+
 export const pantryCardStyles = StyleSheet.create({
   container: {
     flexDirection: "row",
