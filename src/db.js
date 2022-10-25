@@ -33,7 +33,7 @@ let app = firebase.initializeApp(config);
 export const db = app.firestore();
 
 //DISABLE WHILE TESTING OTHER FUNCTIONS
-/*
+
 enableIndexedDbPersistence(db)
     .catch((err) => {
         
@@ -48,7 +48,7 @@ enableIndexedDbPersistence(db)
         }
     });
 // Subsequent queries will use persistence, if it was enabled successfully
-*/
+
 
 
 const USERS_COLLECTION = "users";
