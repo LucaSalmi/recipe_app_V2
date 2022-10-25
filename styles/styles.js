@@ -210,25 +210,25 @@ export const filterItemCard = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-    height: "15%",
-    width: "40%",
+    height: "10%",
+    width: "10%",
     borderRadius: 50,
     borderWidth: 1,
     margin: 9,
     marginTop: 15,
     alignSelf: 'center'
   },
+  superView: {
+    flex: 1,
+    height: Dimensions.get("window").height,
+    width: Dimensions.get("window").width,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   text:{
     textAlign: 'center',
     textSize: 18,
   },
-  column:{
-    width: '50%',
-    flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'flex-start'
-  }
 });
 
 export const pantryCardStyles = StyleSheet.create({

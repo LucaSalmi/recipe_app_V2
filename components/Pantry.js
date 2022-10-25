@@ -175,7 +175,6 @@ const Pantry = (props) => {
                 snapToAlignment="start"
                 decelerationRate={"fast"}
                 snapToInterval={Dimensions.get("window").width}
-
             />
 
             {/* View in the Sheet to search and add new items to pantry */}

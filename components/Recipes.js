@@ -29,7 +29,7 @@ const Recipes = (props) => {
   const [searchData, setSearchData] = useState([])
   const [showSheet, setShowSheet] = useState(false);
   const [activeFilter, setActiveFilter] = useState([]);
-  const filterItems = [
+  const [filterItems, setFilterItems] = useState([
     {
       id: 0,
       value: "Vegetarian",
@@ -71,7 +71,7 @@ const Recipes = (props) => {
       value: "Sustainable",
       isActive: false
     },
-  ];
+  ]);
 
 
   var flatListRef = useRef();
@@ -140,15 +140,21 @@ const Recipes = (props) => {
 
   );
 
-  const FilterList = () => {
+  const filterObj = ({ item }) => {
+    <FilterList item={item} />
+  };
+
+  function FilterList(props) {
     return (
-      filterItems.map((item) => {
-        return (
-          <View onTouchEnd={()=>{item.isActive = !item.isActive}} style={[filterItemCard.container, item.isActive ? {backgroundColor: 'green'} : {backgroundColor: "#fff"}]}>
-            <Text style={filterItemCard.text}>{item.value}</Text>
-          </View>
-        )
-      })
+      <View
+        style={[filterItemCard.container, props.item.isActive ? { backgroundColor: 'green' } : { backgroundColor: "#fff" }]}>
+        <Pressable
+          onPress={() => {
+            props.item.isActive = !item.isActive
+          }}>
+          <Text style={filterItemCard.text}>{props.item.value}</Text>
+        </Pressable>
+      </View>
     )
   }
 
@@ -158,10 +164,8 @@ const Recipes = (props) => {
 
       <FlatList
         data={searchData.length > 0 ? searchData : recipeData}
-
         ref={(ref) => { flatListRef = ref; }}
         getItemLayout={getItemLayout}
-
         renderItem={renderItem}
         keyExtractor={(item) => {
           item.id
@@ -175,8 +179,14 @@ const Recipes = (props) => {
       {/* View in the Sheet for filter*/}
       <View
         style={showSheet ? shoplistPage.sheetContainer : { display: "none" }}>
-        <View style={filterItemCard.column}>
-          <FilterList />
+        <View style={filterItemCard.superView}>
+          <FlatList
+            data={filterItems}
+            renderItem={filterObj}
+            keyExtractor={(item) => {
+              item.id
+            }}
+          />
         </View>
       </View>
     </View>
