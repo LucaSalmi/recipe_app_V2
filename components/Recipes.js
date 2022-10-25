@@ -41,6 +41,12 @@ const Recipes = (props) => {
     setInitated(true);
   }
   
+  useEffect(()=>{
+    if(searchData.length > 0 ){
+      flatListRef.scrollToIndex({ animated: false, index: 0 });
+    }
+  }, [searchData]);
+
   useEffect(() => {
     let newFavoritesIds = [];
     for (let favorite of favorites) {
@@ -54,6 +60,7 @@ const Recipes = (props) => {
     let prevIndex = AppManager.previousRecipeIndex;
 
     if (recipeData.length > prevIndex && flatListRef != null) {
+      
       flatListRef.scrollToIndex({animated: false, index: prevIndex});
     }
   }, [recipeData]);
@@ -83,9 +90,6 @@ const Recipes = (props) => {
         isFavorite={favoritesIds.includes(item.id.toString()) ? true : false}
         recipeId={item.id}
       />
-
-      <Button title="Offline" onPress={Crud.goOffline}></Button>
-      <Button title="Online" onPress={Crud.goOnline}></Button>
     </TouchableOpacity>
     
   );
@@ -97,9 +101,8 @@ const Recipes = (props) => {
       <FlatList
         data={searchData.length > 0 ? searchData : recipeData}
 
-        ref={(ref) => { console.log(ref); flatListRef = ref; }}
+        ref={(ref) => {flatListRef = ref; }}
         getItemLayout={getItemLayout}
-        data={recipeData}
 
         renderItem={renderItem}
         keyExtractor={(item) => {

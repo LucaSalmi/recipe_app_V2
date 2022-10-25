@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useRef } from "react";
 import {
   View,
   TextInput,
@@ -13,20 +13,18 @@ const SearchBar = (myProps) => {
   const [searchText, setSearchText] = useState("");
   var tempArray = []
 
-  const searchRecipeFromWord = () => {
-    
-    for (recipe of myProps.recipeData){
-    
-    let title = recipe.title
-      
-    if(title.toUpperCase().includes(searchText.toUpperCase())){
-          console.log(recipe.title)
-          tempArray.push(recipe)
+  const searchRecipeFromWord = (input) => {
 
+    for (recipe of myProps.recipeData) {
+
+      let title = recipe.title
+
+      if (title.toUpperCase().includes(input.toUpperCase())) {
+        console.log(recipe.title)
+        tempArray.push(recipe)
       }
     }
     myProps.setSearchData(tempArray)
-    
   };
 
 
@@ -38,12 +36,7 @@ const SearchBar = (myProps) => {
           onChangeText={(input) => {
 
             setSearchText(input);
-            
-            
-
-          }}
-          onSubmitEditing={() => {
-            searchRecipeFromWord()
+            searchRecipeFromWord(input)
           }}
           style={styles.searchInput}
           placeholder="Search here..."
@@ -87,7 +80,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#EAE9E9",
     borderRadius: 8,
     marginTop: 10,
-    
+
   },
   searchInput: {
     width: "90%",
