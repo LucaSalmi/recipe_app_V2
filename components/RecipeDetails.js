@@ -135,6 +135,7 @@ const RecipeDetails = (props) => {
 
   const INGREDIENTS = 0;
   const INSTRUCTIONS = 1;
+  const LOADING = 2;
 
   const [tabId, setTabId] = useState(INGREDIENTS);
 
@@ -185,6 +186,13 @@ const RecipeDetails = (props) => {
       if (!found) {
         ingredientsToAdd.push(ingredient.name);
       }
+
+      let tempRoundedIngredients = roundedIngredients;
+      setRoundedIngredients([]);
+
+      setTimeout(()=>{
+        setRoundedIngredients(tempRoundedIngredients);
+      }, 100);
 
     }
 
@@ -382,6 +390,7 @@ const RecipeDetails = (props) => {
       </ScrollView>
 
       {AppManager.isLoggedIn && !hideAddButton ? <Button title="Add to shoplist" onPress={() => { addToShoplist() }}></Button> : <Text style={{display: "none"}}></Text>}
+
     </View>
   );
 };
