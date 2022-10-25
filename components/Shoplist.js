@@ -6,6 +6,7 @@ import SearchBar from './SearchBar.js';
 import { Crud, generateUid } from '../src/db.js';
 import Icon from "react-native-ico-material-design";
 import { PantryItem } from '../PantryItem.js';
+import { styles } from './RecipeDetails.js';
 
 
 const Shoplist = (props) => {
@@ -59,15 +60,20 @@ const Shoplist = (props) => {
         return (
             <TouchableOpacity style={{ paddingTop: 5, paddingBottom: 5 }} onPress={() => { buttonPress() }}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <View style={{width: "90%", borderBottomColor: 'black', borderBottomWidth: StyleSheet.hairlineWidth}}>
                     <Text
-                        style={{ textDecorationLine: checked ? 'line-through' : '', textDecorationStyle: checked ? 'solid' : '' }}>{itemName}
+                        style={[shoplistPage.listItemText, {textDecorationLine: checked ? 'line-through' : '', textDecorationStyle: checked ? 'solid' : '' }]}>{itemName}
                     </Text>
+                    </View>
+                    
+                    <View>
                     <Text
-                        style={{ width: 25, height: 25, borderStyle: 'solid', borderWidth: 1, borderColor: 'black', textAlign: 'center', paddingTop: 3.5 }}>{checked ? "X" : " "}
+                        style={{ width: 25, height: 25, borderStyle: 'solid', borderRadius: 25/2, borderWidth: 1 , borderColor: 'black', textAlign: 'center', paddingTop: 3.5 }}>{checked ? "X" : " "}
                     </Text>
+                    </View>
                 </View>
     
-                <View style={{ borderBottomColor: 'black', borderBottomWidth: StyleSheet.hairlineWidth }} />
+                <View style={{  }} />
     
             </TouchableOpacity>
         );

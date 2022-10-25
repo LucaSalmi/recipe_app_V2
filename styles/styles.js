@@ -246,7 +246,15 @@ export const shoplistPage = StyleSheet.create({
     justifyContent: "space-between",
     padding: 20,
   },
-  headerText: {},
+  headerText: {
+    fontSize: 24,
+    fontWeight: "500"
+  },
+  listItemText: {
+    fontSize: 20,
+    fontWeight: "500"
+  },
+
   filterButton: {},
   shoppingItemsContainer: {
     width: Dimensions.get("window").width,
