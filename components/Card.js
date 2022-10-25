@@ -9,16 +9,16 @@ import {
   View,
   TouchableOpacity,
   ImageBackground,
+  Image,
 } from "react-native";
 import Icon from "react-native-ico-material-design";
 import { useState, useEffect } from "react";
 import { styles } from "./RecipeDetails";
-import AppManager from '../utils/AppManager';
-import { Crud } from '../src/db.js'
+import AppManager from "../utils/AppManager";
+import { Crud } from "../src/db.js";
 import { LinearGradient } from "expo-linear-gradient";
 
 export function BigCard(myProps) {
-
   const [heartEmpty, setFillHeart] = useState(true);
   // stringArray
   const textAttributeArray = [
@@ -31,9 +31,7 @@ export function BigCard(myProps) {
     "",
   ];
 
-
   const toggleHeart = () => {
-
     setFillHeart((current) => !current);
     if (AppManager.uid.length == 0) {
       console.log("Must be logged in to add favorites");
@@ -45,8 +43,6 @@ export function BigCard(myProps) {
 
     //let toggle = !heartEmpty;
     setFillHeart((current) => !current);
-
-
   };
 
   return (
@@ -57,12 +53,11 @@ export function BigCard(myProps) {
           : [bigCardStyles.superView]
       }
     >
-      <View style={[bigCardStyles.card]}>
+      <View style={[bigCardStyles.card, smallCardStyles.shadow]}>
         <ImageBackground
           style={bigCardStyles.imageInCard}
           source={{ uri: myProps.imageSource }}
         >
-
           <LinearGradient
             style={[
               bigCardStyles.imageInCard,
@@ -151,7 +146,6 @@ export function BigCard(myProps) {
             >
               {"20 min"}
             </Text>
-
           </View>
           <Text
             style={[
@@ -193,9 +187,35 @@ export const stylesTwo = StyleSheet.create({
 
 export function SmallCard(myProps) {
   return (
-    <View style={smallCardStyles.superView}>
-      <View style={[smallCardStyles.container, bigCardStyles.elevation]}>
-        <Text>{myProps.title}</Text>
+    <View style={[smallCardStyles.shadow, smallCardStyles.container]}>
+      <Image
+        source={{ uri: myProps.imageSource }}
+        style={smallCardStyles.imageStyle}
+      ></Image>
+
+      <View style={smallCardStyles.rightSide}>
+        <Text
+          style={[bigCardStyles.dishName, { marginTop: 10, marginStart: 3 }]}
+        >
+          {myProps.title}
+        </Text>
+        <View
+          style={{
+            flexDirection: "row-reverse",
+            marginStart: 20,
+            marginBottom: 20,
+          }}
+        >
+          <TouchableOpacity>
+            <Icon
+              style={[styles.bigHeartNotFill]}
+              name={"favorite-heart-outline-button"}
+              group="material-design"
+              height="25"
+              width="25"
+            />
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
