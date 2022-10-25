@@ -14,6 +14,7 @@ import { useState, useEffect } from "react";
 import AppManager from "../utils/AppManager";
 import { styles } from "./RecipeDetails";
 import { Crud } from "../src/db";
+import Icon from 'react-native-ico-material-design';
 
 export function IngredientsView(props) {
   const title = "Gör så här";
@@ -109,7 +110,13 @@ export function IngredientsView(props) {
                 <Text style={{ fontSize: 16, margin: 6, fontWeight: "bold" }}>
                   {fixedName}
                 </Text>
-                {ingredient.isInPantry ? <Text>X</Text> : <Text style={{display: "none"}}></Text>}
+                {ingredient.isInPantry ? <Icon
+                  style={{fill: "green", marginTop: 9, marginStart: 5}}
+                  name="circle-with-check-symbol"
+                  group="material-design"
+                  height="16"
+                  width="16" /> : <Text style={{display: "none"}}></Text>}
+                
               </View>
             </View>
           </View>
