@@ -356,7 +356,7 @@ const RecipeDetails = (props) => {
 
       </ScrollView>
 
-      <Button title="Add to shoplist" onPress={() => { addToShoplist() }}></Button>
+      {AppManager.isLoggedIn ? <Button title="Add to shoplist" onPress={() => { addToShoplist() }}></Button> : <Text style={{display: "none"}}></Text>}
     </View>
   );
 };
