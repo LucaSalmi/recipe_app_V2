@@ -10,14 +10,16 @@ import {
   Pressable,
   ImageBackground,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import { useEffect, useState, useRef } from "react";
 import { BigCard, SmallCard } from "./Card";
-import { bigCardStyles, recipePage } from "../styles/styles";
+import { bigCardStyles, recipePage, shoplistPage, filterItemCard } from "../styles/styles";
 import SearchBar from "./SearchBar.js";
 import AppManager from "../utils/AppManager.js";
 import { Constants } from "../utils/Constants";
-import { Crud } from "../src/db.js";
+import { Crud, generateUid } from "../src/db.js";
 
 const Recipes = (props) => {
   const [initiated, setInitated] = useState(false);
@@ -25,12 +27,58 @@ const Recipes = (props) => {
   const [favorites, setFavorites] = useState([]);
   const [favoritesIds, setFavoritesIds] = useState([]);
   const [searchData, setSearchData] = useState([])
+  const [showSheet, setShowSheet] = useState(false);
+  const [activeFilter, setActiveFilter] = useState([]);
+  const filterItems = [
+    {
+      id: 0,
+      value: "Vegetarian",
+      isActive: false
+    },
+    {
+      id: 1,
+      value: "Vegan",
+      isActive: false
+    },
+    {
+      id: 2,
+      value: "GlutenFree",
+      isActive: false
+    },
+    {
+      id: 3,
+      value: "DairyFree",
+      isActive: false
+
+    },
+    {
+      id: 4,
+      value: "Very Healthy",
+      isActive: false
+    },
+    {
+      id: 5,
+      value: "Cheap",
+      isActive: false
+    },
+    {
+      id: 6,
+      value: "Very Popular",
+      isActive: false
+    },
+    {
+      id: 7,
+      value: "Sustainable",
+      isActive: false
+    },
+  ];
+
 
   var flatListRef = useRef();
 
   const cardWidth = 393;
 
-  var getItemLayout = (recipeData, index) => ( { length: cardWidth, offset: cardWidth * index, index } )
+  var getItemLayout = (recipeData, index) => ({ length: cardWidth, offset: cardWidth * index, index })
 
   if (!initiated) {
 
@@ -40,9 +88,9 @@ const Recipes = (props) => {
 
     setInitated(true);
   }
-  
-  useEffect(()=>{
-    if(searchData.length > 0 ){
+
+  useEffect(() => {
+    if (searchData.length > 0) {
       flatListRef.scrollToIndex({ animated: false, index: 0 });
     }
   }, [searchData]);
@@ -55,20 +103,18 @@ const Recipes = (props) => {
     setFavoritesIds(newFavoritesIds);
   }, [favorites]);
 
-  useEffect(()=>{
+  useEffect(() => {
 
     let prevIndex = AppManager.previousRecipeIndex;
 
     if (recipeData.length > prevIndex && flatListRef != null) {
-      
-      flatListRef.scrollToIndex({animated: false, index: prevIndex});
+
+      flatListRef.scrollToIndex({ animated: false, index: prevIndex });
     }
   }, [recipeData]);
 
   const renderItem = ({ item }) => (
-    
-    
-    
+
     <TouchableOpacity
       id={item.id}
       onPress={() => {
@@ -91,28 +137,48 @@ const Recipes = (props) => {
         recipeId={item.id}
       />
     </TouchableOpacity>
-    
+
   );
+
+  const FilterList = () => {
+    return (
+      filterItems.map((item) => {
+        return (
+          <View onTouchEnd={()=>{item.isActive = !item.isActive}} style={[filterItemCard.container, item.isActive ? {backgroundColor: 'green'} : {backgroundColor: "#fff"}]}>
+            <Text style={filterItemCard.text}>{item.value}</Text>
+          </View>
+        )
+      })
+    )
+  }
 
   return (
     <View style={recipePage.recipeContainer}>
-      <SearchBar recipeData={recipeData} setSearchData={setSearchData}/>
-      
+      <SearchBar recipeData={recipeData} setSearchData={setSearchData} setShowSheet={setShowSheet} showSheet={showSheet} />
+
       <FlatList
         data={searchData.length > 0 ? searchData : recipeData}
 
-        ref={(ref) => {flatListRef = ref; }}
+        ref={(ref) => { flatListRef = ref; }}
         getItemLayout={getItemLayout}
 
         renderItem={renderItem}
         keyExtractor={(item) => {
-          item.id;
+          item.id
         }}
         horizontal
         snapToAlignment="start"
         decelerationRate={"fast"}
         snapToInterval={Dimensions.get("window").width}
       />
+
+      {/* View in the Sheet for filter*/}
+      <View
+        style={showSheet ? shoplistPage.sheetContainer : { display: "none" }}>
+        <View style={filterItemCard.column}>
+          <FilterList />
+        </View>
+      </View>
     </View>
   );
 };

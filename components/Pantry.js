@@ -183,8 +183,6 @@ const Pantry = (props) => {
                 style={showSheet ? shoplistPage.sheetContainer : { display: "none" }}
                 behavior={Platform.OS === "ios" ? "padding" : "height"}>
 
-                {/*<QuantityModal />*/}
-
                 <View style={SearchBarStyle.container}>
                     <TextInput value={searchText} onChangeText={(input) => {
                         setSearchText(input);

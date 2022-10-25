@@ -6,6 +6,7 @@ import {
   Button,
   TouchableOpacity,
   Text,
+  KeyboardAvoidingView
 } from "react-native";
 import Icon from "react-native-ico-material-design";
 
@@ -26,6 +27,11 @@ const SearchBar = (myProps) => {
     }
     myProps.setSearchData(tempArray)
   };
+
+  function toggleSheet(){
+    let temp = !myProps.showSheet
+    myProps.setShowSheet(temp)
+  }
 
 
   return (
@@ -62,6 +68,10 @@ const SearchBar = (myProps) => {
         style={{
           justifyContent: "center",
           padding: 10,
+        }}
+        onPress={() =>{
+          console.log('filter');
+          toggleSheet();
         }}
       >
         <Icon name="sort-button-with-three-lines" height="22" width="22"></Icon>

@@ -204,6 +204,33 @@ export const smallCardStyles = StyleSheet.create({
   },
 });
 
+export const filterItemCard = StyleSheet.create({
+  container: {
+    flexDirection: "column",
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "15%",
+    width: "40%",
+    borderRadius: 50,
+    borderWidth: 1,
+    margin: 9,
+    marginTop: 15,
+    alignSelf: 'center'
+  },
+  text:{
+    textAlign: 'center',
+    textSize: 18,
+  },
+  column:{
+    width: '50%',
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'flex-start'
+  }
+});
+
 export const pantryCardStyles = StyleSheet.create({
   container: {
     flexDirection: "row",
@@ -263,7 +290,7 @@ export const shoplistPage = StyleSheet.create({
   },
   sheetContainer: {
     width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height,
+    height: Dimensions.get("window").height *0.5,
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
     //padding: 20,
