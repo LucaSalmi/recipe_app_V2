@@ -37,7 +37,6 @@ export function IngredientsView(props) {
   useEffect(()=>{
 
     if (pantryItems.length > 0) {
-      console.log("1. " + pantryItems[0].title);
 
       let pantryTitles = [];
 
@@ -45,23 +44,16 @@ export function IngredientsView(props) {
         pantryTitles.push(pantryItem.title);
       }
 
-      console.log("2. " + pantryTitles);
-
       let updatedIngredients = [];
 
       for (let ingredient of ingredientsFromProp) {
-
-        console.log("2b. " + ingredient.name);
 
         ingredient.isInPantry = false;
         if (pantryTitles.includes(ingredient.name)) {
           ingredient.isInPantry = true;
         }
-        console.log("2c. " + ingredient.isInPantry);
         updatedIngredients.push(ingredient);
       }
-
-      console.log("3. " + updatedIngredients.length);
 
       setIngredients(updatedIngredients);
 
