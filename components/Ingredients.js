@@ -10,18 +10,78 @@ import {
   Item,
   FlatList,
 } from "react-native";
+import { useState, useEffect } from "react";
 import AppManager from "../utils/AppManager";
 import { styles } from "./RecipeDetails";
+import { Crud } from "../src/db";
 
 export function IngredientsView(props) {
   const title = "Gör så här";
 
+  const [pantryItems, setPantryItems] = useState([]);
+  const [shoplistItems, setShoplistItems] = useState([]);
 
+  const [ingredients, setIngredients] = useState([]);
+
+  const ingredientsFromProp = props.ingredients;
+
+  //Run once
+  useEffect(() => {
+
+    setIngredients(props.ingredients);
+
+    if (AppManager.isLoggedIn && AppManager.uid.length > 0) {
+      Crud.getPantry(setPantryItems);
+
+      const updateShoplist = async () => {
+        let result = await Crud.getShoplist(); //Stores result in AppManager.shoplistContent
+
+        let shoplistItemNames = [];
+
+        for (let item of AppManager.shoplistContent) {
+          let itemDesc = item.desc
+          shoplistItemNames.push(itemDesc);
+        }
+
+        setShoplistItems(shoplistItemNames);
+      }
+      updateShoplist();
+    }
+  }, []);
+
+  useEffect(()=>{
+
+    let userItems = [];
+
+    //Get all names from pantry
+    for (let pantryItem of pantryItems) {
+      userItems.push(pantryItem.title);
+    }
+
+    //Get all names from shoplist
+    for (let shoplistItem of AppManager.shoplistContent) {
+      userItems.push(shoplistItem.desc);
+    }
+
+    let updatedIngredients = [];
+
+    for (let ingredient of ingredientsFromProp) {
+
+      ingredient.isInPantry = false;
+      if (userItems.includes(ingredient.name)) {
+        ingredient.isInPantry = true;
+      }
+      updatedIngredients.push(ingredient);
+    }
+
+    setIngredients(updatedIngredients);
+
+  }, [pantryItems, shoplistItems]);
 
   return (
     <View>
 
-      {props.ingredients.map((ingredient, i) => {
+      {ingredients.map((ingredient, i) => {
 
         let ingredientname = ingredient.name;
         let fixedName = ingredientname.charAt(0).toUpperCase() + ingredientname.slice(1);
@@ -49,6 +109,7 @@ export function IngredientsView(props) {
                 <Text style={{ fontSize: 16, margin: 6, fontWeight: "bold" }}>
                   {fixedName}
                 </Text>
+                {ingredient.isInPantry ? <Text>X</Text> : <Text style={{display: "none"}}></Text>}
               </View>
             </View>
           </View>
