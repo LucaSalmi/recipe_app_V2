@@ -180,28 +180,24 @@ export const filterItemCard = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-    height: "8%",
-    width: "35%",
+    height: "15%",
+    width: "40%",
     borderRadius: 50,
     borderWidth: 1,
-    margin: 5,
+    margin: 9,
     marginTop: 15,
-  },
-  superView: {
-    flex: 1,
-    height: Dimensions.get("window").height * 0.5,
-    width: Dimensions.get("window").width,
-    alignItems: "center",
-    justifyContent: "center",
+    alignSelf: 'center'
   },
   text:{
     textAlign: 'center',
     textSize: 18,
   },
-  scrolling:{
+  column:{
+    width: '50%',
     flex: 1,
-    height: Dimensions.get("window").height,
-    width: Dimensions.get("window").width,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'flex-start'
   }
 });
 
@@ -256,7 +252,7 @@ export const shoplistPage = StyleSheet.create({
   },
   sheetContainer: {
     width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height,
+    height: Dimensions.get("window").height *0.5,
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
     //padding: 20,

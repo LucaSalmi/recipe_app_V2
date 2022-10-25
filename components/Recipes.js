@@ -28,38 +28,48 @@ const Recipes = (props) => {
   const [favoritesIds, setFavoritesIds] = useState([]);
   const [searchData, setSearchData] = useState([])
   const [showSheet, setShowSheet] = useState(false);
+  const [activeFilter, setActiveFilter] = useState([]);
   const filterItems = [
     {
       id: 0,
-      value: "Vegetarian"
+      value: "Vegetarian",
+      isActive: false
     },
     {
       id: 1,
-      value: "Vegan"
+      value: "Vegan",
+      isActive: false
     },
     {
       id: 2,
-      value: "GlutenFree"
+      value: "GlutenFree",
+      isActive: false
     },
     {
       id: 3,
-      value: "DairyFree"
+      value: "DairyFree",
+      isActive: false
+
     },
     {
       id: 4,
-      value: "Very Healthy"
+      value: "Very Healthy",
+      isActive: false
     },
     {
       id: 5,
-      value: "Cheap"
+      value: "Cheap",
+      isActive: false
     },
     {
       id: 6,
-      value: "Very Popular"
+      value: "Very Popular",
+      isActive: false
     },
     {
       id: 7,
-      value: "Sustainable"
+      value: "Sustainable",
+      isActive: false
     },
   ];
 
@@ -134,7 +144,7 @@ const Recipes = (props) => {
     return (
       filterItems.map((item) => {
         return (
-          <View style={filterItemCard.container}>
+          <View onTouchEnd={()=>{item.isActive = !item.isActive}} style={[filterItemCard.container, item.isActive ? {backgroundColor: 'green'} : {backgroundColor: "#fff"}]}>
             <Text style={filterItemCard.text}>{item.value}</Text>
           </View>
         )
@@ -165,10 +175,9 @@ const Recipes = (props) => {
       {/* View in the Sheet for filter*/}
       <View
         style={showSheet ? shoplistPage.sheetContainer : { display: "none" }}>
-        <ScrollView style={filterItemCard.scrolling}>
+        <View style={filterItemCard.column}>
           <FilterList />
-        </ScrollView>
-
+        </View>
       </View>
     </View>
   );
