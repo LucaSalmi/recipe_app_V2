@@ -29,66 +29,48 @@ const Recipes = (props) => {
   const [searchData, setSearchData] = useState([])
   const [showSheet, setShowSheet] = useState(false);
   const [activeFilter, setActiveFilter] = useState([]);
-  const [isActive, setIsActive] = useState([
-    {
-      "Vegetarian 🌿": false
-    },
-    {
-      "Vegan 🌱": false
-    },
-    {
-      "Gluten Free 🌾": false
-    },
-    {
-      "Dairy Free 🥛": false
-    },
-    {
-      "Very Healthy 🥦": false
-    },
-    {
-      "Cheap 💲": false
-    },
-    {
-      "Very Popular 👍": false
-    },
-    {
-      "Sustainable ♻️": false
-    }
-  ]);
 
   const filterItems = [
     {
       id: 0,
       value: "Vegetarian 🌿",
+      isActive: false
     },
     {
       id: 1,
       value: "Vegan 🌱",
+      isActive: false
     },
     {
       id: 2,
       value: "Gluten Free 🌾",
+      isActive: false
     },
     {
       id: 3,
       value: "Dairy Free 🥛",
+      isActive: false
 
     },
     {
       id: 4,
       value: "Very Healthy 🥦",
+      isActive: false
     },
     {
       id: 5,
       value: "Cheap 💲",
+      isActive: false
     },
     {
       id: 6,
       value: "Very Popular 👍",
+      isActive: false
     },
     {
       id: 7,
       value: "Sustainable ♻️",
+      isActive: false
     },
   ];
 
@@ -165,13 +147,16 @@ const Recipes = (props) => {
   };
 
   function FilterList(props) {
+
+    let selected = props.item;
+    const [isActive, setIsActive] = useState(props.item.isActive);
+
     return (
       <TouchableOpacity
-        style={[filterItemCard.container, isActive[props.item.value] ? { backgroundColor: 'green' } : { backgroundColor: "#fff" }]}
-        onPress={()=>{
-          var newActiveArray = isActive;
-          newActiveArray[props.item.value] = !newActiveArray[props.item.value];
-          setIsActive(newActiveArray);
+        style={[filterItemCard.container, isActive ? { backgroundColor: 'green' } : { backgroundColor: "#fff" }]}
+        onPress={() => {
+          selected.isActive = !selected.isActive
+          setIsActive(selected.isActive)
         }}>
         <Text numberOfLines={1} style={filterItemCard.text}>{props.item.value}</Text>
 
