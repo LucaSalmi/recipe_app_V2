@@ -54,6 +54,14 @@ export default function App() {
       AppManager.username = result.username;
       AppManager.password = result.password;
       AppManager.isLoggedIn = true;
+
+      let user = await Crud.getUser(result.username, result.password);
+      if (user.id != "") {
+        AppManager.firstName = user.firstName;
+        AppManager.secondName = user.secondName;
+        AppManager.email = user.email;
+        AppManager.phone = user.phone;
+      }
     }
   };
 
