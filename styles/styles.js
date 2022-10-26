@@ -205,30 +205,35 @@ export const smallCardStyles = StyleSheet.create({
 });
 
 export const filterItemCard = StyleSheet.create({
+  sheetContainer: {
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height *0.18,
+    paddingTop: 7,
+    alignItems: "center",
+    backgroundColor: "#353839",
+  },
   container: {
-    flexDirection: "column",
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-    height: "15%",
-    width: "40%",
-    borderRadius: 50,
+    borderRadius: Constants.DEFAULT_BORDER_RADIUS,
     borderWidth: 1,
-    margin: 9,
-    marginTop: 15,
-    alignSelf: 'center'
+    alignSelf: 'center',
+    padding: 5,
+    width: '33%'
+  },
+  superView: {
+    flex: 1,
+    height: Dimensions.get("window").height,
+    width: Dimensions.get("window").width,
+    alignItems: "center",
+    justifyContent: "center",
   },
   text:{
     textAlign: 'center',
-    textSize: 18,
+    textSize: 13,
+    
   },
-  column:{
-    width: '50%',
-    flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'flex-start'
-  }
 });
 
 export const pantryCardStyles = StyleSheet.create({
@@ -290,7 +295,7 @@ export const shoplistPage = StyleSheet.create({
   },
   sheetContainer: {
     width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height *0.5,
+    height: Dimensions.get("window").height *0.18,
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
     //padding: 20,

@@ -29,49 +29,57 @@ const Recipes = (props) => {
   const [searchData, setSearchData] = useState([])
   const [showSheet, setShowSheet] = useState(false);
   const [activeFilter, setActiveFilter] = useState([]);
-  const filterItems = [
+  const [filterItems, setFilterItems] = useState([
     {
       id: 0,
-      value: "Vegetarian",
-      isActive: false
+      value: "Vegetarian 🌿",
+      isActive: false,
+      color: '#D9FFBF'
     },
     {
       id: 1,
-      value: "Vegan",
-      isActive: false
+      value: "Vegan 🌱",
+      isActive: false,
+      color: '#BDFFA4'
     },
     {
       id: 2,
-      value: "GlutenFree",
-      isActive: false
+      value: "Gluten Free 🌾",
+      isActive: false,
+      color: '#ffff00'
     },
     {
       id: 3,
-      value: "DairyFree",
-      isActive: false
+      value: "Dairy Free 🥛",
+      isActive: false,
+      color: '#ffff'
 
     },
     {
       id: 4,
-      value: "Very Healthy",
-      isActive: false
+      value: "Very Healthy 🥦",
+      isActive: false,
+      color: '#337B24'
     },
     {
       id: 5,
-      value: "Cheap",
-      isActive: false
+      value: "Cheap 💲",
+      isActive: false,
+      color: '#F7FFDC'
     },
     {
       id: 6,
-      value: "Very Popular",
-      isActive: false
+      value: "Very Popular 👍",
+      isActive: false,
+      color: '#ffffa4'
     },
     {
       id: 7,
-      value: "Sustainable",
-      isActive: false
+      value: "Sustainable ♻️",
+      isActive: false,
+      color: '#136207'
     },
-  ];
+  ]);
 
 
   var flatListRef = useRef();
@@ -140,28 +148,50 @@ const Recipes = (props) => {
 
   );
 
-  const FilterList = () => {
+  const filterObj = ({ item }) => {
     return (
-      filterItems.map((item) => {
-        return (
-          <View onTouchEnd={()=>{item.isActive = !item.isActive}} style={[filterItemCard.container, item.isActive ? {backgroundColor: 'green'} : {backgroundColor: "#fff"}]}>
-            <Text style={filterItemCard.text}>{item.value}</Text>
-          </View>
-        )
-      })
+      <FilterList item={item} />
     )
-  }
+  };
+
+  function FilterList(props) {
+    return (
+      <View
+        style={[filterItemCard.container, props.item.isActive ? { backgroundColor: 'green' } : { backgroundColor: "#fff" }]}>
+        <Pressable
+          onPress={() => {
+            props.item.isActive = !props.item.isActive
+          }}>
+          <Text numberOfLines={1} style={filterItemCard.text}>{props.item.value}</Text>
+        </Pressable>
+      </View>
+    )
+  };
 
   return (
     <View style={recipePage.recipeContainer}>
       <SearchBar recipeData={recipeData} setSearchData={setSearchData} setShowSheet={setShowSheet} showSheet={showSheet} />
 
+      {/* View in the Sheet for filter*/}
+      <View
+        style={showSheet ? [filterItemCard.sheetContainer] : { display: "none" }}>
+        <View style={filterItemCard.superView}>
+          <FlatList
+            style={{ width: '100%' }}
+            data={filterItems}
+            renderItem={filterObj}
+            keyExtractor={(item) => {
+              item.id
+            }}
+            numColumns = {3}
+          />
+        </View>
+      </View>
+
       <FlatList
         data={searchData.length > 0 ? searchData : recipeData}
-
         ref={(ref) => { flatListRef = ref; }}
         getItemLayout={getItemLayout}
-
         renderItem={renderItem}
         keyExtractor={(item) => {
           item.id
@@ -171,14 +201,7 @@ const Recipes = (props) => {
         decelerationRate={"fast"}
         snapToInterval={Dimensions.get("window").width}
       />
-
-      {/* View in the Sheet for filter*/}
-      <View
-        style={showSheet ? shoplistPage.sheetContainer : { display: "none" }}>
-        <View style={filterItemCard.column}>
-          <FilterList />
-        </View>
-      </View>
+      
     </View>
   );
 };
