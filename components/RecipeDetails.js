@@ -19,7 +19,7 @@ import { IngredientsView } from "./Ingredients";
 import InstructionsView from "./Instructions";
 import AppManager from '../utils/AppManager.js'
 import { Crud } from "../src/db";
-import { recipePage } from "../styles/styles";
+import { pageStyles, recipePage } from "../styles/styles";
 import { Constants } from "../utils/Constants";
 
 
@@ -36,9 +36,13 @@ const RecipeDetails = (props) => {
   const [roundedIngredients, setRoundedIngredients] = useState([]);
   const [initiated, setInitiated] = useState(false);
 
-  if (ingredients.length == 0) {
+  const [hideAddButton, setHideAddButton] = useState(false);
+
+  //Run once
+  useEffect(() => {
     Crud.getIngredients(setIngredients)
-  }
+  }, []);
+
 
   const changeRoundedIngredients = () => {
 
@@ -115,11 +119,23 @@ const RecipeDetails = (props) => {
   }, [ingredients]);
 
   const toggleHeart = () => {
+   
+    if (AppManager.uid.length == 0) {
+      console.log("Must be logged in to add favorites");
+      return;
+    }
+
+    //Firestore update
+    Crud.updateFavorite(AppManager.uid, AppManager.currentRecipe.id, heartEmpty);
+
+    //let toggle = !heartEmpty;
     setFillHeart((current) => !current);
+
   };
 
   const INGREDIENTS = 0;
   const INSTRUCTIONS = 1;
+  const LOADING = 2;
 
   const [tabId, setTabId] = useState(INGREDIENTS);
 
@@ -128,8 +144,14 @@ const RecipeDetails = (props) => {
 
   switch (tabId) {
     case INGREDIENTS:
-      tab = <IngredientsView setTabId={setTabId}
-        ingredients={roundedIngredients} />;
+      if (roundedIngredients.length > 0) {
+        tab = <IngredientsView setTabId={setTabId}
+          ingredients={roundedIngredients} />;
+      }
+      else {
+        tab = <Text>Loading ingredients...</Text>;
+      }
+      
 
       break;
 
@@ -165,6 +187,13 @@ const RecipeDetails = (props) => {
         ingredientsToAdd.push(ingredient.name);
       }
 
+      let tempRoundedIngredients = roundedIngredients;
+      setRoundedIngredients([]);
+
+      setTimeout(()=>{
+        setRoundedIngredients(tempRoundedIngredients);
+      }, 100);
+
     }
 
     let filteredIngredients = [];
@@ -187,6 +216,8 @@ const RecipeDetails = (props) => {
       }
     }
 
+    setHideAddButton(true);
+
     if (filteredIngredients.length < 1) {
       console.log("All ingredients already exists in shoplist or pantry.");
       Alert.alert(
@@ -198,6 +229,7 @@ const RecipeDetails = (props) => {
             style: "cancel",
 
           },
+
         ]
       );
       return;
@@ -229,12 +261,13 @@ const RecipeDetails = (props) => {
                   onPress={() => {
                     props.setScreen(AppManager.previousScreen);
                   }}
+                  style={pageStyles.iconBackground}
                 >
                   <Icon
                     name="go-back-left-arrow"
                     group="material-design"
-                    width="25"
-                    height="25"
+                    width="20"
+                    height="20"
                   ></Icon>
                 </TouchableOpacity>
 
@@ -242,6 +275,7 @@ const RecipeDetails = (props) => {
                   onPress={() => {
                     toggleHeart();
                   }}
+                  style={pageStyles.iconBackground}
                 >
                   <Icon
                     style={
@@ -326,7 +360,9 @@ const RecipeDetails = (props) => {
                 style={tabId == INGREDIENTS
                   ? recipePage.shadowProp
                   : recipePage.button}
+
               >
+
                 <Text>
                   Ingredients
                 </Text>
@@ -353,7 +389,8 @@ const RecipeDetails = (props) => {
 
       </ScrollView>
 
-      <Button title="Add to shoplist" onPress={() => { addToShoplist() }}></Button>
+      {AppManager.isLoggedIn && !hideAddButton ? <Button title="Add to shoplist" onPress={() => { addToShoplist() }}></Button> : <Text style={{display: "none"}}></Text>}
+
     </View>
   );
 };

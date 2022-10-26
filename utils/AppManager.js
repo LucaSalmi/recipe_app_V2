@@ -15,6 +15,7 @@ const AppManager = {
     pantryContent: [],
     shoplistContent: [],
     previousScreen: Constants.RECIPES,
+    previousRecipeIndex: 0,
 
 }
 

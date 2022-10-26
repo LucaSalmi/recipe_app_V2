@@ -100,15 +100,15 @@ const Pantry = (props) => {
     //card in the main page of the pantry
     function PantryCard(myProps) {
         return (
-            <View style={pantryCardStyles.superView}>
-                <View onTouchEnd={() => {
-
-                    deleteItemAlert(myProps)
-
-                }} style={[pantryCardStyles.container, bigCardStyles.elevation]}>
-                    <Text>{myProps.item.title}</Text>
+            <TouchableOpacity activeOpacity={0.8} onPress={()=>{
+                deleteItemAlert(myProps)
+            }}>
+                <View style={pantryCardStyles.superView}>
+                    <View style={[pantryCardStyles.container, bigCardStyles.elevation]}>
+                        <Text>{myProps.item.title}</Text>
+                    </View>
                 </View>
-            </View>
+            </TouchableOpacity>
         );
     }
 
@@ -182,8 +182,6 @@ const Pantry = (props) => {
             <KeyboardAvoidingView
                 style={showSheet ? shoplistPage.sheetContainer : { display: "none" }}
                 behavior={Platform.OS === "ios" ? "padding" : "height"}>
-
-                {/*<QuantityModal />*/}
 
                 <View style={SearchBarStyle.container}>
                     <TextInput value={searchText} onChangeText={(input) => {

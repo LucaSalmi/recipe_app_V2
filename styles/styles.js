@@ -7,6 +7,14 @@ export const pageStyles = StyleSheet.create({
     fontSize: 20,
     color: "blue",
   },
+  iconBackground: {
+    height: 38,
+    justifyContent: "center",
+    alignItems: "center",
+    width: 38,
+    borderRadius: 38/2,
+    backgroundColor: Constants.NAVBAR_AND_SAFEAREA_COLOR
+  },
 });
 
 export const bigCardStyles = StyleSheet.create({
@@ -16,7 +24,7 @@ export const bigCardStyles = StyleSheet.create({
     justifyContent: "space-between",
     height: "70%",
     width: "85%",
-    borderRadius: 10,
+    borderRadius: Constants.DEFAULT_BORDER_RADIUS,
     borderWidth: 1,
     marginTop: 20,
   },
@@ -26,8 +34,8 @@ export const bigCardStyles = StyleSheet.create({
     height: null,
     resizeMode: "contain",
     overflow: "hidden",
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
+    borderTopLeftRadius: Constants.DEFAULT_BORDER_RADIUS,
+    borderTopRightRadius: Constants.DEFAULT_BORDER_RADIUS,
   },
   card: {
     height: "95%",
@@ -67,18 +75,14 @@ export const bigCardStyles = StyleSheet.create({
   dishName: {
     fontSize: 20,
     fontWeight: "450",
+    
   },
   veganAttribute: {
     backgroundColor: "green",
     height: 50,
     justifyContent: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.5,
-    shadowRadius: 2,
-    elevation: 20,
-    borderBottomRightRadius: 10,
     borderRadius: 3,
+    marginEnd: 230,
     width: 95,
   },
   editorsChoiceAttribute: {
@@ -100,10 +104,6 @@ export const bigCardStyles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 2,
     elevation: 2,
-  },
-  favIcon: {
-    margin: 10,
-    display: 'none'
   },
 });
 
@@ -165,22 +165,70 @@ export const navBarStyles = StyleSheet.create({
 
 export const smallCardStyles = StyleSheet.create({
   container: {
+    flexDirection: "row",
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "space-between",
+    height: Dimensions.get("window").height * 0.2,
+    width: Dimensions.get("window").width * 0.95,
+    borderRadius: Constants.DEFAULT_BORDER_RADIUS,
+    marginVertical: 5
+    
+  },
+  superView: {
+    flex: 1,
+    
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  imageStyle: {
+    width: "33.3%",
+    height: "100%",
+    borderBottomLeftRadius: Constants.DEFAULT_BORDER_RADIUS,
+    borderTopLeftRadius: Constants.DEFAULT_BORDER_RADIUS,
+    
+    overflow: "hidden",
+
+  },
+  rightSide: {
+    height: "100%",
+    width: "66%",
+    flexDirection: "column",
+    justifyContent: "space-between",
+  },
+  shadow: {
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+  },
+});
+
+export const filterItemCard = StyleSheet.create({
+  container: {
     flexDirection: "column",
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-    height: "90%",
-    width: "85%",
-    borderRadius: 25,
+    height: "15%",
+    width: "40%",
+    borderRadius: 50,
     borderWidth: 1,
+    margin: 9,
+    marginTop: 15,
+    alignSelf: 'center'
   },
-  superView: {
+  text:{
+    textAlign: 'center',
+    textSize: 18,
+  },
+  column:{
+    width: '50%',
     flex: 1,
-    height: Dimensions.get("window").height * 0.2,
-    width: Dimensions.get("window").width,
-    alignItems: "center",
-    justifyContent: "center",
-  },
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'flex-start'
+  }
 });
 
 export const pantryCardStyles = StyleSheet.create({
@@ -217,7 +265,7 @@ export const shoplistPage = StyleSheet.create({
     alignItems: "center",
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
-    backgroundColor: "#0005",
+    
   },
   headerContainer: {
     width: Dimensions.get("window").width,
@@ -225,7 +273,15 @@ export const shoplistPage = StyleSheet.create({
     justifyContent: "space-between",
     padding: 20,
   },
-  headerText: {},
+  headerText: {
+    fontSize: 24,
+    fontWeight: "500"
+  },
+  listItemText: {
+    fontSize: 20,
+    fontWeight: "500"
+  },
+
   filterButton: {},
   shoppingItemsContainer: {
     width: Dimensions.get("window").width,
@@ -234,7 +290,7 @@ export const shoplistPage = StyleSheet.create({
   },
   sheetContainer: {
     width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height,
+    height: Dimensions.get("window").height *0.5,
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
     //padding: 20,
@@ -250,7 +306,7 @@ export const favoritePage = StyleSheet.create({
     alignItems: "center",
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
-    backgroundColor: "#0005",
+    backgroundColor: Constants.NAVBAR_AND_SAFEAREA_COLOR,
   },
 });
 

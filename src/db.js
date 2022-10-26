@@ -1,5 +1,4 @@
 // Import the functions you need from the SDKs you need
-import 'expo-firestore-offline-persistence'
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
@@ -8,10 +7,6 @@ import { PantryItem } from '../PantryItem';
 import { Fab } from '../styles/styles';
 import AppManager from '../utils/AppManager';
 import { Constants } from '../utils/Constants';
-import { enableIndexedDbPersistence } from "firebase/firestore";
-import { disableNetwork, enableNetwork } from "firebase/firestore";
-
-
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -25,7 +20,6 @@ const config = {
     storageBucket: "recipes-app-v2.appspot.com",
     messagingSenderId: "296424842617",
     appId: "1:296424842617:web:69face62f1a2f5d6993ba8"
-    
 };
 
 // Initialize Firebase
@@ -51,6 +45,7 @@ enableIndexedDbPersistence(db)
 
 
 
+
 const USERS_COLLECTION = "users";
 const RECIPE_COLLECTION = "recipies";
 const FAVORITE_COLLECTION = "favorites";
@@ -62,17 +57,6 @@ const SHOPLIST_COLLECTION = "shoplist";
 
 /* CRUD */
 export const Crud = {
-
-    goOffline: async () => {
-        await disableNetwork(db);
-        console.log("Network disabled!");
-    },
-
-    goOnline: async () => {
-        await enableNetwork(db);
-        console.log("Network enabled!");
-    },
-    
 
     apiImport: () => {
 
@@ -265,7 +249,7 @@ export const Crud = {
                 return { id: doc.id, ...doc.data() }
             })
 
-
+            
 
             //Set servings to 4
             if (AppManager.currentRecipe.servings != Constants.DEFAULT_SERVINGS) {

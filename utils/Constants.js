@@ -7,5 +7,8 @@ export const Constants = {
     PROFILE : 4,
     RECIPEDETAILS : 5,
     DEFAULT_SERVINGS: 4,
+    
+    
     NAVBAR_AND_SAFEAREA_COLOR: "#F3F3F3",
+    DEFAULT_BORDER_RADIUS: 10
 }
