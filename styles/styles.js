@@ -498,3 +498,23 @@ export const customModalStyles = StyleSheet.create({
     borderWidth: 1,
   },
 });
+
+export const filterIndicator = StyleSheet.create({
+
+  container:{
+    marginLeft: Dimensions.get("window").width - Constants.DEFAULT_WIDTH_FILTER_BADGE,
+    borderColor: "black",
+    borderWidth: 1,
+    borderRadius: 100,
+    height: Constants.DEFAULT_HEIGHT_FILTER_BADGE,
+    width:Constants.DEFAULT_WIDTH_FILTER_BADGE,
+    alignContent:'center',
+    justifyContent: 'center',
+    backgroundColor: 'green',
+  },
+  text:{
+    textSize: 12,
+    alignSelf: 'center'
+  },
+
+});
