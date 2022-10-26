@@ -41,7 +41,24 @@ export default function App() {
     if (AppManager.allIngredients.length < 1) {
       Crud.getAllIngredients();
     }
+
+    performAutoLogin();
+
   }, []);
+
+  const performAutoLogin = async () => {
+    try {
+      const value = await AsyncStorage.getItem('@username')
+      if(value !== null) {
+        console.log("AsyncStorage username value = " + value);
+      }
+      else {
+        console.log("No @username value found in AsyncStorage.");
+      }
+    } catch(e) {
+      console.log("Error: Could not read from AsyncStorage.");
+    }
+  };
 
   if (Platform.OS == "android") {
     if (recipeData.length > 0) {
