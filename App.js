@@ -23,6 +23,7 @@ import RecipeDetails from "./components/RecipeDetails";
 import { Constants } from "./utils/Constants";
 import { Crud } from "./src/db.js";
 import AppManager from "./utils/AppManager";
+import CrudLocal from "./src/dbLocal";
 
 //testing more hello
 //a comment from ankan, hello guys
@@ -31,6 +32,7 @@ import AppManager from "./utils/AppManager";
 export default function App() {
   const [recipeData, setRecipeData] = useState([]);
 
+  //Run once
   useEffect(()=>{
     if (recipeData.length < 1) {
       Crud.getRecipies(setRecipeData);
@@ -39,7 +41,32 @@ export default function App() {
     if (AppManager.allIngredients.length < 1) {
       Crud.getAllIngredients();
     }
+
+    performAutoLogin();
+
   }, []);
+
+  const performAutoLogin = async () => {
+    let result = await CrudLocal.performAutoLogin()
+    if (result != null) {
+      console.log("DANNE: " + result.uid);
+      AppManager.uid = result.uid;
+      AppManager.username = result.username;
+      AppManager.password = result.password;
+      AppManager.isLoggedIn = true;
+
+      let user = await Crud.getUser(result.username, result.password);
+      if (user.id != "") {
+        AppManager.firstName = user.firstName;
+        AppManager.secondName = user.secondName;
+        AppManager.email = user.email;
+        AppManager.phone = user.phone;
+      }
+
+      Crud.getPantry(null);
+      Crud.getShoplist();
+    }
+  };
 
   if (Platform.OS == "android") {
     if (recipeData.length > 0) {
