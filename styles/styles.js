@@ -509,10 +509,11 @@ export const filterIndicator = StyleSheet.create({
     height: Constants.DEFAULT_HEIGHT_FILTER_BADGE,
     width:Constants.DEFAULT_WIDTH_FILTER_BADGE,
     alignContent:'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    backgroundColor: 'green',
   },
   text:{
-    textSize: 8,
+    textSize: 12,
     alignSelf: 'center'
   },
 
