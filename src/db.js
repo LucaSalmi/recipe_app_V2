@@ -194,7 +194,7 @@ export const Crud = {
             }
         }
 
-        //Return false if the user wasn't found
+        //Return empty id-string if user was not found
         let userData = { id: "" };
         return userData;
     },
