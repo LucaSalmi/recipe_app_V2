@@ -62,6 +62,9 @@ export default function App() {
         AppManager.email = user.email;
         AppManager.phone = user.phone;
       }
+
+      Crud.getPantry(null);
+      Crud.getShoplist();
     }
   };
 
