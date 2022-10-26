@@ -29,58 +29,68 @@ const Recipes = (props) => {
   const [searchData, setSearchData] = useState([])
   const [showSheet, setShowSheet] = useState(false);
   const [activeFilter, setActiveFilter] = useState([]);
-  const [filterItems, setFilterItems] = useState([
+  const [isActive, setIsActive] = useState([
+    {
+      "Vegetarian 🌿": false
+    },
+    {
+      "Vegan 🌱": false
+    },
+    {
+      "Gluten Free 🌾": false
+    },
+    {
+      "Dairy Free 🥛": false
+    },
+    {
+      "Very Healthy 🥦": false
+    },
+    {
+      "Cheap 💲": false
+    },
+    {
+      "Very Popular 👍": false
+    },
+    {
+      "Sustainable ♻️": false
+    }
+  ]);
+
+  const filterItems = [
     {
       id: 0,
       value: "Vegetarian 🌿",
-      isActive: false,
-      color: '#D9FFBF'
     },
     {
       id: 1,
       value: "Vegan 🌱",
-      isActive: false,
-      color: '#BDFFA4'
     },
     {
       id: 2,
       value: "Gluten Free 🌾",
-      isActive: false,
-      color: '#ffff00'
     },
     {
       id: 3,
       value: "Dairy Free 🥛",
-      isActive: false,
-      color: '#ffff'
 
     },
     {
       id: 4,
       value: "Very Healthy 🥦",
-      isActive: false,
-      color: '#337B24'
     },
     {
       id: 5,
       value: "Cheap 💲",
-      isActive: false,
-      color: '#F7FFDC'
     },
     {
       id: 6,
       value: "Very Popular 👍",
-      isActive: false,
-      color: '#ffffa4'
     },
     {
       id: 7,
       value: "Sustainable ♻️",
-      isActive: false,
-      color: '#136207'
     },
-  ]);
-
+  ];
 
   var flatListRef = useRef();
 
@@ -156,15 +166,16 @@ const Recipes = (props) => {
 
   function FilterList(props) {
     return (
-      <View
-        style={[filterItemCard.container, props.item.isActive ? { backgroundColor: 'green' } : { backgroundColor: "#fff" }]}>
-        <Pressable
-          onPress={() => {
-            props.item.isActive = !props.item.isActive
-          }}>
-          <Text numberOfLines={1} style={filterItemCard.text}>{props.item.value}</Text>
-        </Pressable>
-      </View>
+      <TouchableOpacity
+        style={[filterItemCard.container, isActive[props.item.value] ? { backgroundColor: 'green' } : { backgroundColor: "#fff" }]}
+        onPress={()=>{
+          var newActiveArray = isActive;
+          newActiveArray[props.item.value] = !newActiveArray[props.item.value];
+          setIsActive(newActiveArray);
+        }}>
+        <Text numberOfLines={1} style={filterItemCard.text}>{props.item.value}</Text>
+
+      </TouchableOpacity>
     )
   };
 
@@ -183,7 +194,7 @@ const Recipes = (props) => {
             keyExtractor={(item) => {
               item.id
             }}
-            numColumns = {3}
+            numColumns={3}
           />
         </View>
       </View>
@@ -201,7 +212,7 @@ const Recipes = (props) => {
         decelerationRate={"fast"}
         snapToInterval={Dimensions.get("window").width}
       />
-      
+
     </View>
   );
 };
