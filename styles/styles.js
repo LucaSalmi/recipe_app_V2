@@ -71,7 +71,7 @@ export const bigCardStyles = StyleSheet.create({
     marginStart: 5,
   },
   dishName: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "450",
   },
   veganAttribute: {
@@ -292,7 +292,7 @@ export const shoplistPage = StyleSheet.create({
   },
   sheetContainer: {
     width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height * 0.18,
+    height: Dimensions.get("window").height,
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
     //padding: 20,

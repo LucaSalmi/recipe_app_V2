@@ -164,7 +164,6 @@ const Pantry = (props) => {
   return (
     <View style={pantryItemStyle.superView}>
       {/* FAB */}
-      <SearchBar></SearchBar>
       <TouchableOpacity
         activeOpacity={0.7}
         onPress={() => {

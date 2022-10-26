@@ -196,7 +196,7 @@ export function SmallCard(myProps) {
 
       <View style={smallCardStyles.rightSide}>
         <Text
-          style={[bigCardStyles.dishName, { marginTop: 10, marginStart: 3 }]}
+          style={[bigCardStyles.dishName, { marginTop: 5, marginStart: 3 }]}
         >
           {myProps.title}
         </Text>
