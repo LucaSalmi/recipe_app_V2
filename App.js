@@ -23,7 +23,7 @@ import RecipeDetails from "./components/RecipeDetails";
 import { Constants } from "./utils/Constants";
 import { Crud } from "./src/db.js";
 import AppManager from "./utils/AppManager";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import CrudLocal from "./src/dbLocal";
 
 //testing more hello
 //a comment from ankan, hello guys
@@ -47,16 +47,9 @@ export default function App() {
   }, []);
 
   const performAutoLogin = async () => {
-    try {
-      const value = await AsyncStorage.getItem('@username')
-      if(value !== null) {
-        console.log("AsyncStorage username value = " + value);
-      }
-      else {
-        console.log("No @username value found in AsyncStorage.");
-      }
-    } catch(e) {
-      console.log("Error: Could not read from AsyncStorage.");
+    let result = await CrudLocal.performAutoLogin()
+    if (result != null) {
+      console.log("DANNE: " + result.uid);
     }
   };
 

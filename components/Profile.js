@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import AppManager from '../utils/AppManager.js';
 import { profilePage } from '../styles/styles.js';
 import { dbAddItem, Crud } from '../src/db.js';
+import CrudLocal from '../src/dbLocal.js';
 
 const Profile = (props) => {
 
@@ -56,6 +57,9 @@ const Profile = (props) => {
         if (AppManager.shoplistContent.length < 1) {
             Crud.getShoplist();
         }
+
+        //Store username+password in AsyncStorage for auto-login
+        CrudLocal.setAutoLogin(uid, username, password);
 
     };
 
@@ -117,6 +121,8 @@ const Profile = (props) => {
 
         AppManager.pantryContent = [];
         AppManager.shoplistContent = [];
+
+        CrudLocal.disableAutoLogin();
 
     };
 
