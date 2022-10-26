@@ -498,3 +498,18 @@ export const customModalStyles = StyleSheet.create({
     borderWidth: 1,
   },
 });
+
+export const filterIndicator = StyleSheet.create({
+
+  container:{
+    borderColor: "black",
+    borderWidth: 1,
+    borderRadius: 100,
+    height: 10,
+    width:10,
+  },
+  text:{
+    textSize: 8,
+  },
+
+});

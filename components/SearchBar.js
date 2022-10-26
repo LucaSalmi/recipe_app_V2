@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView
 } from "react-native";
 import Icon from "react-native-ico-material-design";
+import { filterIndicator } from "../styles/styles";
 
 const SearchBar = (myProps) => {
   const [searchText, setSearchText] = useState("");
@@ -28,7 +29,7 @@ const SearchBar = (myProps) => {
     myProps.setSearchData(tempArray)
   };
 
-  function toggleSheet(){
+  function toggleSheet() {
     let temp = !myProps.showSheet
     myProps.setShowSheet(temp)
   }
@@ -63,19 +64,24 @@ const SearchBar = (myProps) => {
             />
           }
         </TouchableOpacity>
+
       </View>
       <TouchableOpacity
         style={{
           justifyContent: "center",
           padding: 10,
         }}
-        onPress={() =>{
+        onPress={() => {
           console.log('filter');
           toggleSheet();
         }}
       >
         <Icon name="sort-button-with-three-lines" height="22" width="22"></Icon>
       </TouchableOpacity>
+      
+      <View style={myProps.activeFilter.length < 0 ? [filterIndicator.container] : { display: "none" }}>
+        <Text style={filterIndicator.text}>5</Text>
+      </View>
     </View>
   );
 };

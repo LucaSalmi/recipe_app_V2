@@ -18,7 +18,7 @@ import { BigCard, SmallCard } from "./Card";
 import { bigCardStyles, recipePage, shoplistPage, filterItemCard } from "../styles/styles";
 import SearchBar from "./SearchBar.js";
 import AppManager from "../utils/AppManager.js";
-import { Constants } from "../utils/Constants";
+import { Constants, filterItems } from "../utils/Constants";
 import { Crud, generateUid } from "../src/db.js";
 
 const Recipes = (props) => {
@@ -29,50 +29,6 @@ const Recipes = (props) => {
   const [searchData, setSearchData] = useState([])
   const [showSheet, setShowSheet] = useState(false);
   const [activeFilter, setActiveFilter] = useState([]);
-
-  const filterItems = [
-    {
-      id: 0,
-      value: "Vegetarian 🌿",
-      isActive: false
-    },
-    {
-      id: 1,
-      value: "Vegan 🌱",
-      isActive: false
-    },
-    {
-      id: 2,
-      value: "Gluten Free 🌾",
-      isActive: false
-    },
-    {
-      id: 3,
-      value: "Dairy Free 🥛",
-      isActive: false
-
-    },
-    {
-      id: 4,
-      value: "Very Healthy 🥦",
-      isActive: false
-    },
-    {
-      id: 5,
-      value: "Cheap 💲",
-      isActive: false
-    },
-    {
-      id: 6,
-      value: "Very Popular 👍",
-      isActive: false
-    },
-    {
-      id: 7,
-      value: "Sustainable ♻️",
-      isActive: false
-    },
-  ];
 
   var flatListRef = useRef();
 
@@ -153,16 +109,18 @@ const Recipes = (props) => {
 
     return (
       <TouchableOpacity
+
         style={[filterItemCard.container, isActive ? { backgroundColor: 'green' } : { backgroundColor: "#fff" }]}
         onPress={() => {
+
           selected.isActive = !selected.isActive
           setIsActive(selected.isActive)
 
-          if(selected.isActive){
+          if (selected.isActive) {
             let array = activeFilter;
             array.push(selected);
             setActiveFilter(array);
-          }else{
+          } else {
             let array = activeFilter;
             array.splice(selected, 1);
             setActiveFilter(array);
@@ -176,7 +134,7 @@ const Recipes = (props) => {
 
   return (
     <View style={recipePage.recipeContainer}>
-      <SearchBar recipeData={recipeData} setSearchData={setSearchData} setShowSheet={setShowSheet} showSheet={showSheet} />
+      <SearchBar recipeData={recipeData} setSearchData={setSearchData} setShowSheet={setShowSheet} showSheet={showSheet} activeFilter ={activeFilter} />
 
       {/* View in the Sheet for filter*/}
       <View
