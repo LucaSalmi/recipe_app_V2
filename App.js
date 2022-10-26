@@ -23,6 +23,7 @@ import RecipeDetails from "./components/RecipeDetails";
 import { Constants } from "./utils/Constants";
 import { Crud } from "./src/db.js";
 import AppManager from "./utils/AppManager";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //testing more hello
 //a comment from ankan, hello guys
@@ -31,6 +32,7 @@ import AppManager from "./utils/AppManager";
 export default function App() {
   const [recipeData, setRecipeData] = useState([]);
 
+  //Run once
   useEffect(()=>{
     if (recipeData.length < 1) {
       Crud.getRecipies(setRecipeData);
