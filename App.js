@@ -50,6 +50,10 @@ export default function App() {
     let result = await CrudLocal.performAutoLogin()
     if (result != null) {
       console.log("DANNE: " + result.uid);
+      AppManager.uid = result.uid;
+      AppManager.username = result.username;
+      AppManager.password = result.password;
+      AppManager.isLoggedIn = true;
     }
   };
 
