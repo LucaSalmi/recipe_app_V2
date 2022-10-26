@@ -157,6 +157,16 @@ const Recipes = (props) => {
         onPress={() => {
           selected.isActive = !selected.isActive
           setIsActive(selected.isActive)
+
+          if(selected.isActive){
+            let array = activeFilter;
+            array.push(selected);
+            setActiveFilter(array);
+          }else{
+            let array = activeFilter;
+            array.splice(selected, 1);
+            setActiveFilter(array);
+          }
         }}>
         <Text numberOfLines={1} style={filterItemCard.text}>{props.item.value}</Text>
 
