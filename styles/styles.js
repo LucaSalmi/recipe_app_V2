@@ -1,7 +1,6 @@
 import { StyleSheet, Dimensions } from "react-native";
 import { Constants } from "../utils/Constants";
 
-
 export const pageStyles = StyleSheet.create({
   text: {
     fontSize: 20,
@@ -12,8 +11,8 @@ export const pageStyles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: 38,
-    borderRadius: 38/2,
-    backgroundColor: Constants.NAVBAR_AND_SAFEAREA_COLOR
+    borderRadius: 38 / 2,
+    backgroundColor: Constants.NAVBAR_AND_SAFEAREA_COLOR,
   },
 });
 
@@ -65,7 +64,6 @@ export const bigCardStyles = StyleSheet.create({
     backgroundColor: "white",
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
-
   },
   kokTid: {
     flexDirection: "row",
@@ -75,14 +73,12 @@ export const bigCardStyles = StyleSheet.create({
   dishName: {
     fontSize: 20,
     fontWeight: "450",
-    
   },
   veganAttribute: {
     backgroundColor: "green",
     height: 50,
     justifyContent: "center",
     borderRadius: 3,
-    marginEnd: 230,
     width: 95,
   },
   editorsChoiceAttribute: {
@@ -90,7 +86,7 @@ export const bigCardStyles = StyleSheet.create({
     height: 50,
     justifyContent: "center",
     borderRadius: 3,
-    marginEnd: 230,
+
     width: 95,
   },
   cardBanner: {
@@ -172,12 +168,11 @@ export const smallCardStyles = StyleSheet.create({
     height: Dimensions.get("window").height * 0.2,
     width: Dimensions.get("window").width * 0.95,
     borderRadius: Constants.DEFAULT_BORDER_RADIUS,
-    marginVertical: 5
-    
+    marginVertical: 5,
   },
   superView: {
     flex: 1,
-    
+
     alignItems: "center",
     justifyContent: "center",
   },
@@ -186,9 +181,8 @@ export const smallCardStyles = StyleSheet.create({
     height: "100%",
     borderBottomLeftRadius: Constants.DEFAULT_BORDER_RADIUS,
     borderTopLeftRadius: Constants.DEFAULT_BORDER_RADIUS,
-    
-    overflow: "hidden",
 
+    overflow: "hidden",
   },
   rightSide: {
     height: "100%",
@@ -207,7 +201,7 @@ export const smallCardStyles = StyleSheet.create({
 export const filterItemCard = StyleSheet.create({
   sheetContainer: {
     width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height *0.18,
+    height: Dimensions.get("window").height * 0.18,
     paddingTop: 7,
     alignItems: "center",
     backgroundColor: "#353839",
@@ -218,9 +212,9 @@ export const filterItemCard = StyleSheet.create({
     justifyContent: "center",
     borderRadius: Constants.DEFAULT_BORDER_RADIUS,
     borderWidth: 1,
-    alignSelf: 'center',
+    alignSelf: "center",
     padding: 5,
-    width: '33%'
+    width: "33%",
   },
   superView: {
     flex: 1,
@@ -229,28 +223,32 @@ export const filterItemCard = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  text:{
-    textAlign: 'center',
+  text: {
+    textAlign: "center",
     textSize: 13,
-    
   },
 });
 
 export const pantryCardStyles = StyleSheet.create({
   container: {
-    flexDirection: "row",
-    backgroundColor: "#fff",
+    flexDirection: "column",
+    backgroundColor: Constants.NAVBAR_AND_SAFEAREA_COLOR,
     alignItems: "center",
     justifyContent: "center",
-    height: "90%",
-    width: "75%",
-    borderRadius: 25,
-    borderWidth: 1,
+    height: 50,
+    width: "49%",
+    borderRadius: Constants.DEFAULT_BORDER_RADIUS,
+    elevation: 2,
+    shadowColor: "black",
+    shadowOffset: 3,
+    marginRight: "2%",
+    marginTop: 10,
+    backgroundColor: "rgb(126, 205, 207)",
   },
   superView: {
     flex: 1,
     height: Dimensions.get("window").height * 0.1,
-    width: Dimensions.get("window").width * 0.5,
+    width: Dimensions.get("window").width,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -259,8 +257,8 @@ export const pantryCardStyles = StyleSheet.create({
 export const shoplistStyles = StyleSheet.create({
   list: {
     flex: 1,
-    width: Dimensions.get('window').width * 0.9,
-  }
+    width: Dimensions.get("window").width * 0.9,
+  },
 });
 
 export const shoplistPage = StyleSheet.create({
@@ -270,7 +268,6 @@ export const shoplistPage = StyleSheet.create({
     alignItems: "center",
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
-    
   },
   headerContainer: {
     width: Dimensions.get("window").width,
@@ -280,11 +277,11 @@ export const shoplistPage = StyleSheet.create({
   },
   headerText: {
     fontSize: 24,
-    fontWeight: "500"
+    fontWeight: "500",
   },
   listItemText: {
     fontSize: 20,
-    fontWeight: "500"
+    fontWeight: "500",
   },
 
   filterButton: {},
@@ -295,7 +292,7 @@ export const shoplistPage = StyleSheet.create({
   },
   sheetContainer: {
     width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height *0.18,
+    height: Dimensions.get("window").height * 0.18,
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
     //padding: 20,
@@ -329,21 +326,19 @@ export const recipePage = StyleSheet.create({
     borderRadius: 5,
     padding: 5,
     //backgroundColor: "#F3F3F3",
-
   },
   shadowProp: {
-    shadowColor: 'rgba(0,0,0, .4)', // IOS
+    shadowColor: "rgba(0,0,0, .4)", // IOS
     shadowOffset: { height: 1, width: 1 }, // IOS
     shadowOpacity: 1, // IOS
     shadowRadius: 1, //IOS
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     elevation: 2, // Android
     borderRadius: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-    padding: 5
-
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    padding: 5,
   },
 });
 export const pantryItemStyle = StyleSheet.create({
@@ -363,8 +358,10 @@ export const pantryItemStyle = StyleSheet.create({
   },
   superView: {
     flex: 1,
-    height: Dimensions.get("window").height,
-    width: Dimensions.get("window").width,
+    //height: Dimensions.get("window").height,
+    //width: Dimensions.get("window").width,
+    width: "100%",
+    height: "100%",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -377,10 +374,10 @@ export const profilePage = StyleSheet.create({
     alignItems: "center",
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
-    backgroundColor: "#0005",
+    //backgroundColor: "#0005",
   },
   inputField: {
-    backgroundColor: "white",
+    backgroundColor: "#f3f3f3",
     height: 30,
     width: 130,
     borderRadius: 5,
@@ -453,7 +450,6 @@ export const customModalStyles = StyleSheet.create({
   buttonsContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-
   },
   centeredView: {
     flex: 1,

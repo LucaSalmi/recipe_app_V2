@@ -6,34 +6,32 @@ import {
   Button,
   TouchableOpacity,
   Text,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
 } from "react-native";
 import Icon from "react-native-ico-material-design";
 import { filterIndicator } from "../styles/styles";
 
 const SearchBar = (myProps) => {
   const [searchText, setSearchText] = useState("");
-  var tempArray = []
+  var tempArray = [];
 
   const searchRecipeFromWord = (input) => {
-
     for (recipe of myProps.recipeData) {
-
-      let title = recipe.title
+      let title = recipe.title;
 
       if (title.toUpperCase().includes(input.toUpperCase())) {
-        console.log(recipe.title)
-        tempArray.push(recipe)
+        console.log(recipe.title);
+        tempArray.push(recipe);
       }
     }
-    myProps.setSearchData(tempArray)
+    myProps.setSearchData(tempArray);
   };
 
   function toggleSheet() {
+
     let temp = !myProps.showSheet
     myProps.setShowSheet(temp)
   }
-
 
   return (
     <View style={{ flexDirection: "row" }}>
@@ -41,9 +39,8 @@ const SearchBar = (myProps) => {
         <TextInput
           value={searchText}
           onChangeText={(input) => {
-
             setSearchText(input);
-            searchRecipeFromWord(input)
+            searchRecipeFromWord(input);
           }}
           style={styles.searchInput}
           placeholder="Search here..."
@@ -52,7 +49,7 @@ const SearchBar = (myProps) => {
           styles={styles.icon}
           onPress={() => {
             setSearchText("");
-            myProps.setSearchData([])
+            myProps.setSearchData([]);
           }}
         >
           {
@@ -72,7 +69,6 @@ const SearchBar = (myProps) => {
           padding: 10,
         }}
         onPress={() => {
-          console.log('filter');
           toggleSheet();
         }}
       >
@@ -92,7 +88,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#EAE9E9",
     borderRadius: 8,
     marginTop: 10,
-
   },
   searchInput: {
     width: "90%",
