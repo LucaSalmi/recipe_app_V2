@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -11,7 +12,40 @@ import {
   FlatList,
 } from "react-native";
 
+import AppManager from "../utils/AppManager";
+
 export function InstructionsView() {
+
+  const [instructions, setInstructions] = useState([]);
+
+  useEffect(()=>{
+
+    //Remove unnecessary HTML-tags from API
+    let tempInstructions = AppManager.currentRecipe.instructions.replace("<ol>", "").replace("</ol>", "");
+
+    while (tempInstructions.includes("</li>")) {
+      tempInstructions = tempInstructions.replace("</li>", "");
+    } 
+
+    console.log(tempInstructions);
+
+    const instructionsList = tempInstructions.split("<li>");
+
+    //Remove empty strings from the array
+    for (let i = 0; i < instructionsList.length; i++) {
+      let indexString = instructionsList[i];
+      if (indexString.length == 0) {
+        instructionsList.splice(indexString, 1);
+      }
+    }
+
+    console.log(instructionsList);
+
+    setInstructions(instructionsList);
+
+
+  }, []);
+
   const title = "Gör så här";
 
   const dishesArray = [
@@ -51,14 +85,14 @@ export function InstructionsView() {
 
   return (
     <View>
-      {dishesArray.map((calle) => {
+      {instructions.length > 1 ? instructions.map((item, i) => {
         return (
           <View style={{ flexDirection: "row" }}>
-            <Text style={{ marginEnd: 8, marginStart: 10 }}>{calle.step}</Text>
-            <Text style={{ marginStart: 8 }}>{calle.dish}</Text>
+            <Text style={{ marginEnd: 8, marginStart: 10 }}>{(i+1)}</Text>
+            <Text style={{ marginStart: 8, width: "80%" }}>{item}</Text>
           </View>
         );
-      })}
+      }) : <Text style={{marginStart: 8, marginEnd: 8}}>{instructions[0]}</Text>}
     </View>
   );
 }

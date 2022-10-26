@@ -1,9 +1,18 @@
 import { StyleSheet, Dimensions } from "react-native";
+import { Constants } from "../utils/Constants";
 
 export const pageStyles = StyleSheet.create({
   text: {
     fontSize: 20,
     color: "blue",
+  },
+  iconBackground: {
+    height: 38,
+    justifyContent: "center",
+    alignItems: "center",
+    width: 38,
+    borderRadius: 38 / 2,
+    backgroundColor: Constants.NAVBAR_AND_SAFEAREA_COLOR,
   },
 });
 
@@ -14,7 +23,7 @@ export const bigCardStyles = StyleSheet.create({
     justifyContent: "space-between",
     height: "70%",
     width: "85%",
-    borderRadius: 10,
+    borderRadius: Constants.DEFAULT_BORDER_RADIUS,
     borderWidth: 1,
     marginTop: 20,
   },
@@ -24,15 +33,15 @@ export const bigCardStyles = StyleSheet.create({
     height: null,
     resizeMode: "contain",
     overflow: "hidden",
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
+    borderTopLeftRadius: Constants.DEFAULT_BORDER_RADIUS,
+    borderTopRightRadius: Constants.DEFAULT_BORDER_RADIUS,
   },
   card: {
     height: "95%",
     width: "95%",
-    
+
     borderColor: "black",
-    
+
     margin: 10,
     //justifyContent: "space-between",
   },
@@ -55,7 +64,6 @@ export const bigCardStyles = StyleSheet.create({
     backgroundColor: "white",
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
-
   },
   kokTid: {
     flexDirection: "row",
@@ -63,56 +71,194 @@ export const bigCardStyles = StyleSheet.create({
     marginStart: 5,
   },
   dishName: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "450",
+  },
+  veganAttribute: {
+    backgroundColor: "green",
+    height: 50,
+    justifyContent: "center",
+    borderRadius: 3,
+    width: 95,
+  },
+  editorsChoiceAttribute: {
+    backgroundColor: "yellow",
+    height: 50,
+    justifyContent: "center",
+    borderRadius: 3,
+
+    width: 95,
+  },
+  cardBanner: {
+    flexDirection: "row",
+    //backgroundColor: "#90EE90",
+    backgroundColor: "#F9F6EE",
+    justifyContent: "space-between",
+    borderRadius: 2,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+});
+
+export const navBarStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    width: "100%",
+    backgroundColor: "#fff",
+  },
+  icon: {
+    //backgroundColor: "red",
+    //width: 200,
+    alignSelf: "center",
+  },
+  currentPage: {
+    flex: 1,
+  },
+  navBar: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    backgroundColor: Constants.NAVBAR_AND_SAFEAREA_COLOR,
+
+    //backgroundColor: "red",
+    //paddingBottom: 18,
+    //paddingTop: 18,
+  },
+  navBarHidden: {
+    display: "none",
+  },
+  navButton: {
+    flexDirection: "column",
+    alignItems: "center",
+    //width: 80,
+    //height: 45,
+    paddingVertical: 18,
+    //paddingHorizontal: 10,
+    width: "20%",
+    //height: "100%",
+  },
+  activeButton: {
+    flexDirection: "column",
+    alignItems: "center",
+    //width: 80,
+    //height: 45,
+    paddingVertical: 18,
+    //paddingHorizontal: 10,
+    width: "20%",
+    backgroundColor: "gray",
+    //paddingVertical: 18,
+    //paddingHorizontal: 18,
+  },
+  defaultText: {
+    fontColor: "black",
+  },
+  activeText: {
+    fontColor: "white",
   },
 });
 
 export const smallCardStyles = StyleSheet.create({
   container: {
-    flexDirection: "column",
+    flexDirection: "row",
     backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center",
-    height: "90%",
-    width: "85%",
-    borderRadius: 25,
-    borderWidth: 1,
+    justifyContent: "space-between",
+    height: Dimensions.get("window").height * 0.2,
+    width: Dimensions.get("window").width * 0.95,
+    borderRadius: Constants.DEFAULT_BORDER_RADIUS,
+    marginVertical: 5,
   },
   superView: {
     flex: 1,
-    height: Dimensions.get("window").height * 0.2,
+
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  imageStyle: {
+    width: "33.3%",
+    height: "100%",
+    borderBottomLeftRadius: Constants.DEFAULT_BORDER_RADIUS,
+    borderTopLeftRadius: Constants.DEFAULT_BORDER_RADIUS,
+
+    overflow: "hidden",
+  },
+  rightSide: {
+    height: "100%",
+    width: "66%",
+    flexDirection: "column",
+    justifyContent: "space-between",
+  },
+  shadow: {
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+  },
+});
+
+export const filterItemCard = StyleSheet.create({
+  sheetContainer: {
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height * 0.18,
+    paddingTop: 7,
+    alignItems: "center",
+    backgroundColor: "#353839",
+  },
+  container: {
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: Constants.DEFAULT_BORDER_RADIUS,
+    borderWidth: 1,
+    alignSelf: "center",
+    padding: 5,
+    width: "33%",
+  },
+  superView: {
+    flex: 1,
+    height: Dimensions.get("window").height,
+    width: Dimensions.get("window").width,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  text: {
+    textAlign: "center",
+    textSize: 13,
+  },
+});
+
+export const pantryCardStyles = StyleSheet.create({
+  container: {
+    flexDirection: "column",
+    backgroundColor: Constants.NAVBAR_AND_SAFEAREA_COLOR,
+    alignItems: "center",
+    justifyContent: "center",
+    height: 50,
+    width: "49%",
+    borderRadius: Constants.DEFAULT_BORDER_RADIUS,
+    elevation: 2,
+    shadowColor: "black",
+    shadowOffset: 3,
+    marginRight: "2%",
+    marginTop: 10,
+    backgroundColor: "rgb(126, 205, 207)",
+  },
+  superView: {
+    flex: 1,
+    height: Dimensions.get("window").height * 0.1,
     width: Dimensions.get("window").width,
     alignItems: "center",
     justifyContent: "center",
   },
 });
 
-export const pantryCardStyles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-    height: "90%",
-    width: "75%",
-    borderRadius: 25,
-    borderWidth: 1,
-  },
-  superView: {
-    flex: 1,
-    height: Dimensions.get("window").height * 0.1,
-    width: Dimensions.get("window").width*0.5,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
-
 export const shoplistStyles = StyleSheet.create({
-  list:{
-    flex:1,
-    width: Dimensions.get('window').width*0.9,
-  }
+  list: {
+    flex: 1,
+    width: Dimensions.get("window").width * 0.9,
+  },
 });
 
 export const shoplistPage = StyleSheet.create({
@@ -122,7 +268,6 @@ export const shoplistPage = StyleSheet.create({
     alignItems: "center",
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
-    backgroundColor: "#0005",
   },
   headerContainer: {
     width: Dimensions.get("window").width,
@@ -130,7 +275,15 @@ export const shoplistPage = StyleSheet.create({
     justifyContent: "space-between",
     padding: 20,
   },
-  headerText: {},
+  headerText: {
+    fontSize: 24,
+    fontWeight: "500",
+  },
+  listItemText: {
+    fontSize: 20,
+    fontWeight: "500",
+  },
+
   filterButton: {},
   shoppingItemsContainer: {
     width: Dimensions.get("window").width,
@@ -155,7 +308,7 @@ export const favoritePage = StyleSheet.create({
     alignItems: "center",
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
-    backgroundColor: "#0005",
+    backgroundColor: Constants.NAVBAR_AND_SAFEAREA_COLOR,
   },
 });
 
@@ -169,25 +322,23 @@ export const recipePage = StyleSheet.create({
     backgroundColor: "#F3F3F3",
   },
 
-  button:{
+  button: {
     borderRadius: 5,
     padding: 5,
     //backgroundColor: "#F3F3F3",
-    
   },
   shadowProp: {
-    shadowColor: 'rgba(0,0,0, .4)', // IOS
+    shadowColor: "rgba(0,0,0, .4)", // IOS
     shadowOffset: { height: 1, width: 1 }, // IOS
     shadowOpacity: 1, // IOS
     shadowRadius: 1, //IOS
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     elevation: 2, // Android
     borderRadius: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-    padding: 5
-
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    padding: 5,
   },
 });
 export const pantryItemStyle = StyleSheet.create({
@@ -207,8 +358,10 @@ export const pantryItemStyle = StyleSheet.create({
   },
   superView: {
     flex: 1,
-    height: Dimensions.get("window").height,
-    width: Dimensions.get("window").width,
+    //height: Dimensions.get("window").height,
+    //width: Dimensions.get("window").width,
+    width: "100%",
+    height: "100%",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -221,10 +374,10 @@ export const profilePage = StyleSheet.create({
     alignItems: "center",
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
-    backgroundColor: "#0005",
+    //backgroundColor: "#0005",
   },
   inputField: {
-    backgroundColor: "white",
+    backgroundColor: "#f3f3f3",
     height: 30,
     width: 130,
     borderRadius: 5,
@@ -297,7 +450,6 @@ export const customModalStyles = StyleSheet.create({
   buttonsContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    
   },
   centeredView: {
     flex: 1,
@@ -341,4 +493,24 @@ export const customModalStyles = StyleSheet.create({
     borderColor: "black",
     borderWidth: 1,
   },
+});
+
+export const filterIndicator = StyleSheet.create({
+
+  container:{
+    marginLeft: Dimensions.get("window").width - Constants.DEFAULT_WIDTH_FILTER_BADGE,
+    borderColor: "black",
+    borderWidth: 1,
+    borderRadius: 100,
+    height: Constants.DEFAULT_HEIGHT_FILTER_BADGE,
+    width:Constants.DEFAULT_WIDTH_FILTER_BADGE,
+    alignContent:'center',
+    justifyContent: 'center',
+    backgroundColor: 'green',
+  },
+  text:{
+    textSize: 12,
+    alignSelf: 'center'
+  },
+
 });

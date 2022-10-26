@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useRef } from "react";
 import {
   View,
   TextInput,
@@ -6,11 +6,32 @@ import {
   Button,
   TouchableOpacity,
   Text,
+  KeyboardAvoidingView,
 } from "react-native";
 import Icon from "react-native-ico-material-design";
+import { filterIndicator } from "../styles/styles";
 
-const SearchBar = () => {
+const SearchBar = (myProps) => {
   const [searchText, setSearchText] = useState("");
+  var tempArray = [];
+
+  const searchRecipeFromWord = (input) => {
+    for (recipe of myProps.recipeData) {
+      let title = recipe.title;
+
+      if (title.toUpperCase().includes(input.toUpperCase())) {
+        console.log(recipe.title);
+        tempArray.push(recipe);
+      }
+    }
+    myProps.setSearchData(tempArray);
+  };
+
+  function toggleSheet() {
+
+    let temp = !myProps.showSheet
+    myProps.setShowSheet(temp)
+  }
 
   return (
     <View style={{ flexDirection: "row" }}>
@@ -19,6 +40,7 @@ const SearchBar = () => {
           value={searchText}
           onChangeText={(input) => {
             setSearchText(input);
+            searchRecipeFromWord(input);
           }}
           style={styles.searchInput}
           placeholder="Search here..."
@@ -27,6 +49,7 @@ const SearchBar = () => {
           styles={styles.icon}
           onPress={() => {
             setSearchText("");
+            myProps.setSearchData([]);
           }}
         >
           {
@@ -38,11 +61,15 @@ const SearchBar = () => {
             />
           }
         </TouchableOpacity>
+
       </View>
       <TouchableOpacity
         style={{
           justifyContent: "center",
           padding: 10,
+        }}
+        onPress={() => {
+          toggleSheet();
         }}
       >
         <Icon name="sort-button-with-three-lines" height="22" width="22"></Icon>
@@ -61,7 +88,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#EAE9E9",
     borderRadius: 8,
     marginTop: 10,
-    
   },
   searchInput: {
     width: "90%",
