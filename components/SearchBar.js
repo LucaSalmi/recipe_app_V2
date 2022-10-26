@@ -78,10 +78,6 @@ const SearchBar = (myProps) => {
       >
         <Icon name="sort-button-with-three-lines" height="22" width="22"></Icon>
       </TouchableOpacity>
-      
-      <View style={myProps.activeFilter.length < 0 ? [filterIndicator.container] : { display: "none" }}>
-        <Text style={filterIndicator.text}>5</Text>
-      </View>
     </View>
   );
 };

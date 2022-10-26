@@ -15,7 +15,7 @@ import {
 } from "react-native";
 import { useEffect, useState, useRef } from "react";
 import { BigCard, SmallCard } from "./Card";
-import { bigCardStyles, recipePage, shoplistPage, filterItemCard } from "../styles/styles";
+import { bigCardStyles, recipePage, shoplistPage, filterItemCard, filterIndicator } from "../styles/styles";
 import SearchBar from "./SearchBar.js";
 import AppManager from "../utils/AppManager.js";
 import { Constants, filterItems } from "../utils/Constants";
@@ -135,6 +135,9 @@ const Recipes = (props) => {
   return (
     <View style={recipePage.recipeContainer}>
       <SearchBar recipeData={recipeData} setSearchData={setSearchData} setShowSheet={setShowSheet} showSheet={showSheet} activeFilter ={activeFilter} />
+      <View style={activeFilter.length > 0 ? [filterIndicator.container] : { display: "none" }}>
+        <Text style={filterIndicator.text}>{activeFilter.length}</Text>
+      </View>
 
       {/* View in the Sheet for filter*/}
       <View
