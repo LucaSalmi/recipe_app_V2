@@ -77,7 +77,8 @@ export function BigCard(myProps) {
             <View
               style={{
                 flexDirection: "row",
-                justifyContent: "space-around",
+                justifyContent: "space-between",
+                width: "100%",
               }}
             >
               <View
