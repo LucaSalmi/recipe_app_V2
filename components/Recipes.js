@@ -147,9 +147,7 @@ const Recipes = (props) => {
             style={{ width: '100%' }}
             data={filterItems}
             renderItem={filterObj}
-            keyExtractor={(item) => {
-              item.id
-            }}
+            keyExtractor={item => item.id}
             numColumns={3}
           />
         </View>

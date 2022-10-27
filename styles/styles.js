@@ -240,7 +240,7 @@ export const pantryCardStyles = StyleSheet.create({
     borderRadius: Constants.DEFAULT_BORDER_RADIUS,
     elevation: 2,
     shadowColor: "black",
-    shadowOffset: 3,
+    //shadowOffset: "3",
     marginRight: "2%",
     marginTop: 10,
     backgroundColor: "rgb(126, 205, 207)",
