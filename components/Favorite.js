@@ -25,7 +25,6 @@ const Favorite = (props) => {
 
   return (
     <View style={favoritePage.favoriteContainer}>
-      <SearchBar />
       <ScrollView>
         {favorites.length <= 0 ? (
           <Text style={{ paddingTop: 100 }}>Logged in? Added favorites?</Text>
@@ -38,13 +37,11 @@ const Favorite = (props) => {
             <Pressable
               key={item.id}
               onPress={() => {
-                console.log(item);
-                console.log(item.image);
                 AppManager.currentRecipe = item;
                 props.setScreen(Constants.RECIPEDETAILS);
               }}
             >
-              <SmallCard title={item.title} imageSource={item.image} />
+              <SmallCard title={item.title} imageSource={item.image} item={item}/>
             </Pressable>
           ))
         ) : (

@@ -18,7 +18,14 @@ import { PantryItem } from "../PantryItem.js";
 const Shoplist = (props) => {
   const [showSheet, setShowSheet] = useState(false);
 
-  const [items, setItems] = useState(AppManager.shoplistContent);
+
+    const [items, setItems] = useState(AppManager.shoplistContent);
+
+    const [username, setUsername] = useState("Log on to use");
+
+    const shopListItemField = ({ item }) => (
+        <ItemRow item={item} items={items} setItems={setItems} />
+    );
 
   const [username, setUsername] = useState("Log on to use");
 
@@ -49,57 +56,37 @@ const Shoplist = (props) => {
         }
       }
 
-      //let index = props.item.index;
-      //newItems[index].checked = newCheckedValue;
-      props.setItems(newItems);
-      AppManager.shoplistContent = newItems;
-      Crud.updateShoplist(toChange, true);
-    };
+        setItems(cleanedShoplist);
+        AppManager.shoplistContent = cleanedShoplist;
+    }
+
+    
 
     return (
-      <TouchableOpacity
-        style={{ paddingTop: 5, paddingBottom: 5 }}
-        onPress={() => {
-          buttonPress();
-        }}
-      >
-        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-          <View
-            style={{
-              width: "90%",
-              borderBottomColor: "black",
-              borderBottomWidth: StyleSheet.hairlineWidth,
-            }}
-          >
-            <Text
-              style={[
-                shoplistPage.listItemText,
-                {
-                  textDecorationLine: checked ? "line-through" : "",
-                  textDecorationStyle: checked ? "solid" : "",
-                },
-              ]}
-            >
-              {itemName}
-            </Text>
-          </View>
+        <View style={shoplistPage.shoplistContainer}>
+            <View style={shoplistPage.headerContainer}>
+                <Text style={shoplistPage.headerText}>{username}'s shopping list</Text>
+            </View>
+        
+            <FlatList
+                style={shoplistStyles.list}
+                data={items}
+                renderItem={shopListItemField}
+                keyExtractor={(item) => item.id}
+                snapToAlignment="start"
+                decelerationRate={"fast"}
+                snapToInterval={Dimensions.get("window").width}
 
-          <View>
-            <Text
-              style={{
-                width: 25,
-                height: 25,
-                borderStyle: "solid",
-                borderRadius: 25 / 2,
-                borderWidth: 1,
-                borderColor: "black",
-                textAlign: "center",
-                paddingTop: 3.5,
-              }}
-            >
-              {checked ? "X" : " "}
-            </Text>
-          </View>
+            />
+            
+            <TouchableOpacity activeOpacity={0.5} onPress={() => {
+                if (AppManager.isLoggedIn) {
+                    syncWithPantry();
+                }
+            }} style={Fab.TouchableOpacityStyle}>
+                <Icon name="synchronization-button-with-two-arrows" />
+            </TouchableOpacity>
+
         </View>
 
         <View style={{}} />

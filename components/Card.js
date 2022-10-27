@@ -21,21 +21,6 @@ import { Constants } from "../utils/Constants";
 
 export function BigCard(myProps) {
   const [heartEmpty, setFillHeart] = useState(true);
-  // stringArray
-  /*
-  const textAttributeArray = [
-    "CHEAP!!!",
-    "Vegan  🌱",
-    "Editor's Choice  ⭐",
-    "Easy-to-Cook  ⏳",
-    "Recommended  🍳",
-    "Speedrun Food :clock:",
-    "Gamer food :console:",
-    "",
-  ];
-  */
-
-  
 
   const getTagData = () => {
 
@@ -236,9 +221,13 @@ export function SmallCard(myProps) {
             marginBottom: 20,
           }}
         >
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={()=>{
+              Crud.updateFavorite(AppManager.uid, myProps.item.id, false)
+            }}
+          >
             <Icon
-              style={[styles.bigHeartNotFill]}
+              style={myProps.item.heartEmpty ? styles.bigHeartNotFill : styles.bigHeartFill}
               name={"favorite-heart-outline-button"}
               group="material-design"
               height="25"
