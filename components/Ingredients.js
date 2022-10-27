@@ -90,7 +90,7 @@ export function IngredientsView(props) {
         return (
 
 
-          <View style={{ flexDirection: "column" }}>
+          <View key={i} style={{ flexDirection: "column" }}>
 
             <View
               style={{
