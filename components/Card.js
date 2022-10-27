@@ -201,6 +201,28 @@ export const stylesTwo = StyleSheet.create({
 });
 
 export function SmallCard(myProps) {
+
+  const updateFavorites = () => {
+
+    Crud.updateFavorite(AppManager.uid, myProps.item.id, false)
+
+    let newFavorites = [];
+
+    for (let favorite of myProps.favorites) {
+      if (favorite.id != myProps.item.id) {
+        newFavorites.push(favorite);
+      }
+    }
+
+    myProps.setFavorites([]);
+
+    setTimeout(()=>{
+      myProps.setFavorites(newFavorites)
+    }, 100);
+
+  };
+
+
   return (
     <View style={[smallCardStyles.shadow, smallCardStyles.container]}>
       <Image
@@ -223,7 +245,7 @@ export function SmallCard(myProps) {
         >
           <TouchableOpacity
             onPress={()=>{
-              Crud.updateFavorite(AppManager.uid, myProps.item.id, false)
+              updateFavorites();
             }}
           >
             <Icon

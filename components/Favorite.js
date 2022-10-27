@@ -33,8 +33,14 @@ const Favorite = (props) => {
   return (
     <View style={favoritePage.favoriteContainer}>
       <ScrollView>
-        {favorites.length <= 0 ? (
-          <Text style={{ paddingTop: 100 }}>Logged in? Added favorites?</Text>
+        {AppManager.isLoggedIn && favorites.length <= 0 ? (
+          <Text style={{ paddingTop: 100 }}>Please go to Recipe-tab to add favorites.</Text>
+        ) : (
+          <Text style={{ display: "none" }}>Hidden</Text>
+        )}
+
+        {!AppManager.isLoggedIn ? (
+          <Text style={{ paddingTop: 100 }}>Please login to see/add favorties.</Text>
         ) : (
           <Text style={{ display: "none" }}>Hidden</Text>
         )}
@@ -48,7 +54,7 @@ const Favorite = (props) => {
                 props.setScreen(Constants.RECIPEDETAILS);
               }}
             >
-              <SmallCard title={item.title} imageSource={item.image} item={item}/>
+              <SmallCard title={item.title} imageSource={item.image} item={item} favorites={favorites} setFavorites={setFavorites}/>
             </Pressable>
           ))
         ) : (
