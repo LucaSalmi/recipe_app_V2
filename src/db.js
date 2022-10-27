@@ -66,17 +66,17 @@ export const Crud = {
 
     },
 
-    addApiRecipiesToFirestore: (jsonObj = null) => {
+    addApiRecipiesToFirestore: (recipeData = null) => {
 
-        if (jsonObj == null) {
-            console.log("jsonObj is null in Crud.addApiRecipiesToFirestore()");
+        if (recipeData == null) {
+            console.log("recipeData is null in Crud.addApiRecipiesToFirestore()");
             return;
         }
 
         //For test data:
-        //jsonObj = require('../src/test.json')
+        //recipeData = require('../src/test.json')
 
-        for (let recipe of jsonObj.recipes) {
+        for (let recipe of recipeData.recipes) {
 
             console.log(recipe.title);
             console.log(recipe.image);
@@ -96,6 +96,8 @@ export const Crud = {
             let instructions = recipe.instructions;
 
             /* Use this code if we want to remove HTML-tags
+            //OBS! HTML-tags are currently used to create lists in recipe instructions.
+            //Note: Not all recipes from API have HTML-tags included.
             while (instructions.includes("<ol>") || instructions.includes("<li>") || instructions.includes("</ol>") || instructions.includes("</li>")) {
                 instructions = instructions.replace("<ol>", "");
                 instructions = instructions.replace("<li>", "");
@@ -141,7 +143,7 @@ export const Crud = {
 
         let documents;
 
-        const events = firebase.firestore().collection('users')
+        const events = firebase.firestore().collection(USERS_COLLECTION)
         await events.get().then((querySnapshot) => {
             const tempDoc = querySnapshot.docs.map((doc) => {
                 return { id: doc.id, ...doc.data() }

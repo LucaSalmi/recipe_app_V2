@@ -15,6 +15,10 @@ export const Constants = {
     DEFAULT_WIDTH_FILTER_BADGE: 20,
     DEFAULT_HEIGHT_FILTER_BADGE: 20,
 
+    UID_ASYNC_STORAGE: "@uid",
+    USERNAME_ASYNC_STORAGE: "@username",
+    PASSWORD_ASYNC_STORAGE: "@password",
+
 }
 
 export const filterItems = [
