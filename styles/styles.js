@@ -74,12 +74,17 @@ export const bigCardStyles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "450",
   },
-  veganAttribute: {
-    backgroundColor: "green",
+  tagAttribute: {
     height: 50,
     justifyContent: "center",
     borderRadius: 3,
     width: 95,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    elevation: 20,
+    borderBottomRightRadius: 10,
   },
   editorsChoiceAttribute: {
     backgroundColor: "yellow",

@@ -7,7 +7,34 @@ export const Constants = {
     PROFILE : 4,
     RECIPEDETAILS : 5,
     DEFAULT_SERVINGS: 4,
-    
+
+    RECIPE_TAG_DATA_CONTAINER: {
+      cheap: {
+        tagText: "Cheap!!!",
+        color: "gray",
+      },
+      vegan: {
+        tagText: "Vegan .=./",
+        color: "green",
+      },
+      vegetarian: {
+        tagText: "Vegetarian xD",
+        color: "pink",
+      },
+      glutenFree: {
+        tagText: "Gluten Free o/",
+        color: "blue",
+      },
+      dairyFree: {
+        tagText: "Dairy Free o/",
+        color: "red",
+      },
+      noTag: {
+        tagText: "",
+        color: "transparent"
+      }
+    },
+
     
     NAVBAR_AND_SAFEAREA_COLOR: "#F3F3F3",
     DEFAULT_BORDER_RADIUS: 10,

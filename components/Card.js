@@ -17,11 +17,14 @@ import { styles } from "./RecipeDetails";
 import AppManager from "../utils/AppManager";
 import { Crud } from "../src/db.js";
 import { LinearGradient } from "expo-linear-gradient";
+import { Constants } from "../utils/Constants";
 
 export function BigCard(myProps) {
   const [heartEmpty, setFillHeart] = useState(true);
   // stringArray
+  /*
   const textAttributeArray = [
+    "CHEAP!!!",
     "Vegan  🌱",
     "Editor's Choice  ⭐",
     "Easy-to-Cook  ⏳",
@@ -30,6 +33,37 @@ export function BigCard(myProps) {
     "Gamer food :console:",
     "",
   ];
+  */
+
+  
+
+  const getTagData = () => {
+
+    let tagData = {};
+    
+    if (myProps.recipe.cheap) {
+      tagData = Constants.RECIPE_TAG_DATA_CONTAINER.cheap;
+    }
+    else if (myProps.recipe.vegan) {
+      tagData = Constants.RECIPE_TAG_DATA_CONTAINER.vegan;
+    }
+    else if (myProps.recipe.vegetarian) {
+      tagData = Constants.RECIPE_TAG_DATA_CONTAINER.vegetarian;
+    }
+    else if (myProps.recipe.glutenFree) {
+      tagData = Constants.RECIPE_TAG_DATA_CONTAINER.glutenFree;
+    }
+    else if (myProps.recipe.dairyFree) {
+      tagData = Constants.RECIPE_TAG_DATA_CONTAINER.dairyFree;
+    }
+    else {
+      tagData = Constants.RECIPE_TAG_DATA_CONTAINER.noTag;
+    }
+
+    return tagData;
+  };
+
+  const [tagDataState, setTagDataState] = useState(getTagData());
 
   const toggleHeart = () => {
     setFillHeart((current) => !current);
@@ -81,17 +115,12 @@ export function BigCard(myProps) {
                 width: "100%",
               }}
             >
-              <View
+              {tagDataState.tagText != "" ? <View
                 style={[
-                  bigCardStyles.veganAttribute,
+                  bigCardStyles.tagAttribute,
                   {
-                    shadowColor: "#000",
-                    shadowOffset: { width: 0, height: 2 },
-                    shadowOpacity: 0.5,
-                    shadowRadius: 2,
-                    elevation: 20,
-                    borderBottomRightRadius: 10,
-                  },
+                    backgroundColor: tagDataState.color,
+                  }
                 ]}
               >
                 <Text
@@ -102,9 +131,9 @@ export function BigCard(myProps) {
                     fontSize: 15,
                   }}
                 >
-                  {textAttributeArray[0]}
+                  {tagDataState.tagText}
                 </Text>
-              </View>
+              </View> : <Text style={{visibility: "hidden"}}></Text>}
 
               <TouchableOpacity
                 onPress={() => {
