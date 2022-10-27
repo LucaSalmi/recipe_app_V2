@@ -1,20 +1,8 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  SafeAreaView,
-  Platform,
-  TouchableOpacity,
-  SectionList,
-  Item,
-  FlatList,
-} from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { useState, useEffect } from "react";
 import AppManager from "../utils/AppManager";
-import { styles } from "./RecipeDetails";
 import { Crud } from "../src/db";
-import Icon from 'react-native-ico-material-design';
+import Icon from "react-native-ico-material-design";
 
 export function IngredientsView(props) {
   const title = "Gör så här";
@@ -28,7 +16,6 @@ export function IngredientsView(props) {
 
   //Run once
   useEffect(() => {
-
     setIngredients(props.ingredients);
 
     if (AppManager.isLoggedIn && AppManager.uid.length > 0) {
@@ -40,18 +27,17 @@ export function IngredientsView(props) {
         let shoplistItemNames = [];
 
         for (let item of AppManager.shoplistContent) {
-          let itemDesc = item.desc
+          let itemDesc = item.desc;
           shoplistItemNames.push(itemDesc);
         }
 
         setShoplistItems(shoplistItemNames);
-      }
+      };
       updateShoplist();
     }
   }, []);
 
-  useEffect(()=>{
-
+  useEffect(() => {
     let userItems = [];
 
     //Get all names from pantry
@@ -67,7 +53,6 @@ export function IngredientsView(props) {
     let updatedIngredients = [];
 
     for (let ingredient of ingredientsFromProp) {
-
       ingredient.isInPantry = false;
       if (userItems.includes(ingredient.name)) {
         ingredient.isInPantry = true;
@@ -76,23 +61,17 @@ export function IngredientsView(props) {
     }
 
     setIngredients(updatedIngredients);
-
   }, [pantryItems, shoplistItems]);
 
   return (
     <View>
-
       {ingredients.map((ingredient, i) => {
-
         let ingredientname = ingredient.name;
-        let fixedName = ingredientname.charAt(0).toUpperCase() + ingredientname.slice(1);
-
+        let fixedName =
+          ingredientname.charAt(0).toUpperCase() + ingredientname.slice(1);
 
         return (
-
-
           <View style={{ flexDirection: "column" }}>
-
             <View
               style={{
                 borderBottomColor: "black",
@@ -101,7 +80,12 @@ export function IngredientsView(props) {
                 marginEnd: 16,
               }}
             >
-              <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
                 <View style={{ flexDirection: "row", marginStart: 10 }}>
                   <Text style={{ fontSize: 16, margin: 6, fontWeight: "bold" }}>
                     {ingredient.amount}
@@ -113,22 +97,24 @@ export function IngredientsView(props) {
                     {fixedName}
                   </Text>
                 </View>
-                <View style={{marginEnd: 16}}>
-                  {ingredient.isInPantry ? <Icon
-                    style={{fill: "green", marginTop: 9, marginStart: 5}}
-                    name="circle-with-check-symbol"
-                    group="material-design"
-                    height="16"
-                    width="16" /> : <Text style={{display: "none"}}></Text>}
+                <View style={{ marginEnd: 16 }}>
+                  {ingredient.isInPantry ? (
+                    <Icon
+                      style={{ fill: "green", marginTop: 9, marginStart: 5 }}
+                      name="circle-with-check-symbol"
+                      group="material-design"
+                      height="16"
+                      width="16"
+                    />
+                  ) : (
+                    <Text style={{ display: "none" }}></Text>
+                  )}
                 </View>
-                
               </View>
             </View>
           </View>
-
         );
       })}
-
     </View>
   );
 }

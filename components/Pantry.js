@@ -1,16 +1,12 @@
 import {
-  StyleSheet,
   Text,
   View,
   TextInput,
-  Button,
-  ScrollView,
   TouchableOpacity,
   FlatList,
   Dimensions,
   Alert,
   KeyboardAvoidingView,
-  Modal,
 } from "react-native";
 import { useState, useEffect } from "react";
 import {
@@ -20,14 +16,12 @@ import {
   shoplistPage,
   SearchBarStyle,
   pantryCardStyles,
-  customModalStyles,
 } from "../styles/styles";
 import Icon from "react-native-ico-material-design";
 import { PantryItem } from "../PantryItem";
 import AppManager from "../utils/AppManager.js";
 import { Crud } from "../src/db.js";
 import { generateUid } from "../src/db.js";
-import SearchBar from "./SearchBar";
 
 const Pantry = (props) => {
   const [showSheet, setShowSheet] = useState(false);

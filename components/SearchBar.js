@@ -1,15 +1,6 @@
 import { React, useState, useRef } from "react";
-import {
-  View,
-  TextInput,
-  StyleSheet,
-  Button,
-  TouchableOpacity,
-  Text,
-  KeyboardAvoidingView,
-} from "react-native";
+import { View, TextInput, StyleSheet, TouchableOpacity } from "react-native";
 import Icon from "react-native-ico-material-design";
-import { filterIndicator } from "../styles/styles";
 
 const SearchBar = (myProps) => {
   const [searchText, setSearchText] = useState("");
@@ -28,9 +19,8 @@ const SearchBar = (myProps) => {
   };
 
   function toggleSheet() {
-
-    let temp = !myProps.showSheet
-    myProps.setShowSheet(temp)
+    let temp = !myProps.showSheet;
+    myProps.setShowSheet(temp);
   }
 
   return (
@@ -61,7 +51,6 @@ const SearchBar = (myProps) => {
             />
           }
         </TouchableOpacity>
-
       </View>
       <TouchableOpacity
         style={{
