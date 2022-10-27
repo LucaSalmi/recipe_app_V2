@@ -141,7 +141,7 @@ export const Crud = {
 
         let documents;
 
-        const events = firebase.firestore().collection('users')
+        const events = firebase.firestore().collection(USERS_COLLECTION)
         await events.get().then((querySnapshot) => {
             const tempDoc = querySnapshot.docs.map((doc) => {
                 return { id: doc.id, ...doc.data() }
