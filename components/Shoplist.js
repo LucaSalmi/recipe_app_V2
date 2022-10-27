@@ -11,8 +11,6 @@ import { styles } from './RecipeDetails.js';
 
 const Shoplist = (props) => {
 
-    const [showSheet, setShowSheet] = useState(false);
-
     const [items, setItems] = useState(AppManager.shoplistContent);
 
     const [username, setUsername] = useState("Log on to use");
@@ -98,18 +96,12 @@ const Shoplist = (props) => {
         AppManager.shoplistContent = cleanedShoplist;
     }
 
-    const toggleSheet = () => {
-        let newBool = !showSheet;
-        setShowSheet(newBool);
-        props.navBarChanger(newBool);
-    };
+    
 
     return (
         <View style={shoplistPage.shoplistContainer}>
-            <SearchBar />
             <View style={shoplistPage.headerContainer}>
                 <Text style={shoplistPage.headerText}>{username}'s shopping list</Text>
-                <Button style={shoplistPage.filterButton} title="FILTER" onPress={() => { toggleSheet() }}></Button>
             </View>
         
             <FlatList
@@ -132,10 +124,6 @@ const Shoplist = (props) => {
             }} style={Fab.TouchableOpacityStyle}>
                 <Icon name="synchronization-button-with-two-arrows" />
             </TouchableOpacity>
-
-            <View style={showSheet ? shoplistPage.sheetContainer : { display: "none" }}>
-                <Text>SHEET</Text>
-            </View>
 
         </View>
 

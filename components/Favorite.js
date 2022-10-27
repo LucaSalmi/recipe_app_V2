@@ -32,7 +32,6 @@ const Favorite = (props) => {
 
   return (
     <View style={favoritePage.favoriteContainer}>
-      <SearchBar />
       <ScrollView>
         {favorites.length <= 0 ? (
           <Text style={{ paddingTop: 100 }}>Logged in? Added favorites?</Text>
