@@ -41,8 +41,9 @@ const Favorite = (props) => {
         )}
 
         {favorites != "undefined" && favorites.length > 0 ? (
-          favorites.map((item, i) => (
+          favorites.map((item) => (
             <Pressable
+              key={item.id}
               onPress={() => {
                 console.log(item);
                 console.log(item.image)

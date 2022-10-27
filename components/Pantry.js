@@ -191,9 +191,7 @@ const Pantry = (props) => {
         numColumns={2}
         data={pantryItems}
         renderItem={pantryItemCard}
-        keyExtractor={(item) => {
-          item.id;
-        }}
+        keyExtractor={item => item.id}
         snapToAlignment="start"
         decelerationRate={"fast"}
         snapToInterval={Dimensions.get("window").width}
