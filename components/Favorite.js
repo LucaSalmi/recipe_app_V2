@@ -44,13 +44,11 @@ const Favorite = (props) => {
             <Pressable
               key={item.id}
               onPress={() => {
-                console.log(item);
-                console.log(item.image)
                 AppManager.currentRecipe = item;
                 props.setScreen(Constants.RECIPEDETAILS);
               }}
             >
-              <SmallCard title={item.title} imageSource={item.image} />
+              <SmallCard title={item.title} imageSource={item.image} item={item}/>
             </Pressable>
           ))
         ) : (

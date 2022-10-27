@@ -108,9 +108,7 @@ const Shoplist = (props) => {
                 style={shoplistStyles.list}
                 data={items}
                 renderItem={shopListItemField}
-                keyExtractor={(item) => {
-                    item.id
-                }}
+                keyExtractor={(item) => item.id}
                 snapToAlignment="start"
                 decelerationRate={"fast"}
                 snapToInterval={Dimensions.get("window").width}
