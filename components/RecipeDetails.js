@@ -2,12 +2,9 @@ import {
   StyleSheet,
   Text,
   View,
-  TextInput,
   Button,
   ScrollView,
-  FlatList,
   Dimensions,
-  Image,
   ImageBackground,
   TouchableOpacity,
   Alert,
@@ -26,8 +23,6 @@ import { Constants } from "../utils/Constants";
 const RecipeDetails = (props) => {
   const imageSource = "../assets/jerkchicken.jpg";
   const recipeName = "Jerk chicken with cocoa rice";
-
-  //const [currentTab, setCurrentTab] = useState(0);
 
   const [count, setCount] = useState(Constants.DEFAULT_SERVINGS);
   const [heartEmpty, setFillHeart] = useState(true);
