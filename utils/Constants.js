@@ -17,7 +17,7 @@ export const Constants = {
         tagText: "Vegan .=./",
         color: "green",
       },
-      vegatarian: {
+      vegetarian: {
         tagText: "Vegetarian xD",
         color: "pink",
       },

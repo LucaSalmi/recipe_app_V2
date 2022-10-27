@@ -35,6 +35,8 @@ export function BigCard(myProps) {
   ];
   */
 
+  
+
   const getTagData = () => {
 
     let tagData = {};
@@ -58,11 +60,10 @@ export function BigCard(myProps) {
       tagData = Constants.RECIPE_TAG_DATA_CONTAINER.noTag;
     }
 
-
     return tagData;
   };
 
-  const tagData = getTagData();
+  const [tagDataState, setTagDataState] = useState(getTagData());
 
   const toggleHeart = () => {
     setFillHeart((current) => !current);
@@ -114,11 +115,11 @@ export function BigCard(myProps) {
                 width: "100%",
               }}
             >
-              <View
+              {tagDataState.tagText != "" ? <View
                 style={[
                   bigCardStyles.tagAttribute,
                   {
-                    backgroundColor: tagData.color,
+                    backgroundColor: tagDataState.color,
                   }
                 ]}
               >
@@ -130,9 +131,9 @@ export function BigCard(myProps) {
                     fontSize: 15,
                   }}
                 >
-                  {tagData.tagText}
+                  {tagDataState.tagText}
                 </Text>
-              </View>
+              </View> : <Text style={{visibility: "hidden"}}></Text>}
 
               <TouchableOpacity
                 onPress={() => {
