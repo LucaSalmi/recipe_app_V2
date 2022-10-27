@@ -16,7 +16,7 @@ const SearchBar = (myProps) => {
   var tempArray = [];
 
   const searchRecipeFromWord = (input) => {
-    for (recipe of myProps.recipeData) {
+    for (let recipe of myProps.recipeData) {
       let title = recipe.title;
 
       if (title.toUpperCase().includes(input.toUpperCase())) {
