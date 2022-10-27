@@ -184,9 +184,7 @@ const Recipes = (props) => {
         ref={(ref) => { flatListRef = ref; }}
         getItemLayout={getItemLayout}
         renderItem={renderItem}
-        keyExtractor={(item) => {
-          item.id
-        }}
+        keyExtractor={(item) => item.id}
         horizontal
         snapToAlignment="start"
         decelerationRate={"fast"}
