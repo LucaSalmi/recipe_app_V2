@@ -66,17 +66,17 @@ export const Crud = {
 
     },
 
-    addApiRecipiesToFirestore: (jsonObj = null) => {
+    addApiRecipiesToFirestore: (recipeData = null) => {
 
-        if (jsonObj == null) {
-            console.log("jsonObj is null in Crud.addApiRecipiesToFirestore()");
+        if (recipeData == null) {
+            console.log("recipeData is null in Crud.addApiRecipiesToFirestore()");
             return;
         }
 
         //For test data:
-        //jsonObj = require('../src/test.json')
+        //recipeData = require('../src/test.json')
 
-        for (let recipe of jsonObj.recipes) {
+        for (let recipe of recipeData.recipes) {
 
             console.log(recipe.title);
             console.log(recipe.image);
