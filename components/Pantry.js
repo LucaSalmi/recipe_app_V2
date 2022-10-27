@@ -119,7 +119,7 @@ const Pantry = (props) => {
           deleteItemAlert(myProps);
         }}
       >
-        <Text style={{ color: "white", fontWeight: "600" }}>
+        <Text style={{ color: "black", fontWeight: "600", fontSize: 17, textAlign: "center", width: "85%"}}>
           {myProps.item.title}
         </Text>
       </TouchableOpacity>
@@ -185,7 +185,8 @@ const Pantry = (props) => {
       <FlatList
         contentContainerStyle={{
           width: "90%",
-
+          paddingBottom: 10,
+          paddingTop: 5,
           justifyContent: "center",
         }}
         numColumns={2}
