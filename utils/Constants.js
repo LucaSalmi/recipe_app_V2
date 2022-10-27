@@ -21,42 +21,50 @@ export const filterItems = [
     {
       id: 0,
       value: "Vegetarian 🌿",
-      isActive: false
+      isActive: false,
+      key: 'vegetarian'
     },
     {
       id: 1,
       value: "Vegan 🌱",
-      isActive: false
+      isActive: false,
+      key: 'vegan'
     },
     {
       id: 2,
       value: "Gluten Free 🌾",
-      isActive: false
+      isActive: false,
+      key: 'glutenFree'
     },
     {
       id: 3,
       value: "Dairy Free 🥛",
-      isActive: false
+      isActive: false,
+      key: 'dairyFree'
 
     },
     {
       id: 4,
       value: "Very Healthy 🥦",
-      isActive: false
+      isActive: false,
+      key: 'veryHealthy'
     },
     {
       id: 5,
       value: "Cheap 💲",
-      isActive: false
+      isActive: false,
+      key: 'cheap'
     },
     {
       id: 6,
       value: "Very Popular 👍",
-      isActive: false
+      isActive: false,
+      key: 'veryPopular'
     },
     {
       id: 7,
       value: "Sustainable ♻️",
-      isActive: false
+      isActive: false,
+      key: 'sustainable'
     },
   ];

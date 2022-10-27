@@ -69,6 +69,28 @@ const Recipes = (props) => {
     }
   }, [recipeData]);
 
+  function filterByFilter() {
+    let filteredArray = [];
+
+    for (const recipe of recipeData) {
+      for (const filter of activeFilter) {
+        if (recipe.vegan & filter.key == 'vegan'
+          || recipe.vegetarian & filter.key == 'vegetarian'
+          || recipe.veryPopular & filter.key == 'veryPopular'
+          || recipe.cheap & filter.key == 'cheap'
+          || recipe.dairyFree & filter.key == 'dairyFree'
+          || recipe.glutenFree & filter.key == 'glutenFree'
+          || recipe.veryHealthy & filter.key == 'veryHealthy'
+          || recipe.sustainable & filter.key == 'sustainable') {
+          filteredArray.push(recipe);
+          continue;
+        }
+      }
+    }
+
+    setSearchData(filteredArray);
+  }
+
   const renderItem = ({ item }) => (
 
     <TouchableOpacity
@@ -125,6 +147,10 @@ const Recipes = (props) => {
             array.splice(selected, 1);
             setActiveFilter(array);
           }
+
+          if (setActiveFilter.length > 0) {
+            filterByFilter()
+          }
         }}>
         <Text numberOfLines={1} style={filterItemCard.text}>{props.item.value}</Text>
 
@@ -134,7 +160,7 @@ const Recipes = (props) => {
 
   return (
     <View style={recipePage.recipeContainer}>
-      <SearchBar recipeData={recipeData} setSearchData={setSearchData} setShowSheet={setShowSheet} showSheet={showSheet} activeFilter ={activeFilter} />
+      <SearchBar recipeData={recipeData} setSearchData={setSearchData} setShowSheet={setShowSheet} showSheet={showSheet} activeFilter={activeFilter} />
       <View style={activeFilter.length > 0 ? [filterIndicator.container] : { display: "none" }}>
         <Text style={filterIndicator.text}>{activeFilter.length}</Text>
       </View>
