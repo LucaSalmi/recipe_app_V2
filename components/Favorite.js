@@ -1,6 +1,13 @@
-import { Text, View, ScrollView, Pressable } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  Pressable,
+  Button,
+} from "react-native";
 import { useState, useEffect } from "react";
-import { favoritePage } from "../styles/styles.js";
+import { favoritePage, smallCardStyles } from "../styles/styles.js";
 import SearchBar from "./SearchBar.js";
 import { SmallCard } from "./Card";
 import AppManager from "../utils/AppManager.js";

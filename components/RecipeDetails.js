@@ -2,9 +2,12 @@ import {
   StyleSheet,
   Text,
   View,
+  TextInput,
   Button,
   ScrollView,
+  FlatList,
   Dimensions,
+  Image,
   ImageBackground,
   TouchableOpacity,
   Alert,
@@ -14,18 +17,22 @@ import Icon from "react-native-ico-material-design";
 import { LinearGradient } from "expo-linear-gradient";
 import { IngredientsView } from "./Ingredients";
 import InstructionsView from "./Instructions";
-import AppManager from "../utils/AppManager.js";
+import AppManager from '../utils/AppManager.js'
 import { Crud } from "../src/db";
 import { pageStyles, recipePage } from "../styles/styles";
 import { Constants } from "../utils/Constants";
 
+
 const RecipeDetails = (props) => {
+  const imageSource = "../assets/jerkchicken.jpg";
+  const recipeName = "Jerk chicken with cocoa rice";
+
   //const [currentTab, setCurrentTab] = useState(0);
 
   const [count, setCount] = useState(Constants.DEFAULT_SERVINGS);
   const [heartEmpty, setFillHeart] = useState(true);
 
-  const [ingredients, setIngredients] = useState([]);
+  const [ingredients, setIngredients] = useState([])
   const [roundedIngredients, setRoundedIngredients] = useState([]);
   const [initiated, setInitiated] = useState(false);
 
@@ -33,10 +40,12 @@ const RecipeDetails = (props) => {
 
   //Run once
   useEffect(() => {
-    Crud.getIngredients(setIngredients);
+    Crud.getIngredients(setIngredients)
   }, []);
 
+
   const changeRoundedIngredients = () => {
+
     let newRoundedIngredients = [];
 
     for (let i = 0; i < ingredients.length; i++) {
@@ -69,10 +78,14 @@ const RecipeDetails = (props) => {
     setRoundedIngredients(newRoundedIngredients);
   };
 
+
+
   const updateIngredientAmounts = (newCount) => {
+
     let newRoundedIngredients = [];
 
     for (let ingredient of ingredients) {
+
       let ingredientName = ingredient.name;
       let ingredientUnit = ingredient.unit;
       let oldAmount = ingredient.amount;
@@ -88,39 +101,36 @@ const RecipeDetails = (props) => {
         newAmount = amountSplit[0] + "." + firstDecimal;
       }
 
-      let roundedIngredient = {
-        name: ingredientName,
-        unit: ingredientUnit,
-        amount: newAmount.toString(),
-      };
+      let roundedIngredient = { name: ingredientName, unit: ingredientUnit, amount: newAmount.toString() };
       newRoundedIngredients.push(roundedIngredient);
     }
 
     setRoundedIngredients(newRoundedIngredients);
+
   };
 
   useEffect(() => {
+
     if (ingredients.length > 0 && !initiated) {
       changeRoundedIngredients();
       setInitiated(true);
     }
+
   }, [ingredients]);
 
   const toggleHeart = () => {
+   
     if (AppManager.uid.length == 0) {
       console.log("Must be logged in to add favorites");
       return;
     }
 
     //Firestore update
-    Crud.updateFavorite(
-      AppManager.uid,
-      AppManager.currentRecipe.id,
-      heartEmpty
-    );
+    Crud.updateFavorite(AppManager.uid, AppManager.currentRecipe.id, heartEmpty);
 
     //let toggle = !heartEmpty;
     setFillHeart((current) => !current);
+
   };
 
   const INGREDIENTS = 0;
@@ -129,20 +139,19 @@ const RecipeDetails = (props) => {
 
   const [tabId, setTabId] = useState(INGREDIENTS);
 
+
   let tab;
 
   switch (tabId) {
     case INGREDIENTS:
       if (roundedIngredients.length > 0) {
-        tab = (
-          <IngredientsView
-            setTabId={setTabId}
-            ingredients={roundedIngredients}
-          />
-        );
-      } else {
+        tab = <IngredientsView setTabId={setTabId}
+          ingredients={roundedIngredients} />;
+      }
+      else {
         tab = <Text>Loading ingredients...</Text>;
       }
+      
 
       break;
 
@@ -156,7 +165,8 @@ const RecipeDetails = (props) => {
   };
 
   const addToShoplist = () => {
-    if (!AppManager.isLoggedIn) {
+
+    if(!AppManager.isLoggedIn){
       return;
     }
 
@@ -164,6 +174,7 @@ const RecipeDetails = (props) => {
 
     //Check pantry
     for (let ingredient of ingredients) {
+
       let found = false;
 
       for (let pantryItem of AppManager.pantryContent) {
@@ -179,20 +190,24 @@ const RecipeDetails = (props) => {
       let tempRoundedIngredients = roundedIngredients;
       setRoundedIngredients([]);
 
-      setTimeout(() => {
+      setTimeout(()=>{
         setRoundedIngredients(tempRoundedIngredients);
       }, 100);
+
     }
 
     let filteredIngredients = [];
 
     //Check shoplist
     for (let ingredientToAdd of ingredientsToAdd) {
+
       let found = false;
 
       for (let shoplistItem of AppManager.shoplistContent) {
+
+
         if (ingredientToAdd == shoplistItem.desc) {
-          found = true;
+          found = true
         }
       }
 
@@ -212,7 +227,9 @@ const RecipeDetails = (props) => {
           {
             text: "Return",
             style: "cancel",
+
           },
+
         ]
       );
       return;
@@ -224,6 +241,7 @@ const RecipeDetails = (props) => {
       Crud.updateShoplist(item, true);
       AppManager.shoplistContent.push(item);
     }
+
   };
 
   return (
@@ -283,6 +301,7 @@ const RecipeDetails = (props) => {
           </ImageBackground>
         </View>
 
+
         <View>
           <LinearGradient colors={["#F3F3F3", "transparent"]}>
             <View>
@@ -333,48 +352,45 @@ const RecipeDetails = (props) => {
             </View>
 
             <View style={styles.tabs}>
+
               <TouchableOpacity
                 onPress={() => {
                   changeTab(INGREDIENTS);
                 }}
-                style={
-                  tabId == INGREDIENTS
-                    ? recipePage.shadowProp
-                    : recipePage.button
-                }
+                style={tabId == INGREDIENTS
+                  ? recipePage.shadowProp
+                  : recipePage.button}
+
               >
-                <Text>Ingredients</Text>
+
+                <Text>
+                  Ingredients
+                </Text>
+
               </TouchableOpacity>
 
               <TouchableOpacity
                 onPress={() => {
                   changeTab(INSTRUCTIONS);
                 }}
-                style={
-                  tabId == INSTRUCTIONS
-                    ? recipePage.shadowProp
-                    : recipePage.button
-                }
+                style={tabId == INSTRUCTIONS
+                  ? recipePage.shadowProp
+                  : recipePage.button}
               >
-                <Text>Instructions</Text>
+                <Text>
+                  Instructions
+                </Text>
               </TouchableOpacity>
             </View>
           </LinearGradient>
         </View>
 
         <View>{tab}</View>
+
       </ScrollView>
 
-      {AppManager.isLoggedIn && !hideAddButton ? (
-        <Button
-          title="Add to shoplist"
-          onPress={() => {
-            addToShoplist();
-          }}
-        ></Button>
-      ) : (
-        <Text style={{ display: "none" }}></Text>
-      )}
+      {AppManager.isLoggedIn && !hideAddButton ? <Button title="Add to shoplist" onPress={() => { addToShoplist() }}></Button> : <Text style={{display: "none"}}></Text>}
+
     </View>
   );
 };
