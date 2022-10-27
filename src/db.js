@@ -96,6 +96,8 @@ export const Crud = {
             let instructions = recipe.instructions;
 
             /* Use this code if we want to remove HTML-tags
+            //OBS! HTML-tags are currently used to create lists in recipe instructions.
+            //Note: Not all recipes from API have HTML-tags included.
             while (instructions.includes("<ol>") || instructions.includes("<li>") || instructions.includes("</ol>") || instructions.includes("</li>")) {
                 instructions = instructions.replace("<ol>", "");
                 instructions = instructions.replace("<li>", "");
