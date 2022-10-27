@@ -233,9 +233,7 @@ const Pantry = (props) => {
         <FlatList
           data={foundItem}
           renderItem={searchResultCard}
-          keyExtractor={(item) => {
-            item.id;
-          }}
+          keyExtractor={(item) => item.id}
           snapToAlignment="start"
           decelerationRate={"fast"}
           snapToInterval={Dimensions.get("window").width}
