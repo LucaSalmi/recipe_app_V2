@@ -88,9 +88,10 @@ const Recipes = (props) => {
         style={bigCardStyles.container}
         topCard={bigCardStyles.topCard}
         imageSource={item.image}
-        cookingTime={item.cookingTime}
+        cookingTime={item.readyInMinutes}
         isFavorite={favoritesIds.includes(item.id.toString()) ? true : false}
         recipeId={item.id}
+        recipe={item}
       />
     </TouchableOpacity>
 
