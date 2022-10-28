@@ -114,12 +114,6 @@ const RecipeDetails = (props) => {
 
   }, [ingredients]);
 
-  useEffect(() => {
-    if (roundedIngredients.length > 0) {
-      console.log(roundedIngredients[0]);
-    }
-  }, [roundedIngredients]);
-
   const toggleHeart = () => {
    
     if (AppManager.uid.length == 0) {
