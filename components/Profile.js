@@ -1,5 +1,5 @@
 
-import { StyleSheet, Text, View, TextInput, Button, ScrollView, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, ScrollView, SafeAreaView, TouchableOpacity } from 'react-native';
 import { useEffect, useState } from 'react';
 import AppManager from '../utils/AppManager.js';
 import { profilePage } from '../styles/styles.js';
@@ -158,17 +158,6 @@ const Profile = (props) => {
 
             <View style={isLoggedIn ? profilePage.inputContainer : profilePage.hidden}>
                 <Text>Welcome, {username}!</Text>
-                <Text>{/* "SPACER" */}</Text>
-                <Text>First name</Text>
-                <TextInput style={profilePage.inputField} value={firstName} onChangeText={(text) => { setFirstName(text); }}></TextInput>
-                <Text>Second name</Text>
-                <TextInput style={profilePage.inputField} value={secondName} onChangeText={(text) => { setSecondName(text); }}></TextInput>
-                <Text>Email</Text>
-                <TextInput style={profilePage.inputField} value={email} onChangeText={(text) => { setEmail(text); }}></TextInput>
-                <Text>Phone</Text>
-                <TextInput style={profilePage.inputField} value={phone} onChangeText={(text) => { setPhone(text); }}></TextInput>
-                <Text>{/* "SPACER" */}</Text>
-                <Button title="SAVE" onPress={() => { save() }}></Button>
                 <Text>{/* "SPACER" */}</Text>
                 <Button title="LOGOUT" onPress={() => { logout() }}></Button>
             </View>
