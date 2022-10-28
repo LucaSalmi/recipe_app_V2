@@ -38,7 +38,7 @@ const RecipeDetails = (props) => {
     Crud.getIngredients(setIngredients)
   }, []);
 
-
+  //Is called when this component is rendered to show correct amount per ingredients
   const changeRoundedIngredients = () => {
 
     let newRoundedIngredients = [];
@@ -73,8 +73,7 @@ const RecipeDetails = (props) => {
     setRoundedIngredients(newRoundedIngredients);
   };
 
-
-
+  //Is called every time the user presses + or - buttons for servings.
   const updateIngredientAmounts = (newCount) => {
 
     let newRoundedIngredients = [];
@@ -102,6 +101,8 @@ const RecipeDetails = (props) => {
 
     setRoundedIngredients(newRoundedIngredients);
 
+    refreshCurrentTab();
+
   };
 
   useEffect(() => {
@@ -112,6 +113,12 @@ const RecipeDetails = (props) => {
     }
 
   }, [ingredients]);
+
+  useEffect(() => {
+    if (roundedIngredients.length > 0) {
+      console.log(roundedIngredients[0]);
+    }
+  }, [roundedIngredients]);
 
   const toggleHeart = () => {
    
@@ -126,6 +133,14 @@ const RecipeDetails = (props) => {
     //let toggle = !heartEmpty;
     setFillHeart((current) => !current);
 
+  };
+
+  const refreshCurrentTab = () => {
+    const currentTabId = tabId;
+    setTabId(LOADING);
+    setTimeout(()=>{
+      setTabId(currentTabId);
+    }, 50);
   };
 
   const INGREDIENTS = 0;
