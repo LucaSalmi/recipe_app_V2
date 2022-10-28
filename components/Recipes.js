@@ -32,7 +32,7 @@ const Recipes = (props) => {
 
   var flatListRef = useRef();
 
-  const cardWidth = 393;
+  const cardWidth = Dimensions.get("window").width;
 
   var getItemLayout = (recipeData, index) => ({ length: cardWidth, offset: cardWidth * index, index })
 

@@ -134,7 +134,7 @@ export function BigCard(myProps) {
                 { marginLeft: 7, fontWeight: "500", fontSize: 16 },
               ]}
             >
-              {myProps.recipe.readyInMinutes}
+              {myProps.recipe.readyInMinutes + " min"}
             </Text>
           </View>
           <Text
