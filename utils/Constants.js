@@ -10,24 +10,24 @@ export const Constants = {
 
     RECIPE_TAG_DATA_CONTAINER: {
       cheap: {
-        tagText: "Cheap!!!",
-        color: "gray",
+        tagText: "Cheap 💲",
+        color: "#B5FF99",
       },
       vegan: {
-        tagText: "Vegan .=./",
-        color: "green",
+        tagText: "Vegan 🌱",
+        color: "#62C33F",
       },
       vegetarian: {
-        tagText: "Vegetarian xD",
-        color: "pink",
+        tagText: "Vegetarian 🥦",
+        color: "#62C33F",
       },
       glutenFree: {
-        tagText: "Gluten Free o/",
-        color: "blue",
+        tagText: "Gluten Free 🌾",
+        color: "#C2BD65",
       },
       dairyFree: {
-        tagText: "Dairy Free o/",
-        color: "red",
+        tagText: "Dairy Free 🥛",
+        color: "#4459A2",
       },
       noTag: {
         tagText: "",
