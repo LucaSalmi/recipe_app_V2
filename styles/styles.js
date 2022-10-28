@@ -78,7 +78,7 @@ export const bigCardStyles = StyleSheet.create({
     height: 50,
     justifyContent: "center",
     borderRadius: 3,
-    width: 95,
+    width: 110,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
