@@ -210,8 +210,7 @@ const Pantry = (props) => {
               }}
               style={SearchBarStyle.searchInput}
               placeholder="Search here..."
-              autoCapitalize="none"
-              autoCorrect='none'
+              autoCorrect={Platform.OS === "ios" ? "none" : false}
             />
             <TouchableOpacity
               onPress={() => {
