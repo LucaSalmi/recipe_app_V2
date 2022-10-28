@@ -298,7 +298,7 @@ const RecipeDetails = (props) => {
 
 
         <View>
-          <LinearGradient colors={["#F3F3F3", "transparent"]}>
+          <LinearGradient colors={["transparent", "transparent"]}>
             <View>
               <View style={styles.topInfo}>
                 <TouchableOpacity

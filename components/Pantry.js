@@ -119,7 +119,7 @@ const Pantry = (props) => {
           deleteItemAlert(myProps);
         }}
       >
-        <Text style={{ color: "black", fontWeight: "600", fontSize: 17, textAlign: "center", width: "85%"}}>
+        <Text style={{ color: "black", fontWeight: "600", fontSize: 17, textAlign: "center", width: "85%" }}>
           {myProps.item.title}
         </Text>
       </TouchableOpacity>
@@ -234,7 +234,7 @@ const Pantry = (props) => {
         <FlatList
           data={foundItem}
           renderItem={searchResultCard}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(i) => i}
           snapToAlignment="start"
           decelerationRate={"fast"}
           snapToInterval={Dimensions.get("window").width}
@@ -245,21 +245,24 @@ const Pantry = (props) => {
 };
 
 function showResults(input) {
-  let search = "";
+  
   var foundItem = [];
   let allIng = AppManager.allIngredients;
-  try {
-    for (let i = 0; i < input.length; i++) {
-      search = search + input[i];
+  
+  if(input == ""){
+    return foundItem
+  }
 
-      for (let i = 0; i < allIng.length; i++) {
-        if (allIng[i].includes(search)) {
-          if (!foundItem.includes(allIng[i])) {
-            foundItem.push(allIng[i]);
-          }
+  try {
+
+    for (let i = 0; i < allIng.length; i++) {
+      if (allIng[i].includes(input)) {
+        if (!foundItem.includes(allIng[i])) {
+          foundItem.push(allIng[i]);
         }
       }
     }
+
   } catch (error) {
     console.log(error);
   }
