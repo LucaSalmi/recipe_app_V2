@@ -78,13 +78,13 @@ export const bigCardStyles = StyleSheet.create({
     height: 50,
     justifyContent: "center",
     borderRadius: 3,
-    width: 110,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
     shadowRadius: 2,
     elevation: 20,
     borderBottomRightRadius: 10,
+    alignItems: "center"
   },
   editorsChoiceAttribute: {
     backgroundColor: "yellow",

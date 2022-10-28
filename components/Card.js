@@ -111,9 +111,10 @@ export function BigCard(myProps) {
                 <Text
                   style={{
                     fontWeight: "700",
-                    margin: 10,
+                    padding: 10,
                     color: "white",
                     fontSize: 15,
+                    numberOfLines: 1,
                   }}
                 >
                   {tagDataState.tagText}
