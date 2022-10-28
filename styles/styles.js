@@ -298,7 +298,7 @@ export const shoplistPage = StyleSheet.create({
   },
   sheetContainer: {
     width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height,
+    height: Dimensions.get("window").height*0.8,
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
     //padding: 20,
