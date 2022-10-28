@@ -119,31 +119,6 @@ export function BigCard(myProps) {
                   {tagDataState.tagText}
                 </Text>
               </View> : <Text style={{visibility: "hidden"}}></Text>}
-
-              <TouchableOpacity
-                onPress={() => {
-                  toggleHeart();
-                }}
-                style={[
-                  bigCardStyles.cardBanner,
-                  { height: 50, borderBottomLeftRadius: 10 },
-                ]}
-              >
-                <Icon
-                  style={[
-                    heartEmpty ? styles.bigHeartNotFill : styles.bigHeartFill,
-                    { margin: 15 },
-                  ]}
-                  name={
-                    heartEmpty
-                      ? "favorite-heart-outline-button"
-                      : "favorite-heart-button"
-                  }
-                  group="material-design"
-                  height="25"
-                  width="25"
-                />
-              </TouchableOpacity>
             </View>
           </LinearGradient>
         </ImageBackground>
