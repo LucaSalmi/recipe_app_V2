@@ -17,19 +17,38 @@ import { styles } from "./RecipeDetails";
 import AppManager from "../utils/AppManager";
 import { Crud } from "../src/db.js";
 import { LinearGradient } from "expo-linear-gradient";
+import { Constants } from "../utils/Constants";
 
 export function BigCard(myProps) {
   const [heartEmpty, setFillHeart] = useState(true);
-  // stringArray
-  const textAttributeArray = [
-    "Vegan  🌱",
-    "Editor's Choice  ⭐",
-    "Easy-to-Cook  ⏳",
-    "Recommended  🍳",
-    "Speedrun Food :clock:",
-    "Gamer food :console:",
-    "",
-  ];
+
+  const getTagData = () => {
+
+    let tagData = {};
+    
+    if (myProps.recipe.cheap) {
+      tagData = Constants.RECIPE_TAG_DATA_CONTAINER.cheap;
+    }
+    else if (myProps.recipe.vegan) {
+      tagData = Constants.RECIPE_TAG_DATA_CONTAINER.vegan;
+    }
+    else if (myProps.recipe.vegetarian) {
+      tagData = Constants.RECIPE_TAG_DATA_CONTAINER.vegetarian;
+    }
+    else if (myProps.recipe.glutenFree) {
+      tagData = Constants.RECIPE_TAG_DATA_CONTAINER.glutenFree;
+    }
+    else if (myProps.recipe.dairyFree) {
+      tagData = Constants.RECIPE_TAG_DATA_CONTAINER.dairyFree;
+    }
+    else {
+      tagData = Constants.RECIPE_TAG_DATA_CONTAINER.noTag;
+    }
+
+    return tagData;
+  };
+
+  const [tagDataState, setTagDataState] = useState(getTagData());
 
   const toggleHeart = () => {
     setFillHeart((current) => !current);
@@ -81,55 +100,26 @@ export function BigCard(myProps) {
                 width: "100%",
               }}
             >
-              <View
+              {tagDataState.tagText != "" ? <View
                 style={[
-                  bigCardStyles.veganAttribute,
+                  bigCardStyles.tagAttribute,
                   {
-                    shadowColor: "#000",
-                    shadowOffset: { width: 0, height: 2 },
-                    shadowOpacity: 0.5,
-                    shadowRadius: 2,
-                    elevation: 20,
-                    borderBottomRightRadius: 10,
-                  },
+                    backgroundColor: tagDataState.color,
+                  }
                 ]}
               >
                 <Text
                   style={{
                     fontWeight: "700",
-                    margin: 10,
+                    padding: 10,
                     color: "white",
                     fontSize: 15,
+                    numberOfLines: 1,
                   }}
                 >
-                  {textAttributeArray[0]}
+                  {tagDataState.tagText}
                 </Text>
-              </View>
-
-              <TouchableOpacity
-                onPress={() => {
-                  toggleHeart();
-                }}
-                style={[
-                  bigCardStyles.cardBanner,
-                  { height: 50, borderBottomLeftRadius: 10 },
-                ]}
-              >
-                <Icon
-                  style={[
-                    heartEmpty ? styles.bigHeartNotFill : styles.bigHeartFill,
-                    { margin: 15 },
-                  ]}
-                  name={
-                    heartEmpty
-                      ? "favorite-heart-outline-button"
-                      : "favorite-heart-button"
-                  }
-                  group="material-design"
-                  height="25"
-                  width="25"
-                />
-              </TouchableOpacity>
+              </View> : <Text style={{visibility: "hidden"}}></Text>}
             </View>
           </LinearGradient>
         </ImageBackground>
@@ -145,7 +135,7 @@ export function BigCard(myProps) {
                 { marginLeft: 7, fontWeight: "500", fontSize: 16 },
               ]}
             >
-              {"20 min"}
+              {myProps.recipe.readyInMinutes + " min"}
             </Text>
           </View>
           <Text
@@ -187,6 +177,28 @@ export const stylesTwo = StyleSheet.create({
 });
 
 export function SmallCard(myProps) {
+
+  const updateFavorites = () => {
+
+    Crud.updateFavorite(AppManager.uid, myProps.item.id, false)
+
+    let newFavorites = [];
+
+    for (let favorite of myProps.favorites) {
+      if (favorite.id != myProps.item.id) {
+        newFavorites.push(favorite);
+      }
+    }
+
+    myProps.setFavorites([]);
+
+    setTimeout(()=>{
+      myProps.setFavorites(newFavorites)
+    }, 100);
+
+  };
+
+
   return (
     <View style={[smallCardStyles.shadow, smallCardStyles.container]}>
       <Image
@@ -207,9 +219,13 @@ export function SmallCard(myProps) {
             marginBottom: 20,
           }}
         >
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={()=>{
+              updateFavorites();
+            }}
+          >
             <Icon
-              style={[styles.bigHeartNotFill]}
+              style={myProps.item.heartEmpty ? styles.bigHeartNotFill : styles.bigHeartFill}
               name={"favorite-heart-outline-button"}
               group="material-design"
               height="25"

@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Constants } from '../utils/Constants';
 
 const CrudLocal = {
 
@@ -7,9 +8,9 @@ const CrudLocal = {
         let result = null;
 
         try {
-            const uid = await AsyncStorage.getItem('@uid')
-            const username = await AsyncStorage.getItem('@username')
-            const password = await AsyncStorage.getItem('@password')
+            const uid = await AsyncStorage.getItem(Constants.UID_ASYNC_STORAGE)
+            const username = await AsyncStorage.getItem(Constants.USERNAME_ASYNC_STORAGE)
+            const password = await AsyncStorage.getItem(Constants.PASSWORD_ASYNC_STORAGE)
             if(uid !== null && username !== null && password !== null) {
                 if(uid !== "" && username !== "" && password !== "") {
                     console.log("AsyncStorage found: " + uid + ": " + username + " / " + password);
@@ -30,9 +31,9 @@ const CrudLocal = {
       setAutoLogin: async (uid, username, password) => {
 
         try {
-            await AsyncStorage.setItem('@uid', uid);
-            await AsyncStorage.setItem('@username', username);
-            await AsyncStorage.setItem('@password', password);
+            await AsyncStorage.setItem(Constants.UID_ASYNC_STORAGE, uid);
+            await AsyncStorage.setItem(Constants.USERNAME_ASYNC_STORAGE, username);
+            await AsyncStorage.setItem(Constants.PASSWORD_ASYNC_STORAGE, password);
             console.log("Auto-Login stored in AsyncStorage");
           } catch (e) {
             console.log("Error: Could not save auto-login to AsyncStorage");
@@ -43,9 +44,9 @@ const CrudLocal = {
       disableAutoLogin: async () => {
 
         try {
-            await AsyncStorage.setItem('@uid', "");
-            await AsyncStorage.setItem('@username', "");
-            await AsyncStorage.setItem('@password', "");
+            await AsyncStorage.setItem(Constants.UID_ASYNC_STORAGE, "");
+            await AsyncStorage.setItem(Constants.USERNAME_ASYNC_STORAGE, "");
+            await AsyncStorage.setItem(Constants.PASSWORD_ASYNC_STORAGE, "");
             console.log("Auto-Login disabled (AsyncStorage)");
           } catch (e) {
             console.log("Error: Could not disable auto-login (AsyncStorage)");

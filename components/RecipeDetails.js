@@ -2,12 +2,9 @@ import {
   StyleSheet,
   Text,
   View,
-  TextInput,
   Button,
   ScrollView,
-  FlatList,
   Dimensions,
-  Image,
   ImageBackground,
   TouchableOpacity,
   Alert,
@@ -27,8 +24,6 @@ const RecipeDetails = (props) => {
   const imageSource = "../assets/jerkchicken.jpg";
   const recipeName = "Jerk chicken with cocoa rice";
 
-  //const [currentTab, setCurrentTab] = useState(0);
-
   const [count, setCount] = useState(Constants.DEFAULT_SERVINGS);
   const [heartEmpty, setFillHeart] = useState(true);
 
@@ -43,7 +38,7 @@ const RecipeDetails = (props) => {
     Crud.getIngredients(setIngredients)
   }, []);
 
-
+  //Is called when this component is rendered to show correct amount per ingredients
   const changeRoundedIngredients = () => {
 
     let newRoundedIngredients = [];
@@ -78,8 +73,7 @@ const RecipeDetails = (props) => {
     setRoundedIngredients(newRoundedIngredients);
   };
 
-
-
+  //Is called every time the user presses + or - buttons for servings.
   const updateIngredientAmounts = (newCount) => {
 
     let newRoundedIngredients = [];
@@ -107,6 +101,8 @@ const RecipeDetails = (props) => {
 
     setRoundedIngredients(newRoundedIngredients);
 
+    refreshCurrentTab();
+
   };
 
   useEffect(() => {
@@ -131,6 +127,14 @@ const RecipeDetails = (props) => {
     //let toggle = !heartEmpty;
     setFillHeart((current) => !current);
 
+  };
+
+  const refreshCurrentTab = () => {
+    const currentTabId = tabId;
+    setTabId(LOADING);
+    setTimeout(()=>{
+      setTabId(currentTabId);
+    }, 50);
   };
 
   const INGREDIENTS = 0;
@@ -303,7 +307,7 @@ const RecipeDetails = (props) => {
 
 
         <View>
-          <LinearGradient colors={["#F3F3F3", "transparent"]}>
+          <LinearGradient colors={["transparent", "transparent"]}>
             <View>
               <View style={styles.topInfo}>
                 <TouchableOpacity

@@ -74,12 +74,17 @@ export const bigCardStyles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "450",
   },
-  veganAttribute: {
-    backgroundColor: "green",
+  tagAttribute: {
     height: 50,
     justifyContent: "center",
     borderRadius: 3,
-    width: 95,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    elevation: 20,
+    borderBottomRightRadius: 10,
+    alignItems: "center"
   },
   editorsChoiceAttribute: {
     backgroundColor: "yellow",
@@ -107,7 +112,7 @@ export const navBarStyles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
-    backgroundColor: "#fff",
+    backgroundColor: "#e2e2df",
   },
   icon: {
     //backgroundColor: "red",
@@ -120,7 +125,7 @@ export const navBarStyles = StyleSheet.create({
   navBar: {
     flexDirection: "row",
     justifyContent: "space-around",
-    backgroundColor: Constants.NAVBAR_AND_SAFEAREA_COLOR,
+    backgroundColor: "#F3F3F3",
 
     //backgroundColor: "red",
     //paddingBottom: 18,
@@ -147,7 +152,8 @@ export const navBarStyles = StyleSheet.create({
     paddingVertical: 18,
     //paddingHorizontal: 10,
     width: "20%",
-    backgroundColor: "gray",
+    backgroundColor: "#57bf3b",
+    
     //paddingVertical: 18,
     //paddingHorizontal: 18,
   },
@@ -232,18 +238,18 @@ export const filterItemCard = StyleSheet.create({
 export const pantryCardStyles = StyleSheet.create({
   container: {
     flexDirection: "column",
-    backgroundColor: Constants.NAVBAR_AND_SAFEAREA_COLOR,
+    
     alignItems: "center",
     justifyContent: "center",
     height: 50,
     width: "49%",
     borderRadius: Constants.DEFAULT_BORDER_RADIUS,
-    elevation: 2,
+    elevation: 3,
     shadowColor: "black",
-    shadowOffset: 3,
+    //shadowOffset: "3",
     marginRight: "2%",
     marginTop: 10,
-    backgroundColor: "rgb(126, 205, 207)",
+    backgroundColor: "#a5de95"
   },
   superView: {
     flex: 1,
@@ -292,7 +298,7 @@ export const shoplistPage = StyleSheet.create({
   },
   sheetContainer: {
     width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height,
+    height: Dimensions.get("window").height*0.8,
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
     //padding: 20,
@@ -308,7 +314,7 @@ export const favoritePage = StyleSheet.create({
     alignItems: "center",
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
-    backgroundColor: Constants.NAVBAR_AND_SAFEAREA_COLOR,
+    
   },
 });
 
@@ -319,7 +325,7 @@ export const recipePage = StyleSheet.create({
     alignItems: "center",
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
-    backgroundColor: "#F3F3F3",
+    
   },
 
   button: {

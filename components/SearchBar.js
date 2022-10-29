@@ -16,7 +16,7 @@ const SearchBar = (myProps) => {
   var tempArray = [];
 
   const searchRecipeFromWord = (input) => {
-    for (recipe of myProps.recipeData) {
+    for (let recipe of myProps.recipeData) {
       let title = recipe.title;
 
       if (title.toUpperCase().includes(input.toUpperCase())) {
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     // alignItems: "center",
     width: "85%",
     height: 50,
-    backgroundColor: "#EAE9E9",
+    backgroundColor: "#F3F3F3",
     borderRadius: 8,
     marginTop: 10,
   },

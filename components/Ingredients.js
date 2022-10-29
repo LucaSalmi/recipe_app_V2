@@ -12,7 +12,6 @@ import {
 } from "react-native";
 import { useState, useEffect } from "react";
 import AppManager from "../utils/AppManager";
-import { styles } from "./RecipeDetails";
 import { Crud } from "../src/db";
 import Icon from 'react-native-ico-material-design';
 
@@ -91,7 +90,7 @@ export function IngredientsView(props) {
         return (
 
 
-          <View style={{ flexDirection: "column" }}>
+          <View key={i} style={{ flexDirection: "column" }}>
 
             <View
               style={{

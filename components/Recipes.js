@@ -32,7 +32,7 @@ const Recipes = (props) => {
 
   var flatListRef = useRef();
 
-  const cardWidth = 393;
+  const cardWidth = Dimensions.get("window").width;
 
   var getItemLayout = (recipeData, index) => ({ length: cardWidth, offset: cardWidth * index, index })
 
@@ -69,6 +69,28 @@ const Recipes = (props) => {
     }
   }, [recipeData]);
 
+  function filterByFilter() {
+    let filteredArray = [];
+
+    for (const recipe of recipeData) {
+      for (const filter of activeFilter) {
+        if (recipe.vegan & filter.key == 'vegan'
+          || recipe.vegetarian & filter.key == 'vegetarian'
+          || recipe.veryPopular & filter.key == 'veryPopular'
+          || recipe.cheap & filter.key == 'cheap'
+          || recipe.dairyFree & filter.key == 'dairyFree'
+          || recipe.glutenFree & filter.key == 'glutenFree'
+          || recipe.veryHealthy & filter.key == 'veryHealthy'
+          || recipe.sustainable & filter.key == 'sustainable') {
+          filteredArray.push(recipe);
+          continue;
+        }
+      }
+    }
+
+    setSearchData(filteredArray);
+  }
+
   const renderItem = ({ item }) => (
 
     <TouchableOpacity
@@ -88,9 +110,10 @@ const Recipes = (props) => {
         style={bigCardStyles.container}
         topCard={bigCardStyles.topCard}
         imageSource={item.image}
-        cookingTime={item.cookingTime}
+        cookingTime={item.readyInMinutes}
         isFavorite={favoritesIds.includes(item.id.toString()) ? true : false}
         recipeId={item.id}
+        recipe={item}
       />
     </TouchableOpacity>
 
@@ -125,6 +148,10 @@ const Recipes = (props) => {
             array.splice(selected, 1);
             setActiveFilter(array);
           }
+
+          if (setActiveFilter.length > 0) {
+            filterByFilter()
+          }
         }}>
         <Text numberOfLines={1} style={filterItemCard.text}>{props.item.value}</Text>
 
@@ -134,7 +161,7 @@ const Recipes = (props) => {
 
   return (
     <View style={recipePage.recipeContainer}>
-      <SearchBar recipeData={recipeData} setSearchData={setSearchData} setShowSheet={setShowSheet} showSheet={showSheet} activeFilter ={activeFilter} />
+      <SearchBar recipeData={recipeData} setSearchData={setSearchData} setShowSheet={setShowSheet} showSheet={showSheet} activeFilter={activeFilter} />
       <View style={activeFilter.length > 0 ? [filterIndicator.container] : { display: "none" }}>
         <Text style={filterIndicator.text}>{activeFilter.length}</Text>
       </View>
@@ -147,9 +174,7 @@ const Recipes = (props) => {
             style={{ width: '100%' }}
             data={filterItems}
             renderItem={filterObj}
-            keyExtractor={(item) => {
-              item.id
-            }}
+            keyExtractor={item => item.id}
             numColumns={3}
           />
         </View>
@@ -160,9 +185,7 @@ const Recipes = (props) => {
         ref={(ref) => { flatListRef = ref; }}
         getItemLayout={getItemLayout}
         renderItem={renderItem}
-        keyExtractor={(item) => {
-          item.id
-        }}
+        keyExtractor={(item) => item.id}
         horizontal
         snapToAlignment="start"
         decelerationRate={"fast"}

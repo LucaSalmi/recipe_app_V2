@@ -1,16 +1,14 @@
 import {
-  StyleSheet,
   Text,
   View,
   TextInput,
-  Button,
-  ScrollView,
+  SafeAreaView,
+  Platform,
   TouchableOpacity,
   FlatList,
   Dimensions,
   Alert,
   KeyboardAvoidingView,
-  Modal,
 } from "react-native";
 import { useState, useEffect } from "react";
 import {
@@ -119,7 +117,7 @@ const Pantry = (props) => {
           deleteItemAlert(myProps);
         }}
       >
-        <Text style={{ color: "white", fontWeight: "600" }}>
+        <Text style={{ color: "black", fontWeight: "600", fontSize: 17, textAlign: "center", width: "85%" }}>
           {myProps.item.title}
         </Text>
       </TouchableOpacity>
@@ -185,84 +183,83 @@ const Pantry = (props) => {
       <FlatList
         contentContainerStyle={{
           width: "90%",
-
+          paddingBottom: 10,
+          paddingTop: 5,
           justifyContent: "center",
         }}
         numColumns={2}
         data={pantryItems}
         renderItem={pantryItemCard}
-        keyExtractor={(item) => {
-          item.id;
-        }}
+        keyExtractor={item => item.id}
         snapToAlignment="start"
         decelerationRate={"fast"}
         snapToInterval={Dimensions.get("window").width}
       />
 
       {/* View in the Sheet to search and add new items to pantry */}
-      <KeyboardAvoidingView
-        style={showSheet ? shoplistPage.sheetContainer : { display: "none" }}
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-      >
-        <View style={SearchBarStyle.container}>
-          <TextInput
-            value={searchText}
-            onChangeText={(input) => {
-              setSearchText(input);
-              setFoundItem(showResults(input));
-            }}
-            style={SearchBarStyle.searchInput}
-            placeholder="Search here..."
-          />
-          <TouchableOpacity
-            onPress={() => {
-              resetSearch();
-            }}
-          >
-            {
-              <Icon
-                style={
-                  searchText == "" ? { display: "none" } : SearchBarStyle.icon
-                }
-                name="close-button"
-                height="20"
-                width="20"
-              />
-            }
-          </TouchableOpacity>
-        </View>
+        <KeyboardAvoidingView
+          style={showSheet ? shoplistPage.sheetContainer : { display: "none" }}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+        >
+          <View style={SearchBarStyle.container}>
+            <TextInput
+              value={searchText}
+              onChangeText={(input) => {
+                setSearchText(input);
+                setFoundItem(showResults(input));
+              }}
+              style={SearchBarStyle.searchInput}
+              placeholder="Search here..."
+              autoCorrect={Platform.OS === "ios" ? "none" : false}
+            />
+            <TouchableOpacity
+              onPress={() => {
+                resetSearch();
+              }}
+            >
+              {
+                <Icon
+                  style={
+                    searchText == "" ? { display: "none" } : SearchBarStyle.icon
+                  }
+                  name="close-button"
+                  height="20"
+                  width="20"
+                />
+              }
+            </TouchableOpacity>
+          </View>
 
-        <FlatList
-          data={foundItem}
-          renderItem={searchResultCard}
-          keyExtractor={(item) => {
-            item.id;
-          }}
-          snapToAlignment="start"
-          decelerationRate={"fast"}
-          snapToInterval={Dimensions.get("window").width}
-        />
-      </KeyboardAvoidingView>
+          <FlatList
+            data={foundItem}
+            renderItem={searchResultCard}
+            keyExtractor={(i) => i}
+          />
+        </KeyboardAvoidingView>
     </View>
+
   );
 };
 
 function showResults(input) {
-  let search = "";
+
   var foundItem = [];
   let allIng = AppManager.allIngredients;
-  try {
-    for (let i = 0; i < input.length; i++) {
-      search = search + input[i];
 
-      for (let i = 0; i < allIng.length; i++) {
-        if (allIng[i].includes(search)) {
-          if (!foundItem.includes(allIng[i])) {
-            foundItem.push(allIng[i]);
-          }
+  if (input == "") {
+    return foundItem
+  }
+
+  try {
+
+    for (let i = 0; i < allIng.length; i++) {
+      if (allIng[i].includes(input)) {
+        if (!foundItem.includes(allIng[i])) {
+          foundItem.push(allIng[i]);
         }
       }
     }
+
   } catch (error) {
     console.log(error);
   }
